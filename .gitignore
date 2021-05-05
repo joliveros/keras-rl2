@@ -8,3 +8,5 @@ examples/intro-to-rl.ipynb
 examples/checkpoint
 *.ipynb
 *.pyc
+.idea
+keras_rl2.egg-info

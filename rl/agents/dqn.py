@@ -7,7 +7,7 @@ from tensorflow.keras.layers import Lambda, Input, Layer, Dense
 from rl.core import Agent
 from rl.policy import EpsGreedyQPolicy, GreedyQPolicy
 from rl.util import *
-
+import alog
 
 def mean_q(y_true, y_pred):
     return K.mean(K.max(y_pred, axis=-1))
@@ -103,8 +103,8 @@ class DQNAgent(AbstractDQNAgent):
         super().__init__(*args, **kwargs)
 
         # Validate (important) input.
-        if list(model.output.shape) != list((None, self.nb_actions)):
-            raise ValueError(f'Model output "{model.output}" has invalid shape. DQN expects a model that has one dimension for each action, in this case {self.nb_actions}.')
+        # if list(model.output.shape) != list((None, self.nb_actions)):
+        #     raise ValueError(f'Model output "{model.output}" has invalid shape. DQN expects a model that has one dimension for each action, in this case {self.nb_actions}.')
 
         # Parameters.
         self.enable_double_dqn = enable_double_dqn

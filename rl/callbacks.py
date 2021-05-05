@@ -3,6 +3,7 @@ import timeit
 import json
 from tempfile import mkdtemp
 
+import alog
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras import __version__ as KERAS_VERSION
@@ -298,13 +299,13 @@ class FileLogger(Callback):
 
     def on_episode_begin(self, episode, logs):
         """ Initialize metrics at the beginning of each episode """
-        assert episode not in self.metrics
-        assert episode not in self.starts
+        # assert episode not in self.metrics
+        # assert episode not in self.starts
         self.metrics[episode] = []
         self.starts[episode] = timeit.default_timer()
 
     def on_episode_end(self, episode, logs):
-        """ Compute and print metrics at the end of each episode """ 
+        """ Compute and print metrics at the end of each episode """
         duration = timeit.default_timer() - self.starts[episode]
 
         metrics = self.metrics[episode]
