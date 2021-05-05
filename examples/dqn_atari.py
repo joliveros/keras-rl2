@@ -102,7 +102,7 @@ policy = LinearAnnealedPolicy(EpsGreedyQPolicy(), attr='eps', value_max=1., valu
 # Feel free to give it a try!
 
 dqn = DQNAgent(model=model, nb_actions=nb_actions, policy=policy, memory=memory,
-               processor=processor, nb_steps_warmup=1000, gamma=.99, target_model_update=2000,
+               processor=processor, nb_steps_warmup=1000, gamma=.99, target_model_update=1000,
                train_interval=2, delta_clip=1.)
 dqn.compile(Adam(lr=.00025), metrics=['mae'])
 
@@ -112,9 +112,9 @@ if args.mode == 'train':
     weights_filename = f'dqn_{args.env_name}_weights.h5f'
     checkpoint_weights_filename = 'dqn_' + args.env_name + '_weights_{step}.h5f'
     log_filename = f'dqn_{args.env_name}_log.json'
-    callbacks = [ModelIntervalCheckpoint(checkpoint_weights_filename, interval=250000)]
+    callbacks = [ModelIntervalCheckpoint(checkpoint_weights_filename, interval=2000)]
     callbacks += [FileLogger(log_filename, interval=100)]
-    dqn.fit(env, callbacks=callbacks, nb_steps=1750000, log_interval=10000)
+    dqn.fit(env, callbacks=callbacks, nb_steps=1750000, log_interval=1000)
 
     # After training is done, we save the final weights one more time.
     dqn.save_weights(weights_filename, overwrite=True)
