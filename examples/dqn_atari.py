@@ -1,25 +1,22 @@
 #! /usr/bin/env python
 
 from __future__ import division
-import argparse
-
-import alog
-import tgym.envs
-from PIL import Image
 from exchange_data.models.resnet.model import Model as ResnetModel
-import numpy as np
-import gym
-
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Activation, Flatten, Convolution2D, Permute
-from tensorflow.keras.optimizers import Adam
-import tensorflow.keras.backend as K
-
+from PIL import Image
 from rl.agents.dqn import DQNAgent
-from rl.policy import LinearAnnealedPolicy, BoltzmannQPolicy, EpsGreedyQPolicy
-from rl.memory import SequentialMemory
-from rl.core import Processor
 from rl.callbacks import FileLogger, ModelIntervalCheckpoint
+from rl.core import Processor
+from rl.memory import SequentialMemory
+from rl.policy import LinearAnnealedPolicy, BoltzmannQPolicy, EpsGreedyQPolicy
+from tensorflow.keras.layers import Dense, Activation, Flatten, Convolution2D, Permute
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.optimizers import Adam
+import alog
+import argparse
+import gym
+import numpy as np
+import tensorflow.keras.backend as K
+import tgym.envs
 
 
 
@@ -57,7 +54,8 @@ kwargs = dict(
     group_by='30s',
     sequence_length=24,
     symbol='WAVESUSDT',
-    window_size='2m'
+    window_size='2m',
+    summary_interval=4,
 )
 
 WINDOW_LENGTH = 4
