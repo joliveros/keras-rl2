@@ -318,6 +318,7 @@ class FileLogger(Callback):
         data = list(zip(self.metrics_names, mean_metrics))
         data += list(logs.items())
         data += [('episode', episode), ('duration', duration)]
+
         for key, value in data:
             if key not in self.data:
                 self.data[key] = []
