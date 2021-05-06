@@ -50,12 +50,13 @@ args = parser.parse_args()
 kwargs = dict(
     database_name='binance_futures',
     depth=72,
-    interval='2h',
+    interval='12h',
     group_by='30s',
     sequence_length=24,
-    symbol='WAVESUSDT',
+    symbol='ETCUSDT',
     window_size='2m',
     summary_interval=4,
+    min_change=0.003
 )
 
 WINDOW_LENGTH = 4
@@ -91,7 +92,7 @@ processor = AtariProcessor()
 # (low eps). We also set a dedicated eps value that is used during testing. Note that we set it to 0.05
 # so that the agent still performs some random actions. This ensures that the agent cannot get stuck.
 policy = LinearAnnealedPolicy(EpsGreedyQPolicy(), attr='eps', value_max=1., value_min=.1, value_test=.05,
-                              nb_steps=1000000)
+                              nb_steps=10000)
 
 # The trade-off between exploration and exploitation is difficult and an on-going research topic.
 # If you want, you can experiment with the parameters or use a different policy. Another popular one
@@ -109,8 +110,9 @@ dqn = DQNAgent(
     policy=policy,
     processor=processor,
     target_model_update=1000,
-    train_interval=2,
+    train_interval=12,
 )
+
 dqn.compile(Adam(lr=.00025), metrics=['mae'])
 
 if args.mode == 'train':
