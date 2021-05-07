@@ -10,3 +10,4 @@ examples/checkpoint
 *.pyc
 .idea
 keras_rl2.egg-info
+checkpoint

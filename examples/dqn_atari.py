@@ -49,14 +49,14 @@ args = parser.parse_args()
 # Get the environment and extract the number of actions.
 kwargs = dict(
     database_name='binance_futures',
-    depth=72,
-    interval='12h',
+    depth=84,
+    interval='6h',
     group_by='30s',
-    sequence_length=24,
+    sequence_length=32,
     symbol='ETCUSDT',
     window_size='2m',
     summary_interval=4,
-    min_change=0.003
+    min_change=0.01
 )
 
 WINDOW_LENGTH = 4
@@ -113,7 +113,7 @@ dqn = DQNAgent(
     train_interval=12,
 )
 
-dqn.compile(Adam(lr=.00025), metrics=['mae'])
+dqn.compile(Adam(lr=.0000025), metrics=['mae'])
 
 if args.mode == 'train':
     # Okay, now it's time to learn something! We capture the interrupt exception so that training
