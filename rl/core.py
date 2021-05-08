@@ -334,12 +334,20 @@ class Agent:
                         observation = self.processor.process_observation(observation)
                     break
 
+            if observation is None:
+                raise Exception()
+
             # Run the episode until we're done.
             done = False
+            count = 0
             while not done:
                 callbacks.on_step_begin(episode_step)
 
+                if observation is None:
+                    alog.info(count)
+                    raise Exception()
                 action = self.forward(observation)
+                count += 1
                 if self.processor is not None:
                     action = self.processor.process_action(action)
                 reward = 0.
