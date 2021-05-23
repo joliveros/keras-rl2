@@ -37,7 +37,7 @@ class Agent:
     # Arguments
         processor (`Processor` instance): See [Processor](#processor) for details.
     """
-    def __init__(self, processor=None):
+    def __init__(self, processor=None, **kwargs):
         self.processor = processor
         self.training = False
         self.step = 0
@@ -150,11 +150,14 @@ class Agent:
                         if self.processor is not None:
                             observation, reward, done, info = self.processor.process_step(observation, reward, done, info)
                         callbacks.on_action_end(action)
+
                         if done:
                             warnings.warn(f'Env ended before {nb_random_start_steps} random steps could be performed at the start. You should probably lower the `nb_max_start_steps` parameter.')
                             observation = deepcopy(env.reset())
+
                             if self.processor is not None:
                                 observation = self.processor.process_observation(observation)
+
                             break
 
                 # At this point, we expect to be fully initialized.
@@ -186,11 +189,11 @@ class Agent:
                         accumulated_info[key] += value
                     callbacks.on_action_end(action)
                     reward += r
-                    if done:
-                        break
+
                 if nb_max_episode_steps and episode_step >= nb_max_episode_steps - 1:
                     # Force a terminal state.
                     done = True
+
                 metrics = self.backward(reward, terminal=done)
                 episode_reward += reward
 
@@ -202,6 +205,7 @@ class Agent:
                     'episode': episode,
                     'info': accumulated_info,
                 }
+
                 callbacks.on_step_end(episode_step, step_logs)
                 episode_step += 1
                 self.step += 1
@@ -227,6 +231,7 @@ class Agent:
                     observation = None
                     episode_step = None
                     episode_reward = None
+
         except KeyboardInterrupt:
             # We catch keyboard interrupts here so that training can be be safely aborted.
             # This is so common that we've built this right into this function, which ensures that
@@ -334,18 +339,12 @@ class Agent:
                         observation = self.processor.process_observation(observation)
                     break
 
-            if observation is None:
-                raise Exception()
-
             # Run the episode until we're done.
             done = False
             count = 0
             while not done:
                 callbacks.on_step_begin(episode_step)
 
-                if observation is None:
-                    alog.info(count)
-                    raise Exception()
                 action = self.forward(observation)
                 count += 1
                 if self.processor is not None:

@@ -1,19 +1,23 @@
-import re
-import shutil
-import time as t
-from pathlib import Path
+import gym
+from cached_property import cached_property
+from tensorflow.python.ops import summary_ops_v2
 
-import alog
-import tensorflow as tf
+from examples.dqn_orderbook.symbol_agent import SymbolAgent
 from exchange_data import settings
 from exchange_data.emitters import Messenger
 from exchange_data.models.resnet.study_wrapper import StudyWrapper
 from optuna import Trial
-from pip._vendor.contextlib2 import nullcontext
+from pathlib import Path
 from pytimeparse.timeparse import timeparse
 from redlock import RedLockError, RedLock
+from tensorboard.plugins.hparams import api as hp
+from tensorflow_datasets.core.utils import nullcontext
 
-from examples.dqn_orderbook.symbol_agent import SymbolAgent
+import alog
+import re
+import shutil
+import tensorflow as tf
+import time as t
 
 
 class SymbolTuner(StudyWrapper, Messenger):
@@ -25,18 +29,22 @@ class SymbolTuner(StudyWrapper, Messenger):
                  export_best,
                  session_limit,
                  clear_runs,
+                 env_name,
                  backtest_interval,
                  min_capital,
                  memory,
                  num_locks=2,
                  **kwargs):
 
-        self._kwargs = kwargs
+        self._kwargs = kwargs.copy()
 
         super().__init__(**kwargs)
 
         StudyWrapper.__init__(self, **kwargs)
         Messenger.__init__(self, **kwargs)
+
+        self.env_name = env_name
+        self.env = gym.make(env_name, **kwargs)
 
         self.export_best = export_best
         self.clear_runs = clear_runs
@@ -45,12 +53,9 @@ class SymbolTuner(StudyWrapper, Messenger):
         self.num_locks = num_locks
         self.export_dir.mkdir(exist_ok=True)
 
-        self.split_gpu()
-
         Path(self.best_model_dir).mkdir(parents=True, exist_ok=True)
 
-        self.base_model_dir = f'{Path.home()}/.exchange-data/models' \
-                             f'/{self.symbol}'
+        self.split_gpu()
 
         self.study.optimize(self.run, n_trials=session_limit)
 
@@ -128,13 +133,21 @@ class SymbolTuner(StudyWrapper, Messenger):
             if self.run_count > 1:
                 t.sleep(retry_relay)
             with self.train_lock:
-                self._run(*args)
+                return self._run(*args)
             self.run_count += 1
 
         except RedLockError as e:
             alog.info(e)
             t.sleep(retry_relay)
             return self.run(*args)
+
+    @cached_property
+    def test_env(self):
+        kwargs = self._kwargs.copy()
+        test_interval = kwargs['test_interval']
+        kwargs['interval'] = test_interval
+        kwargs['offset_interval'] = '0h'
+        return gym.make(self.env_name, **kwargs)
 
     def _run(self, trial: Trial):
         self.trial = trial
@@ -148,31 +161,55 @@ class SymbolTuner(StudyWrapper, Messenger):
 
             self.clear()
 
-        tf.keras.backend.clear_session()
+        hparams = dict(
+            # value_min=self.trial.suggest_float('value_min', 0.00001, 0.01),
+            # cache_limit=self.trial.suggest_int('cache_limit', 1000, 20000),
+            # train_interval=self.trial.suggest_int('train_interval', 12, 144),
+            # batch_size=self.trial.suggest_int('batch_size', 2, 4),
+            # lr=self.trial.suggest_float('lr', 0.02, 0.4),
+            # target_model_update=self.trial.suggest_int('target_model_update', 100, 1000),
+            # num_conv=self.trial.suggest_int('num_conv', 2, 5),
+        )
 
-        with tf.summary.create_file_writer(self.run_dir).as_default():
+        kwargs = self._kwargs.copy()
+        kwargs.pop('lr', None)
 
-            params = dict(
-                trial_id=str(trial.number),
-                nb_steps=50,
-                **self._kwargs
-            )
+        params = dict(
+            value_min=0.003,
+            value_max=0.15,
+            batch_size=2,
+            cache_limit=15000,
+            env=self.env,
+            env_name=self.env_name,
+            lr=0.2,
+            max_summary=20,
+            nb_steps=2e7,
+            num_conv=4,
+            target_model_update=12*8,
+            test_env=self.test_env,
+            train_interval=12,
+            trial_id=str(trial.number),
+            # value_max=0.57,
+            **kwargs,
+            **hparams
+        )
 
-            alog.info(alog.pformat(params))
+        alog.info(alog.pformat(params))
 
-            agent = SymbolAgent(**params)
-            result = agent.run()
+        agent = SymbolAgent(**params)
 
-            # self.model_dir = agent.model_dir
-            #
-            # accuracy = result.get('accuracy')
-            # global_step = result.get('global_step')
-            # self.exported_model_path = result.get('exported_model_path')
-            # trial.set_user_attr('exported_model_path', self.exported_model_path)
-            # trial.set_user_attr('model_version', self.model_version)
-            # trial.set_user_attr('quantile', self.quantile)
-            #
-            # tf.summary.scalar('accuracy', accuracy, step=global_step)
+        result = agent.run()
+
+        # self.model_dir = agent.model_dir
+        #
+        # accuracy = result.get('accuracy')
+        # global_step = result.get('global_step')
+        # self.exported_model_path = result.get('exported_model_path')
+        # trial.set_user_attr('exported_model_path', self.exported_model_path)
+        # trial.set_user_attr('model_version', self.model_version)
+        # trial.set_user_attr('quantile', self.quantile)
+
+        return result
 
     @property
     def model_version(self):

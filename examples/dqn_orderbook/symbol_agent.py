@@ -1,28 +1,54 @@
-import alog
-import gym
-import numpy as np
-from exchange_data.models.resnet.model import Model as ResnetModel
-from tensorflow.python.keras.optimizer_v2.adam import Adam
+from cached_property import cached_property
 
 from examples.dqn_orderbook.processor import OrderBookFrameProcessor
+from exchange_data.models.resnet.model import Model as ResnetModel
 from rl.agents import DQNAgent
 from rl.callbacks import ModelIntervalCheckpoint, FileLogger
 from rl.memory import SequentialMemory
 from rl.policy import LinearAnnealedPolicy, EpsGreedyQPolicy
+from tensorflow.python.keras.callbacks import TensorBoard, History
+from tensorflow.python.keras.optimizer_v2.adam import Adam
+from pathlib import Path
+
+import alog
+import gym
+import numpy as np
+import tensorflow as tf
 
 
 class SymbolAgent(object):
-    def __init__(self, env_name, nb_steps, lr=.0000025, **kwargs):
-        self.env_name = env_name
-        self.lr = lr
-        self.env = env = gym.make(env_name, **kwargs)
-        self.nb_steps = nb_steps
+    def __init__(
+        self,
+        symbol,
+        nb_steps,
+        trial_id,
+        env_name,
+        env,
+        test_env,
+        cache_limit,
+        window_length=36,
+        value_max=1.0,
+        value_min=0.1,
+        lr=.000025,
+        **kwargs
+    ):
+        kwargs['symbol'] = symbol
+        self._kwargs = kwargs
 
-        WINDOW_LENGTH = 4
-        INPUT_SHAPE = (WINDOW_LENGTH, kwargs['sequence_length'], kwargs['depth'] * 2, 1)
+        self.symbol = symbol
+        self.base_model_dir = f'{Path.home()}/.exchange-data/models' \
+                             f'/{self.symbol}'
+        self.trial_id = trial_id
+        self.lr = lr
+        self.nb_steps = nb_steps
+        self.env_name = env_name
+        self.env = env
+        self.test_env = test_env
+
+        INPUT_SHAPE = (window_length, kwargs['sequence_length'], kwargs['depth'] * 2, 1)
         np.random.seed(123)
-        env.seed(123)
-        nb_actions = env.action_space.n
+        self.env.seed(123)
+        nb_actions = self.env.action_space.n
 
         # Next, we build our model. We use the same model that was described by Mnih et al. (2015).
         input_shape = INPUT_SHAPE
@@ -32,7 +58,6 @@ class SymbolAgent(object):
             input_shape=input_shape,
             num_categories=2,
             include_last=False,
-            batch_size=2,
             **kwargs
         )
 
@@ -40,7 +65,7 @@ class SymbolAgent(object):
 
         # Finally, we configure and compile our agent. You can use every built-in tensorflow.keras optimizer and
         # even the metrics!
-        memory = SequentialMemory(limit=1000000, window_length=WINDOW_LENGTH)
+        memory = SequentialMemory(limit=cache_limit, window_length=window_length)
         processor = OrderBookFrameProcessor()
 
         # Select a policy. We use eps-greedy action selection, which means that a random action is selected
@@ -48,8 +73,13 @@ class SymbolAgent(object):
         # the agent initially explores the environment (high eps) and then gradually sticks to what it knows
         # (low eps). We also set a dedicated eps value that is used during testing. Note that we set it to 0.05
         # so that the agent still performs some random actions. This ensures that the agent cannot get stuck.
-        policy = LinearAnnealedPolicy(EpsGreedyQPolicy(), attr='eps', value_max=1., value_min=.1, value_test=.05,
-                                      nb_steps=self.nb_steps)
+        policy = LinearAnnealedPolicy(EpsGreedyQPolicy(),
+                                      attr='eps',
+                                      nb_steps=self.nb_steps,
+                                      value_max=value_max,
+                                      value_min=value_min,
+                                      value_test=.0001,
+                                      )
 
         # The trade-off between exploration and exploitation is difficult and an on-going research topic.
         # If you want, you can experiment with the parameters or use a different policy. Another popular one
@@ -66,8 +96,7 @@ class SymbolAgent(object):
             nb_steps_warmup=1000,
             policy=policy,
             processor=processor,
-            target_model_update=1000,
-            train_interval=12,
+            **kwargs,
         )
 
         self.agent.compile(Adam(lr=self.lr), metrics=['mae'])
@@ -77,13 +106,31 @@ class SymbolAgent(object):
         # can be prematurely aborted. Notice that now you can use the built-in tensorflow.keras callbacks!
         weights_filename = f'dqn_{self.env_name}_weights.h5f'
         checkpoint_weights_filename = 'dqn_' + self.env_name + '_weights_{step}.h5f'
-        log_filename = f'dqn_{self.env_name}_log.json'
-        callbacks = [ModelIntervalCheckpoint(checkpoint_weights_filename, interval=10000)]
-        callbacks += [FileLogger(log_filename, interval=100)]
+
+        tb_callback = TensorBoard(
+            embeddings_freq=0,
+            embeddings_metadata=None,
+            histogram_freq=0,
+            log_dir=str(Path(self.base_model_dir) / self.trial_id),
+            profile_batch=2,
+            update_freq='epoch',
+            write_graph=True,
+            write_images=False,
+        )
+
+        tb_callback._should_trace = True
+
+        callbacks = [tb_callback]
+
+        # callbacks += [FileLogger(log_filename, interval=100)]
         self.agent.fit(self.env, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps, log_interval=1000)
 
         # After training is done, we save the final weights one more time.
         self.agent.save_weights(weights_filename, overwrite=True)
 
         # Finally, evaluate our algorithm for 1 episodes.
-        self.agent.test(self.env, verbose=2, nb_episodes=1, visualize=False, nb_max_start_steps=10)
+        history: History = self.agent.test(self.test_env, verbose=2, nb_episodes=2, visualize=False, nb_max_start_steps=10)
+
+        ep_rewards = history.history['episode_reward']
+
+        return sum(ep_rewards) / len(ep_rewards)
