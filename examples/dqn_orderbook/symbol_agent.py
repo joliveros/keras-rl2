@@ -78,7 +78,7 @@ class SymbolAgent(object):
                                       nb_steps=self.nb_steps,
                                       value_max=value_max,
                                       value_min=value_min,
-                                      value_test=.0001,
+                                      value_test=0.0,
                                       )
 
         # The trade-off between exploration and exploitation is difficult and an on-going research topic.
@@ -93,7 +93,7 @@ class SymbolAgent(object):
             memory=memory,
             model=model,
             nb_actions=nb_actions,
-            nb_steps_warmup=1000,
+            nb_steps_warmup=100,
             policy=policy,
             processor=processor,
             **kwargs,

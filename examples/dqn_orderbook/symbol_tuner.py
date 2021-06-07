@@ -162,34 +162,35 @@ class SymbolTuner(StudyWrapper, Messenger):
             self.clear()
 
         hparams = dict(
-            # value_min=self.trial.suggest_float('value_min', 0.00001, 0.01),
-            # cache_limit=self.trial.suggest_int('cache_limit', 1000, 20000),
-            # train_interval=self.trial.suggest_int('train_interval', 12, 144),
-            # batch_size=self.trial.suggest_int('batch_size', 2, 4),
-            # lr=self.trial.suggest_float('lr', 0.02, 0.4),
-            # target_model_update=self.trial.suggest_int('target_model_update', 100, 1000),
-            # num_conv=self.trial.suggest_int('num_conv', 2, 5),
+            # reward_ratio=self.trial.suggest_float('reward_ratio', 1.0, 3.0),
         )
 
         kwargs = self._kwargs.copy()
         kwargs.pop('lr', None)
+        batch_size = 4
+        train_interval = 30
+
+        # reward_ratio = hparams['reward_ratio']
+        # self.env.reward_ratio = reward_ratio
+        # self.env._args['reward_ratio'] = reward_ratio
+        # self.test_env._args['reward_ratio'] = reward_ratio
 
         params = dict(
-            value_min=0.003,
-            value_max=0.15,
-            batch_size=2,
-            cache_limit=15000,
+            batch_size=batch_size,
+            cache_limit=int(1e4),
             env=self.env,
             env_name=self.env_name,
-            lr=0.2,
+            lr=0.05,
             max_summary=20,
-            nb_steps=2e7,
-            num_conv=4,
-            target_model_update=12*8,
+            nb_steps=3e6,
+            num_conv=2,
+            reward_ratio=2.65,
+            target_model_update=train_interval,
             test_env=self.test_env,
-            train_interval=12,
+            train_interval=train_interval,
             trial_id=str(trial.number),
-            # value_max=0.57,
+            value_max=0.02,
+            value_min=0.0,
             **kwargs,
             **hparams
         )
