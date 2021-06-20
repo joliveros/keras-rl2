@@ -162,13 +162,11 @@ class SymbolTuner(StudyWrapper, Messenger):
             self.clear()
 
         hparams = dict(
-            # reward_ratio=self.trial.suggest_float('reward_ratio', 1.0, 3.0),
         )
 
         kwargs = self._kwargs.copy()
         kwargs.pop('lr', None)
-        batch_size = 4
-        train_interval = 30
+        train_interval = kwargs['batch_size'] * 12
 
         # reward_ratio = hparams['reward_ratio']
         # self.env.reward_ratio = reward_ratio
@@ -176,20 +174,18 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self.test_env._args['reward_ratio'] = reward_ratio
 
         params = dict(
-            batch_size=batch_size,
-            cache_limit=int(1e4),
+            lr=0.001,
+            cache_limit=int(5e4),
             env=self.env,
             env_name=self.env_name,
-            lr=0.05,
-            max_summary=20,
-            nb_steps=3e6,
-            num_conv=2,
-            reward_ratio=2.65,
-            target_model_update=train_interval,
+            nb_steps=1e7,
+            num_conv=5,
+            reward_ratio=1e5,
+            target_model_update=timeparse(kwargs['interval']) / 60,
             test_env=self.test_env,
             train_interval=train_interval,
             trial_id=str(trial.number),
-            value_max=0.02,
+            value_max=0.03,
             value_min=0.0,
             **kwargs,
             **hparams
@@ -226,3 +222,5 @@ class SymbolTuner(StudyWrapper, Messenger):
                     tf.config.
                     LogicalDeviceConfiguration(memory_limit=self.memory),
                 ])
+
+

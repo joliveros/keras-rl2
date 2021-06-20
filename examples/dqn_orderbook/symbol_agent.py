@@ -26,7 +26,7 @@ class SymbolAgent(object):
         env,
         test_env,
         cache_limit,
-        window_length=36,
+        window_length=1,
         value_max=1.0,
         value_min=0.1,
         lr=.000025,
@@ -45,13 +45,12 @@ class SymbolAgent(object):
         self.env = env
         self.test_env = test_env
 
-        INPUT_SHAPE = (window_length, kwargs['sequence_length'], kwargs['depth'] * 2, 1)
+        input_shape = (window_length, kwargs['sequence_length'], kwargs['depth'] * 2, 1)
         np.random.seed(123)
         self.env.seed(123)
         nb_actions = self.env.action_space.n
 
         # Next, we build our model. We use the same model that was described by Mnih et al. (2015).
-        input_shape = INPUT_SHAPE
         alog.info(input_shape)
 
         model = ResnetModel(
