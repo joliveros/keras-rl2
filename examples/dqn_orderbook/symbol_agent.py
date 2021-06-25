@@ -5,7 +5,7 @@ from exchange_data.models.resnet.model import Model as ResnetModel
 from rl.agents import DQNAgent
 from rl.callbacks import ModelIntervalCheckpoint, FileLogger
 from rl.memory import SequentialMemory
-from rl.policy import LinearAnnealedPolicy, EpsGreedyQPolicy
+from rl.policy import LinearAnnealedPolicy, EpsGreedyQPolicy, GreedyQPolicy
 from tensorflow.python.keras.callbacks import TensorBoard, History
 from tensorflow.python.keras.optimizer_v2.adam import Adam
 from pathlib import Path
@@ -66,25 +66,15 @@ class SymbolAgent(object):
         # even the metrics!
         memory = SequentialMemory(limit=cache_limit, window_length=window_length)
         processor = OrderBookFrameProcessor()
+        policy = GreedyQPolicy()
 
-        # Select a policy. We use eps-greedy action selection, which means that a random action is selected
-        # with probability eps. We anneal eps from 1.0 to 0.1 over the course of 1M steps. This is done so that
-        # the agent initially explores the environment (high eps) and then gradually sticks to what it knows
-        # (low eps). We also set a dedicated eps value that is used during testing. Note that we set it to 0.05
-        # so that the agent still performs some random actions. This ensures that the agent cannot get stuck.
-        policy = LinearAnnealedPolicy(EpsGreedyQPolicy(),
-                                      attr='eps',
-                                      nb_steps=self.nb_steps,
-                                      value_max=value_max,
-                                      value_min=value_min,
-                                      value_test=0.0,
-                                      )
-
-        # The trade-off between exploration and exploitation is difficult and an on-going research topic.
-        # If you want, you can experiment with the parameters or use a different policy. Another popular one
-        # is Boltzmann-style exploration:
-        # policy = BoltzmannQPolicy(tau=1.)
-        # Feel free to give it a try!
+        # policy = LinearAnnealedPolicy(EpsGreedyQPolicy(),
+        #                               attr='eps',
+        #                               nb_steps=self.nb_steps,
+        #                               value_max=value_max,
+        #                               value_min=value_min,
+        #                               value_test=0.0,
+        #                               )
 
         self.agent = DQNAgent(
             delta_clip=1.,
