@@ -30,6 +30,7 @@ class SymbolAgentTuner(SymbolTuner):
 @click.option('--min-capital', default=1.0, type=float)
 @click.option('--min-change', default=0.001, type=float)
 @click.option('--num-locks', '-n', default=0, type=int)
+@click.option('--nb-steps', default=0, type=int)
 @click.option('--offset-interval', default='2h', type=str)
 @click.option('--plot', '-p', is_flag=True)
 @click.option('--round-decimals', '-D', default=4, type=int)
