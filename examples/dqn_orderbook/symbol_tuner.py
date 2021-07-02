@@ -164,7 +164,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             self.clear()
 
         hparams = dict(
-            lr=trial.suggest_float('lr', 1e-7, 1e-2),
+            # lr=trial.suggest_float('lr', 1e-7, 1e-2),
             cache_limit=trial.suggest_int('cache_limit', 1000, 1e4)
         )
 
@@ -182,9 +182,8 @@ class SymbolTuner(StudyWrapper, Messenger):
             # cache_limit=int(1e3),
             env=self.env,
             env_name=self.env_name,
-            # lr=0.00001,
-            num_conv=3,
-            target_model_update=int(timeparse(kwargs['interval']) / 12),
+            lr=0.00001,
+            target_model_update=train_interval * 12,
             test_env=self.test_env,
             train_interval=train_interval,
             trial_id=str(trial.number),

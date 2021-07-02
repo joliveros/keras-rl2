@@ -27,8 +27,6 @@ class SymbolAgent(object):
         test_env,
         cache_limit,
         window_length=1,
-        value_max=1.0,
-        value_min=0.1,
         lr=.000025,
         **kwargs
     ):
@@ -50,9 +48,6 @@ class SymbolAgent(object):
         self.env.seed(123)
         nb_actions = self.env.action_space.n
 
-        # Next, we build our model. We use the same model that was described by Mnih et al. (2015).
-        alog.info(input_shape)
-
         model = ResnetModel(
             input_shape=input_shape,
             num_categories=2,
@@ -67,14 +62,6 @@ class SymbolAgent(object):
         memory = SequentialMemory(limit=cache_limit, window_length=window_length)
         processor = OrderBookFrameProcessor()
         policy = GreedyQPolicy()
-
-        # policy = LinearAnnealedPolicy(EpsGreedyQPolicy(),
-        #                               attr='eps',
-        #                               nb_steps=self.nb_steps,
-        #                               value_max=value_max,
-        #                               value_min=value_min,
-        #                               value_test=0.0,
-        #                               )
 
         self.agent = DQNAgent(
             delta_clip=1.,
