@@ -154,7 +154,7 @@ class SymbolTuner(StudyWrapper, Messenger):
     def _run(self, trial: Trial):
         self.trial = trial
 
-        if self.clear_runs < trial.number and self.clear_runs > 0:
+        if trial.number > self.clear_runs > 0:
             exported_model_path = self.study.best_trial.user_attrs['exported_model_path']
             if self.export_best and self.study.best_trial.value > self.min_capital:
                 self.save_best_params()
@@ -164,8 +164,8 @@ class SymbolTuner(StudyWrapper, Messenger):
             self.clear()
 
         hparams = dict(
-            # lr=trial.suggest_float('lr', 1e-7, 1e-2),
-            cache_limit=trial.suggest_int('cache_limit', 1000, 1e4)
+            padding=trial.suggest_int('padding', 1, 4),
+            base_filter_size=trial.suggest_categorical('base_filter_size', [8, 16, 32, 64]),
         )
 
         kwargs = self._kwargs.copy()
@@ -178,8 +178,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         self.test_env._args['reward_ratio'] = reward_ratio
 
         params = dict(
-            base_filter_size=16,
-            # cache_limit=int(1e3),
+            cache_limit=4970,
             env=self.env,
             env_name=self.env_name,
             lr=0.00001,
