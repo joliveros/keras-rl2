@@ -164,11 +164,12 @@ class SymbolTuner(StudyWrapper, Messenger):
             self.clear()
 
         hparams = dict(
-            kernel_size=trial.suggest_categorical('kernel_size', [3, 5, 7]),
-            strides=trial.suggest_categorical('strides', [2, 3, 5]),
+            block_kernel=trial.suggest_categorical('block_kernel', [1, 3, 5, 7]),
+            max_pooling_kernel=trial.suggest_categorical('max_pooling_kernel', [1, 3, 5, 7]),
+            max_pooling_strides=trial.suggest_categorical('max_pooling_strides', [1, 3, 5, 7]),
         )
 
-        if hparams['strides'] > hparams['kernel_size']:
+        if hparams['max_pooling_strides'] > hparams['max_pooling_kernel']:
             return
 
         kwargs = self._kwargs.copy()
@@ -181,12 +182,14 @@ class SymbolTuner(StudyWrapper, Messenger):
         self.test_env._args['reward_ratio'] = reward_ratio
 
         params = dict(
-            padding=2,
             base_filter_size=64,
             cache_limit=4970,
             env=self.env,
             env_name=self.env_name,
+            kernel_size=3,
             lr=0.00001,
+            padding=2,
+            strides=2,
             target_model_update=train_interval * 12,
             test_env=self.test_env,
             train_interval=train_interval,
