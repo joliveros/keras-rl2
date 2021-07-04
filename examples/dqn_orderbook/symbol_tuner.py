@@ -164,9 +164,12 @@ class SymbolTuner(StudyWrapper, Messenger):
             self.clear()
 
         hparams = dict(
-            padding=trial.suggest_int('padding', 1, 4),
-            base_filter_size=trial.suggest_categorical('base_filter_size', [8, 16, 32, 64]),
+            kernel_size=trial.suggest_categorical('kernel_size', [3, 5, 7]),
+            strides=trial.suggest_categorical('strides', [2, 3, 5]),
         )
+
+        if hparams['strides'] > hparams['kernel_size']:
+            return
 
         kwargs = self._kwargs.copy()
         kwargs.pop('lr', None)
@@ -178,6 +181,8 @@ class SymbolTuner(StudyWrapper, Messenger):
         self.test_env._args['reward_ratio'] = reward_ratio
 
         params = dict(
+            padding=2,
+            base_filter_size=64,
             cache_limit=4970,
             env=self.env,
             env_name=self.env_name,
