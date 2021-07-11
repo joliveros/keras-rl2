@@ -43,14 +43,12 @@ class SymbolTuner(StudyWrapper, Messenger):
         StudyWrapper.__init__(self, **kwargs)
         Messenger.__init__(self, **kwargs)
 
-        self.env_name = env_name
-        self.env = gym.make(env_name, **kwargs)
-
         self.export_best = export_best
         self.clear_runs = clear_runs
         self.min_capital = min_capital
         self.memory = memory
         self.num_locks = num_locks
+        self.env_name = env_name
         self.export_dir.mkdir(exist_ok=True)
 
         Path(self.best_model_dir).mkdir(parents=True, exist_ok=True)
@@ -142,6 +140,11 @@ class SymbolTuner(StudyWrapper, Messenger):
             return self.run(*args)
 
     @cached_property
+    def env(self):
+        kwargs = self._kwargs.copy()
+        return gym.make(self.env_name, **kwargs)
+
+    @cached_property
     def test_env(self):
         kwargs = self._kwargs.copy()
         test_interval = kwargs['test_interval']
@@ -164,34 +167,26 @@ class SymbolTuner(StudyWrapper, Messenger):
             self.clear()
 
         hparams = dict(
-            lr=trial.suggest_float('lr', 1e-5, 1e-3)
+            num_conv=trial.suggest_int('num_conv', 3, 13)
         )
-
-        if hparams['max_pooling_strides'] > hparams['max_pooling_kernel']:
-            return
 
         kwargs = self._kwargs.copy()
         kwargs.pop('lr', None)
         train_interval = kwargs['batch_size']
 
-        reward_ratio = 1
-        self.env.reward_ratio = reward_ratio
-        self.env._args['reward_ratio'] = reward_ratio
-        self.test_env._args['reward_ratio'] = reward_ratio
-
         params = dict(
+            lr=0.000039,
             base_filter_size=64,
             block_kernel=7,
             cache_limit=4970,
             env=self.env,
             env_name=self.env_name,
             kernel_size=3,
-            # lr=0.00001,
             max_pooling_kernel=3,
             max_pooling_strides=3,
             padding=2,
             strides=2,
-            target_model_update=train_interval * 12,
+            target_model_update=train_interval,
             test_env=self.test_env,
             train_interval=train_interval,
             trial_id=str(trial.number),
