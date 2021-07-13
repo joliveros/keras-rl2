@@ -139,12 +139,12 @@ class SymbolTuner(StudyWrapper, Messenger):
             t.sleep(retry_relay)
             return self.run(*args)
 
-    @cached_property
+    @property
     def env(self):
         kwargs = self._kwargs.copy()
         return gym.make(self.env_name, **kwargs)
 
-    @cached_property
+    @property
     def test_env(self):
         kwargs = self._kwargs.copy()
         test_interval = kwargs['test_interval']
@@ -167,14 +167,17 @@ class SymbolTuner(StudyWrapper, Messenger):
             self.clear()
 
         hparams = dict(
-            num_conv=trial.suggest_int('num_conv', 3, 13)
+            interval_minutes=trial.suggest_int('interval_minutes', 60*3, 60*18)
         )
+
+        self._kwargs['interval'] = f'{hparams["interval_minutes"]}m'
 
         kwargs = self._kwargs.copy()
         kwargs.pop('lr', None)
         train_interval = kwargs['batch_size']
 
         params = dict(
+            num_conv=7,
             lr=0.000039,
             base_filter_size=64,
             block_kernel=7,
