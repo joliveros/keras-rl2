@@ -102,7 +102,7 @@ class SymbolAgent(object):
         self.agent.fit(self.env, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps, log_interval=1000)
 
         # After training is done, we save the final weights one more time.
-        self.agent.save_weights(weights_filename, overwrite=True)
+        # self.agent.save_weights(weights_filename, overwrite=True)
 
         # Finally, evaluate our algorithm for 1 episodes.
         history: History = self.agent.test(self.test_env, verbose=2, nb_episodes=2, visualize=False, nb_max_start_steps=10)
