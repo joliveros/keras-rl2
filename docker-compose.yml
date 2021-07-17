@@ -1,0 +1,31 @@
+version: '3.8'
+
+networks:
+  public:
+    name: public
+    external: true
+
+services:
+    train:
+        deploy:
+            replicas: 3
+        image: 'registry.rubercubic.com:5001/dqn-orderbook'
+        volumes:
+            - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
+        command: bash -c "source ~/.bashrc &&
+            ./examples/dqn_orderbook/run.py BAKEUSDT -i 710m -D 4 --summary-interval 30 -g 30s -w 2m
+            --database-name binance_futures --batch-size 18 -l 48 -d 40 --leverage 10.0
+            --offset-interval 90m --test-interval 90m --nb-steps 50000 -m 600"
+        environment:
+            - LOG_LEVEL=INFO
+            - NVIDIA_VISIBLE_DEVICES=all
+        networks:
+            - public
+        depends_on:
+            - influxdb
+            - redis
+        secrets:
+            - DB
+secrets:
+  DB:
+      external: true

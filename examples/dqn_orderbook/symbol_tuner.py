@@ -1,7 +1,4 @@
-import gym
 from cached_property import cached_property
-from tensorflow.python.ops import summary_ops_v2
-
 from examples.dqn_orderbook.symbol_agent import SymbolAgent
 from exchange_data import settings
 from exchange_data.emitters import Messenger
@@ -10,10 +7,10 @@ from optuna import Trial
 from pathlib import Path
 from pytimeparse.timeparse import timeparse
 from redlock import RedLockError, RedLock
-from tensorboard.plugins.hparams import api as hp
 from tensorflow_datasets.core.utils import nullcontext
 
 import alog
+import gym
 import re
 import shutil
 import tensorflow as tf
@@ -167,7 +164,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             self.clear()
 
         hparams = dict(
-            lr=trial.suggest_float('lr', 1e-5, 1e-3)
+            lr=trial.suggest_float('lr', 1e-7, 0.0001)
             #interval_minutes=trial.suggest_int('interval_minutes', 60*3, 60*18)
         )
 

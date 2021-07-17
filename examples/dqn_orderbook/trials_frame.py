@@ -1,11 +1,10 @@
 #! /usr/bin/env python
-from exchange_data.models.resnet.study_wrapper import StudyWrapper
 
+from exchange_data.models.resnet.study_wrapper import StudyWrapper
 import alog
 import click
 import pandas as pd
 
-import plotly.express as px
 
 class TrialsFrame(StudyWrapper):
     def __init__(self, **kwargs):
@@ -15,6 +14,8 @@ class TrialsFrame(StudyWrapper):
         fig = df.plot.scatter(x='params_lr', y='value')
 
         fig.show()
+
+        alog.info(df)
 
 
 @click.command()
