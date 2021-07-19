@@ -10,8 +10,8 @@ class TrialsFrame(StudyWrapper):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         pd.options.plotting.backend = "plotly"
-        df = self.study.trials_dataframe().filter(items=['value', 'params_lr'])
-        fig = df.plot.scatter(x='params_lr', y='value')
+        df = self.study.trials_dataframe().filter(items=['value', 'params_nb_steps'])
+        fig = df.plot.scatter(x='params_interval_minutes', y='value')
 
         fig.show()
 
