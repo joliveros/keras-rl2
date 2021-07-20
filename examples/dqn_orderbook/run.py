@@ -14,7 +14,7 @@ class SymbolAgentTuner(SymbolTuner):
 @click.command()
 @click.argument('symbol', type=str)
 @click.option('--backtest-interval', '-b', default='15m', type=str)
-@click.option('--batch-size', default=16, type=int)
+# @click.option('--batch-size', default=16, type=int)
 @click.option('--clear-runs', '-c', default=0, type=int)
 @click.option('--database-name', default='binance_futures', type=str)
 @click.option('--depth', '-d', default=48, type=int)

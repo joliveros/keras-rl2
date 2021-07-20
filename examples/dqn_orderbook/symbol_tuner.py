@@ -173,10 +173,10 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         kwargs = self._kwargs.copy()
         kwargs.pop('lr', None)
-        kwargs.pop('nb_steps', None)
-        train_interval = kwargs['batch_size']
+        kwargs.pop('interval', None)
 
         params = dict(
+            batch_size=19,
             num_conv=5,
             lr=0.000327,
             base_filter_size=64,
@@ -189,9 +189,9 @@ class SymbolTuner(StudyWrapper, Messenger):
             max_pooling_strides=3,
             padding=2,
             strides=2,
-            target_model_update=train_interval,
+            target_model_update=43,
             test_env=self.test_env,
-            train_interval=train_interval,
+            train_interval=4,
             trial_id=str(trial.number),
             **kwargs,
             **hparams
