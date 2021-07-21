@@ -164,8 +164,9 @@ class SymbolTuner(StudyWrapper, Messenger):
             self.clear()
 
         hparams = dict(
+            num_conv=trial.suggest_int('num_conv', 2, 6),
             # lr=trial.suggest_float('lr', 1e-8, 0.001),
-            nb_steps=trial.suggest_int('nb_steps', 5e4, 1e4),
+            # nb_steps=trial.suggest_int('nb_steps', 1e4, 5e4),
             # interval_minutes=trial.suggest_int('interval_minutes', 60*7, 60*24)
         )
 
@@ -173,20 +174,19 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         kwargs = self._kwargs.copy()
         kwargs.pop('lr', None)
-        kwargs.pop('nb_steps', None)
 
         params = dict(
-            batch_size=19,
-            num_conv=5,
-            lr=0.000327,
             base_filter_size=64,
+            batch_size=19,
             block_kernel=7,
             cache_limit=500,
             env=self.env,
             env_name=self.env_name,
             kernel_size=3,
+            lr=0.000327,
             max_pooling_kernel=3,
             max_pooling_strides=3,
+            num_conv=5,
             padding=2,
             strides=2,
             target_model_update=43,
