@@ -15,11 +15,11 @@ class TrialsFrame(StudyWrapper):
         pd.options.plotting.backend = "plotly"
         df = self.study.trials_dataframe()
         pd.set_option('display.max_rows', len(df) + 1)
-        # alog.info(df)
+        alog.info(df)
 
         params = [col for col in df.columns if 'params_' in col]
 
-        fig = make_subplots(rows=1, cols=3)
+        fig = make_subplots(rows=1, cols=len(params))
 
         col_ix = 1
         for param in params:
