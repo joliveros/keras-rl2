@@ -164,7 +164,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             self.clear()
 
         hparams = dict(
-            block_filter_factor=trial.suggest_int('block_filter_factor', 1, 4),
+            block_filter_factor=trial.suggest_int('block_filter_factor', 4, 8),
             # lr=trial.suggest_float('lr', 1e-8, 0.001),
             # nb_steps=trial.suggest_int('nb_steps', 1e4, 5e4),
             # interval_minutes=trial.suggest_int('interval_minutes', 60*7, 60*24)
