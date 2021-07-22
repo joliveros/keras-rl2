@@ -136,12 +136,12 @@ class SymbolTuner(StudyWrapper, Messenger):
             t.sleep(retry_relay)
             return self.run(*args)
 
-    @property
+    @cached_property
     def env(self):
         kwargs = self._kwargs.copy()
         return gym.make(self.env_name, **kwargs)
 
-    @property
+    @cached_property
     def test_env(self):
         kwargs = self._kwargs.copy()
         test_interval = kwargs['test_interval']
