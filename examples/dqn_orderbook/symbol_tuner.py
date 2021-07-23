@@ -188,8 +188,6 @@ class SymbolTuner(StudyWrapper, Messenger):
             env_name=self.env_name,
             kernel_size=3,
             lr=0.000327,
-            max_pooling_kernel=3,
-            max_pooling_strides=3,
             num_conv=5,
             padding=2,
             strides=2,
