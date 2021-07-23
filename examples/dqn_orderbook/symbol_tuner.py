@@ -136,12 +136,12 @@ class SymbolTuner(StudyWrapper, Messenger):
             t.sleep(retry_relay)
             return self.run(*args)
 
-    @cached_property
+    @property
     def env(self):
         kwargs = self._kwargs.copy()
         return gym.make(self.env_name, **kwargs)
 
-    @cached_property
+    @property
     def test_env(self):
         kwargs = self._kwargs.copy()
         test_interval = kwargs['test_interval']
@@ -164,8 +164,8 @@ class SymbolTuner(StudyWrapper, Messenger):
             self.clear()
 
         hparams = dict(
-            max_pooling_kernel=trial.suggest_int('max_pooling_kernel', 1, 5),
-            max_pooling_strides=trial.suggest_int('max_pooling_strides', 1, 5),
+            sequence_length=trial.suggest_int('sequence_length', 12, 56),
+            # max_pooling_strides=trial.suggest_int('max_pooling_strides', 1, 5),
             # lr=trial.suggest_float('lr', 1e-8, 0.001),
             # nb_steps=trial.suggest_int('nb_steps', 1e4, 5e4),
             # interval_minutes=trial.suggest_int('interval_minutes', 60*7, 60*24)
@@ -173,12 +173,14 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         # self._kwargs['interval'] = f'{hparams["interval_minutes"]}m'
 
+        self._kwargs['sequence_length'] = hparams.get('sequence_length')
         kwargs = self._kwargs.copy()
         kwargs.pop('lr', None)
+        kwargs.pop('sequence_length', None)
 
         params = dict(
-            # max_pooling_kernel=3,
-            # max_pooling_strides=2,
+            max_pooling_kernel=2,
+            max_pooling_strides=1,
             base_filter_size=8,
             batch_size=19,
             block_filter_factor=6,
