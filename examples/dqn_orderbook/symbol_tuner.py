@@ -164,7 +164,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             self.clear()
 
         hparams = dict(
-            sequence_length=trial.suggest_int('sequence_length', 12, 56),
+            sequence_length=trial.suggest_int('sequence_length', 12, 120),
             # max_pooling_strides=trial.suggest_int('max_pooling_strides', 1, 5),
             # lr=trial.suggest_float('lr', 1e-8, 0.001),
             # nb_steps=trial.suggest_int('nb_steps', 1e4, 5e4),
