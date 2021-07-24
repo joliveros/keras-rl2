@@ -182,7 +182,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         params = dict(
             max_pooling_kernel=2,
             max_pooling_strides=1,
-            base_filter_size=8,
+            # base_filter_size=8,
             batch_size=19,
             block_filter_factor=6,
             block_kernel=2,
@@ -205,8 +205,11 @@ class SymbolTuner(StudyWrapper, Messenger):
         alog.info(alog.pformat(params))
 
         agent = SymbolAgent(**params)
-
-        result = agent.run()
+        try:
+            result = agent.run()
+        except Exception as err:
+            alog.info(err)
+            result = 0.0
 
         # self.model_dir = agent.model_dir
         #
