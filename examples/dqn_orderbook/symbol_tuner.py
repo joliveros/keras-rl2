@@ -165,19 +165,18 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         hparams = dict(
             # base_filter_size=trial.suggest_categorical('base_filter_size', [8, 16, 32, 64]),
-            depth=trial.suggest_int('depth', 12, 120),
+            # depth=trial.suggest_int('depth', 12, 120),
             # max_pooling_strides=trial.suggest_int('max_pooling_strides', 1, 5),
             # lr=trial.suggest_float('lr', 1e-8, 0.001),
-            # nb_steps=trial.suggest_int('nb_steps', 1e4, 5e4),
+            nb_steps=trial.suggest_int('nb_steps', 1e4, 5e4),
             # interval_minutes=trial.suggest_int('interval_minutes', 60*7, 60*24)
         )
 
         # self._kwargs['interval'] = f'{hparams["interval_minutes"]}m'
-        self._kwargs['depth'] = hparams['depth']
 
         kwargs = self._kwargs.copy()
         kwargs.pop('lr', None)
-        kwargs.pop('depth', None)
+        kwargs.pop('nb_steps', None)
 
         params = dict(
             max_pooling_kernel=2,
