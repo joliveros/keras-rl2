@@ -164,7 +164,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             self.clear()
 
         hparams = dict(
-            num_conv=trial.suggest_int('num_conv', 5, 6),
+            cache_limit=trial.suggest_int('cache_limit', 100, 4000),
         )
 
         # self._kwargs['interval'] = f'{hparams["interval_minutes"]}m'
@@ -173,12 +173,12 @@ class SymbolTuner(StudyWrapper, Messenger):
         kwargs.pop('lr', None)
 
         params = dict(
-            # num_conv=5,
+            num_conv=6,
             base_filter_size=8,
             batch_size=19,
             block_filter_factor=6,
             block_kernel=2,
-            cache_limit=500,
+            # cache_limit=500,
             env=self.env,
             env_name=self.env_name,
             kernel_size=3,
