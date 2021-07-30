@@ -173,18 +173,18 @@ class SymbolTuner(StudyWrapper, Messenger):
         kwargs.pop('lr', None)
 
         params = dict(
-            num_conv=6,
             base_filter_size=8,
             batch_size=19,
             block_filter_factor=6,
             block_kernel=2,
-            # cache_limit=500,
+            cache_limit=2010,
             env=self.env,
             env_name=self.env_name,
             kernel_size=3,
             lr=0.000405,
             max_pooling_kernel=2,
             max_pooling_strides=1,
+            num_conv=6,
             padding=2,
             strides=2,
             target_model_update=43,
