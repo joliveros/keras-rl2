@@ -41,8 +41,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         alog.info(df)
 
         if df.shape[0] < 3:
-            return 0
-            # raise NotEnoughTrialsException()
+            raise NotEnoughTrialsException()
         else:
             return df['value'].idxmax()
 
