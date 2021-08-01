@@ -1,9 +1,9 @@
 #! /usr/bin/env python
 
 from examples.dqn_orderbook.symbol_tuner import SymbolTuner
-import tgym.envs
 
 import click
+import tgym.envs
 
 
 class SymbolAgentTuner(SymbolTuner):
@@ -13,8 +13,6 @@ class SymbolAgentTuner(SymbolTuner):
 
 @click.command()
 @click.argument('symbol', type=str)
-# @click.option('--batch-size', default=16, type=int)
-@click.option('--backtest-interval', '-b', default='15m', type=str)
 @click.option('--cache', is_flag=True)
 @click.option('--clear-runs', '-c', default=0, type=int)
 @click.option('--database-name', default='binance_futures', type=str)
@@ -34,6 +32,7 @@ class SymbolAgentTuner(SymbolTuner):
 @click.option('--num-locks', '-n', default=0, type=int)
 @click.option('--offset-interval', default='2h', type=str)
 @click.option('--plot', '-p', is_flag=True)
+@click.option('--retry', '-R', is_flag=True)
 @click.option('--round-decimals', '-D', default=4, type=int)
 @click.option('--sequence-length', '-l', default=36, type=int)
 @click.option('--session-limit', '-s', default=None, type=int)

@@ -1,33 +1,38 @@
-from cached_property import cached_property
-
+from bitmex_websocket.constants import NoValue
 from examples.dqn_orderbook.processor import OrderBookFrameProcessor
 from exchange_data.models.resnet.model import Model as ResnetModel
-from rl.agents import DQNAgent
-from rl.callbacks import ModelIntervalCheckpoint, FileLogger
-from rl.memory import SequentialMemory
-from rl.policy import LinearAnnealedPolicy, EpsGreedyQPolicy, GreedyQPolicy
-from tensorflow.python.keras.callbacks import TensorBoard, History
-from tensorflow.python.keras.optimizer_v2.adam import Adam
 from pathlib import Path
+from rl.agents import DQNAgent
+from rl.memory import SequentialMemory
+from rl.policy import GreedyQPolicy
+from tensorflow.python.keras.callbacks import TensorBoard, History
+from tensorflow.python.keras.optimizer_v2.adadelta import Adadelta
+from tensorflow.python.keras.optimizer_v2.adam import Adam
+from tensorflow.python.keras.optimizer_v2.adamax import Adamax
 
 import alog
 import gym
 import numpy as np
-import tensorflow as tf
+
+
+class Optimizer(NoValue):
+    Adadelta = 0
+    Adam = 1
+    Adamax = 2
 
 
 class SymbolAgent(object):
     def __init__(
         self,
-        symbol,
-        nb_steps,
-        trial_id,
-        env_name,
         env,
-        test_env,
-        cache_limit,
+        nb_steps,
+        symbol,
+        optimizer: int = 0,
+        cache_limit=2010,
+        lr=0.003986,
+        test_env=None,
+        trial_id=0,
         window_length=1,
-        lr=.000025,
         **kwargs
     ):
         kwargs['symbol'] = symbol
@@ -37,9 +42,9 @@ class SymbolAgent(object):
         self.base_model_dir = f'{Path.home()}/.exchange-data/models' \
                              f'/{self.symbol}'
         self.trial_id = trial_id
+        self._optimizer = optimizer
         self.lr = lr
         self.nb_steps = nb_steps
-        self.env_name = env_name
         self.env = env
         self.test_env = test_env
 
@@ -50,8 +55,6 @@ class SymbolAgent(object):
 
         model = ResnetModel(
             input_shape=input_shape,
-            num_categories=2,
-            include_last=False,
             **kwargs
         )
 
@@ -75,13 +78,35 @@ class SymbolAgent(object):
             **kwargs,
         )
 
-        self.agent.compile(Adam(lr=self.lr), metrics=['mae'])
+        alog.info(self.optimizer)
+
+        self.agent.compile(self.optimizer, metrics=['mae'])
+
+    @property
+    def optimizer(self):
+        optimizer = Optimizer(self._optimizer)
+
+        alog.info(optimizer)
+
+        if optimizer == Optimizer.Adam:
+            return Adam(lr=self.lr)
+        elif optimizer == Optimizer.Adadelta:
+            return Adadelta(learning_rate=self.lr)
+        elif optimizer == Optimizer.Adamax:
+            return Adamax(learning_rate=self.lr)
+
+        raise Exception()
+
+    @property
+    def weights_filename(self):
+        return self.base_model_dir + f'/{self.trial_id}/weights.h5f'
+
+    def load_weights(self):
+        self.agent.load_weights(self.weights_filename)
 
     def run(self):
         # Okay, now it's time to learn something! We capture the interrupt exception so that training
         # can be prematurely aborted. Notice that now you can use the built-in tensorflow.keras callbacks!
-        weights_filename = f'dqn_{self.env_name}_weights.h5f'
-        checkpoint_weights_filename = 'dqn_' + self.env_name + '_weights_{step}.h5f'
 
         tb_callback = TensorBoard(
             embeddings_freq=0,
@@ -102,7 +127,7 @@ class SymbolAgent(object):
         self.agent.fit(self.env, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps, log_interval=1000)
 
         # After training is done, we save the final weights one more time.
-        # self.agent.save_weights(weights_filename, overwrite=True)
+        self.agent.save_weights(self.weights_filename, overwrite=True)
 
         # Finally, evaluate our algorithm for 1 episodes.
         history: History = self.agent.test(self.test_env, verbose=2, nb_episodes=2, visualize=False, nb_max_start_steps=10)

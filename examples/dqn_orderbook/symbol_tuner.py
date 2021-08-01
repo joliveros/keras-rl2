@@ -1,5 +1,5 @@
 from cached_property import cached_property
-from examples.dqn_orderbook.symbol_agent import SymbolAgent
+from examples.dqn_orderbook.symbol_agent import SymbolAgent, Optimizer
 from exchange_data import settings
 from exchange_data.emitters import Messenger
 from exchange_data.models.resnet.study_wrapper import StudyWrapper
@@ -27,7 +27,7 @@ class SymbolTuner(StudyWrapper, Messenger):
                  session_limit,
                  clear_runs,
                  env_name,
-                 backtest_interval,
+                 retry,
                  min_capital,
                  memory,
                  num_locks=2,
@@ -40,6 +40,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         StudyWrapper.__init__(self, **kwargs)
         Messenger.__init__(self, **kwargs)
 
+        self.retry = retry
         self.export_best = export_best
         self.clear_runs = clear_runs
         self.min_capital = min_capital
@@ -136,12 +137,12 @@ class SymbolTuner(StudyWrapper, Messenger):
             t.sleep(retry_relay)
             return self.run(*args)
 
-    @cached_property
+    @property
     def env(self):
         kwargs = self._kwargs.copy()
         return gym.make(self.env_name, **kwargs)
 
-    @cached_property
+    @property
     def test_env(self):
         kwargs = self._kwargs.copy()
         test_interval = kwargs['test_interval']
@@ -150,6 +151,34 @@ class SymbolTuner(StudyWrapper, Messenger):
         kwargs['max_loss'] = -50/100
         kwargs['is_test'] = True
         return gym.make(self.env_name, **kwargs)
+
+    @property
+    def agent(self):
+        hparams = dict(
+            # optimizer=self.trial.suggest_categorical('optimizer',
+            #                                          [opt.value for opt in Optimizer]),
+            # lr=self.trial.suggest_float('lr', 6.25e-4, 0.01)
+        )
+
+        # self._kwargs['interval'] = f'{hparams["interval_minutes"]}m'
+
+        kwargs = self._kwargs.copy()
+
+        params = dict(
+            batch_size=19,
+            env=self.env,
+            env_name=self.env_name,
+            target_model_update=43,
+            test_env=self.test_env,
+            train_interval=4,
+            trial_id=str(self.trial.number),
+            **kwargs,
+            **hparams
+        )
+
+        alog.info(alog.pformat(params))
+
+        return SymbolAgent(**params)
 
     def _run(self, trial: Trial):
         self.trial = trial
@@ -163,55 +192,13 @@ class SymbolTuner(StudyWrapper, Messenger):
 
             self.clear()
 
-        hparams = dict(
-            cache_limit=trial.suggest_int('cache_limit', 100, 4000),
-        )
-
-        # self._kwargs['interval'] = f'{hparams["interval_minutes"]}m'
-
-        kwargs = self._kwargs.copy()
-        kwargs.pop('lr', None)
-
-        params = dict(
-            base_filter_size=8,
-            batch_size=19,
-            block_filter_factor=6,
-            block_kernel=2,
-            cache_limit=2010,
-            env=self.env,
-            env_name=self.env_name,
-            kernel_size=3,
-            lr=0.000405,
-            max_pooling_kernel=2,
-            max_pooling_strides=1,
-            num_conv=6,
-            padding=2,
-            strides=2,
-            target_model_update=43,
-            test_env=self.test_env,
-            train_interval=4,
-            trial_id=str(trial.number),
-            **kwargs,
-            **hparams
-        )
-
-        alog.info(alog.pformat(params))
-
-        agent = SymbolAgent(**params)
         try:
-            result = agent.run()
+            result = self.agent.run()
         except Exception as err:
-            alog.info(err)
-            result = 0.0
-
-        # self.model_dir = agent.model_dir
-        #
-        # accuracy = result.get('accuracy')
-        # global_step = result.get('global_step')
-        # self.exported_model_path = result.get('exported_model_path')
-        # trial.set_user_attr('exported_model_path', self.exported_model_path)
-        # trial.set_user_attr('model_version', self.model_version)
-        # trial.set_user_attr('quantile', self.quantile)
+            if self.retry:
+                result = 0.0
+            else:
+                raise err
 
         return result
 
