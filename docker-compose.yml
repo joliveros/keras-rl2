@@ -36,7 +36,7 @@ services:
       command: bash -c "source ~/.bashrc &&
         ./examples/dqn_orderbook/eval_agent.py BAKEUSDT"
       environment:
-        - LOG_LEVEL=INFO
+        - LOG_LEVEL=DEBUG
         - NVIDIA_VISIBLE_DEVICES=all
       networks:
         - public
