@@ -28,7 +28,7 @@ class SymbolAgent(object):
         nb_steps,
         symbol,
         optimizer: int = 0,
-        cache_limit=2010,
+        cache_limit=600,
         lr=0.003986,
         test_env=None,
         trial_id=0,
