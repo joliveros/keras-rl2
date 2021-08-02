@@ -1,4 +1,6 @@
 from cached_property import cached_property
+from numpy import NaN
+
 from examples.dqn_orderbook.symbol_agent import SymbolAgent, Optimizer
 from exchange_data import settings
 from exchange_data.emitters import Messenger
@@ -196,7 +198,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             result = self.agent.run()
         except Exception as err:
             if self.retry:
-                result = 0.0
+                result = NaN
             else:
                 raise err
 
