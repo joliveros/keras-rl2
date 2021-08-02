@@ -98,7 +98,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 @click.option('--round-decimals', '-D', default=4, type=int)
 @click.option('--sequence-length', '-l', default=22, type=int)
 @click.option('--summary-interval', default=4, type=int)
-@click.option('--valid-interval', default='1h', type=str)
+@click.option('--valid-interval', default='30m', type=str)
 @click.option('--window-size', '-w', default='4m', type=str)
 def main(**kwargs):
     SymbolEvalAgent(**kwargs)
