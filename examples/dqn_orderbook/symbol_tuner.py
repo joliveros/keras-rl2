@@ -200,7 +200,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             result = self.agent.run()
         except Exception as err:
             if self.retry:
-                result = NaN
+                result = -1.0
             else:
                 raise err
 
