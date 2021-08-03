@@ -161,8 +161,8 @@ class SymbolTuner(StudyWrapper, Messenger):
             #                                          [opt.value for opt in Optimizer]),
             # lr=self.trial.suggest_float('lr', 6.25e-4, 0.01)
             # nb_steps=self.trial.suggest_int('nb_steps', 2e4, 6e4)
-            max_loss=self.trial.suggest_float('max_loss', 1e-3, 1e-1),
-            max_negative_pnl=self.trial.suggest_float('max_negative_pnl', 1e-3, 1e-1)
+            max_loss=self.trial.suggest_float('max_loss', 1e-3, 1e-1) * -1,
+            max_negative_pnl=self.trial.suggest_float('max_negative_pnl', 1e-3, 1e-1) * -1
         )
 
         # self._kwargs['interval'] = f'{hparams["interval_minutes"]}m'
