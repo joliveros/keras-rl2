@@ -160,6 +160,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             # optimizer=self.trial.suggest_categorical('optimizer',
             #                                          [opt.value for opt in Optimizer]),
             # lr=self.trial.suggest_float('lr', 6.25e-4, 0.01)
+            num_conv=self.trial.suggest_int('num_conv', 3, 6),
             nb_steps=self.trial.suggest_int('nb_steps', 1.4e4, 3e4)
         )
 
