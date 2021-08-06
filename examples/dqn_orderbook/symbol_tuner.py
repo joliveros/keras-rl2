@@ -159,12 +159,12 @@ class SymbolTuner(StudyWrapper, Messenger):
         hparams = dict(
             # optimizer=self.trial.suggest_categorical('optimizer',
             #                                          [opt.value for opt in Optimizer]),
-            # lr=self.trial.suggest_float('lr', 6.25e-5, 0.02),
+            lr=self.trial.suggest_float('lr', 0.003, 0.008),
             # cache_limit=self.trial.suggest_int('cache_limit', 1e3, 1e4)
-            interval_minutes=self.trial.suggest_int('interval_minutes', 4, 24)
+            # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 24)
         )
 
-        self._kwargs['interval'] = f'{hparams["interval_minutes"] * 30}m'
+        # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 30}m'
 
         kwargs = self._kwargs.copy()
 
