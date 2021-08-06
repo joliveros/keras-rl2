@@ -150,8 +150,8 @@ class SymbolTuner(StudyWrapper, Messenger):
         test_interval = kwargs['test_interval']
         kwargs['interval'] = test_interval
         kwargs['offset_interval'] = '0h'
-        kwargs['max_loss'] = -50/100
-        kwargs['is_test'] = True
+        # kwargs['max_loss'] = -50/100
+        kwargs['is_test'] = False
         return gym.make(self.env_name, **kwargs)
 
     @property

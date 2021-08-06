@@ -132,6 +132,12 @@ class SymbolAgent(object):
         # Finally, evaluate our algorithm for 1 episodes.
         history: History = self.agent.test(self.test_env, verbose=2, nb_episodes=2, visualize=False, nb_max_start_steps=10)
 
-        ep_rewards = history.history['episode_reward']
+        alog.info(history.history)
 
-        return sum(ep_rewards) / len(ep_rewards)
+        ep_rewards = history.history['episode_reward']
+        nb_steps = history.history['nb_steps']
+
+        ep_rewards_avg = sum(ep_rewards) / len(ep_rewards)
+        nb_steps_avg = sum(nb_steps) / len(nb_steps)
+
+        return ep_rewards_avg * nb_steps_avg
