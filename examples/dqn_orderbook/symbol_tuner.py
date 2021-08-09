@@ -156,19 +156,14 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
+        self.trial.suggest_int('test_num', 1, 2)
+
         hparams = dict(
-            # optimizer=self.trial.suggest_categorical('optimizer',
-            #                                          [opt.value for opt in Optimizer]),
-            lr=self.trial.suggest_float('lr', 0.0000001, 0.01),
-            nb_steps=self.trial.suggest_int('nb_steps', 14000, 100000)
-            # cache_limit=self.trial.suggest_int('cache_limit', 1e3, 1e4)
-            # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 24)
         )
 
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 30}m'
 
         kwargs = self._kwargs.copy()
-        kwargs.pop('nb_steps', None)
 
         params = dict(
             batch_size=19,
