@@ -15,7 +15,7 @@ services:
         command: bash -c "source ~/.bashrc &&
             ./examples/dqn_orderbook/run.py BAKEUSDT -i 270m -D 4 --summary-interval 30 -g 30s -w 2m
             --database-name binance_futures -l 22 -d 28 --leverage 10.0
-            --offset-interval 0m --test-interval 4h --nb-steps 22000 -m 300 -s 3 --cache"
+            --offset-interval 0m --test-interval 4h --nb-steps 22000 -m 300 -s 3"
         environment:
             - LOG_LEVEL=INFO
             - NVIDIA_VISIBLE_DEVICES=all
