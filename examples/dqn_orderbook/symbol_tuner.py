@@ -161,12 +161,14 @@ class SymbolTuner(StudyWrapper, Messenger):
         hparams = dict(
             num_conv=self.trial.suggest_int('num_conv', 2, 6),
             train_interval=self.trial.suggest_int('train_interval', 1, 12),
+            short_reward_enabled=self.trial.suggest_categorical('short_reward_enabled', [False, True]),
             # max_negative_pnl=self.trial.suggest_float('max_negative_pnl', 1e-3, 5e-1)
         )
 
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 30}m'
         # self._kwargs.pop('max_loss', None)
         self._kwargs.pop('train_interval', None)
+        self._kwargs.pop('short_reward_enabled', None)
 
         kwargs = self._kwargs.copy()
 

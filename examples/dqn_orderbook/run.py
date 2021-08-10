@@ -33,6 +33,7 @@ class SymbolAgentTuner(SymbolTuner):
 @click.option('--offset-interval', default='2h', type=str)
 @click.option('--plot', '-p', is_flag=True)
 @click.option('--retry', '-R', is_flag=True)
+@click.option('--short-reward-enabled', '-r', is_flag=True)
 @click.option('--round-decimals', '-D', default=4, type=int)
 @click.option('--sequence-length', '-l', default=36, type=int)
 @click.option('--session-limit', '-s', default=None, type=int)
