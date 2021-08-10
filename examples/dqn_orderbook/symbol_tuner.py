@@ -159,11 +159,14 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
-            max_loss=self.trial.suggest_float('max_loss', 1e-3, 1.0),
-            max_negative_pnl = self.trial.suggest_float('max_negative_pnl', 1e-3, 5e-1)
+            num_conv=self.trial.suggest_int('num_conv', 2, 6),
+            train_interval=self.trial.suggest_int('train_interval', 1, 12),
+            # max_negative_pnl=self.trial.suggest_float('max_negative_pnl', 1e-3, 5e-1)
         )
 
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 30}m'
+        # self._kwargs.pop('max_loss', None)
+        self._kwargs.pop('train_interval', None)
 
         kwargs = self._kwargs.copy()
 
@@ -173,7 +176,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             env_name=self.env_name,
             target_model_update=43,
             test_env=self.test_env,
-            train_interval=4,
+            # train_interval=4,
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams
