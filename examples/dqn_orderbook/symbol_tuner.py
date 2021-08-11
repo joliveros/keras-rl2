@@ -156,29 +156,28 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        # self.trial.suggest_int('test_num', 1, 2)
+        #self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
+            batch_size=self.trial.suggest_int('batch_size', 12, 32),
             num_conv=self.trial.suggest_int('num_conv', 2, 6),
-            train_interval=self.trial.suggest_int('train_interval', 1, 12),
-            short_reward_enabled=self.trial.suggest_categorical('short_reward_enabled', [False, True]),
-            # max_negative_pnl=self.trial.suggest_float('max_negative_pnl', 1e-3, 5e-1)
+            train_interval=self.trial.suggest_int('train_interval', 1, 12)
         )
 
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 30}m'
-        # self._kwargs.pop('max_loss', None)
-        self._kwargs.pop('train_interval', None)
-        self._kwargs.pop('short_reward_enabled', None)
 
+        self._kwargs.pop('train_interval', None)
+        self._kwargs['short_reward_enabled'] = self.trial.suggest_categorical('short_reward_enabled', [False, True])
         kwargs = self._kwargs.copy()
 
         params = dict(
-            batch_size=19,
+            # batch_size=19,
             env=self.env,
             env_name=self.env_name,
+            # short_reward_enabled=True,
             target_model_update=43,
             test_env=self.test_env,
-            # train_interval=4,
+            # train_interval=6,
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams
