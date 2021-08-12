@@ -159,7 +159,8 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
-            nb_steps=self.trial.suggest_int('nb_steps', 4000, 14000)
+            nb_steps=self.trial.suggest_int('nb_steps', 3000, 9000),
+            lr=self.trial.suggest_float('lr', 1e-7, 1e-2)
         )
 
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 30}m'
