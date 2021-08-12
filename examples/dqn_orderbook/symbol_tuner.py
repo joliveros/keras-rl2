@@ -156,14 +156,16 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        self.trial.suggest_int('test_num', 1, 2)
+        # self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
+            nb_steps=self.trial.suggest_int('nb_steps', 4000, 14000)
         )
 
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 30}m'
 
         kwargs = self._kwargs.copy()
+        kwargs.pop('nb_steps', None)
 
         params = dict(
             batch_size=20,
