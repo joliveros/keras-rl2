@@ -160,6 +160,7 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         hparams = dict(
             nb_steps=self.trial.suggest_int('nb_steps', 3000, 9000),
+            train_interval=self.trial.suggest_int('train_interval', 1, 8),
             lr=self.trial.suggest_float('lr', 1e-7, 1e-2)
         )
 
@@ -175,7 +176,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             short_reward_enabled=True,
             target_model_update=43,
             test_env=self.test_env,
-            train_interval=1,
+            # train_interval=1,
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams
