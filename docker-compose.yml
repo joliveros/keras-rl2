@@ -8,7 +8,7 @@ networks:
 services:
     train:
         deploy:
-            replicas: 6
+            replicas: 5
         image: 'registry.rubercubic.com:5001/dqn-orderbook'
         volumes:
             - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
@@ -34,7 +34,7 @@ services:
       volumes:
         - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
       command: bash -c "source ~/.bashrc &&
-        ./examples/dqn_orderbook/eval_agent.py BAKEUSDT"
+        ./examples/dqn_orderbook/eval_agent.py BAKEUSDT -m 150"
       environment:
         - LOG_LEVEL=DEBUG
         - NVIDIA_VISIBLE_DEVICES=all
