@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+import sys
 
 from cached_property import cached_property_with_ttl
 from copy import deepcopy
@@ -31,6 +32,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         self.split_gpu()
         self.on(eval_interval, self.emit)
         self.sub([eval_interval])
+        self.cached = False
 
     @property
     def best_trial_id(self):
@@ -47,15 +49,19 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 
     @cached_property_with_ttl(ttl=60*4)
     def agent(self):
-        agent = SymbolAgent(symbol=self.symbol,
-                            trial_id=self.best_trial_id,
-                            env=self.env,
-                            nb_steps=2,
-                            **self._kwargs)
+        if not self.cached:
+            agent = SymbolAgent(symbol=self.symbol,
+                                trial_id=self.best_trial_id,
+                                env=self.env,
+                                nb_steps=2,
+                                **self._kwargs)
 
-        agent.load_weights()
+            agent.load_weights()
+            self.cached = True
 
-        return agent.agent
+            return agent.agent
+        else:
+            sys.exit(0)
 
     @property
     def env(self):
