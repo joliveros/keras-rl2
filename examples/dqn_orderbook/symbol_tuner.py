@@ -150,24 +150,19 @@ class SymbolTuner(StudyWrapper, Messenger):
         test_interval = kwargs['test_interval']
         kwargs['interval'] = test_interval
         kwargs['offset_interval'] = '0h'
-        # kwargs['max_loss'] = -50/100
         kwargs['is_test'] = False
         return gym.make(self.env_name, **kwargs)
 
     @property
     def agent(self):
-        # self.trial.suggest_int('test_num', 1, 2)
+        self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
-            nb_steps=self.trial.suggest_int('nb_steps', 3000, 9000),
-            train_interval=self.trial.suggest_int('train_interval', 1, 8),
-            lr=self.trial.suggest_float('lr', 1e-7, 1e-2)
         )
 
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 30}m'
 
         kwargs = self._kwargs.copy()
-        kwargs.pop('nb_steps', None)
 
         params = dict(
             batch_size=20,
@@ -176,7 +171,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             short_reward_enabled=True,
             target_model_update=43,
             test_env=self.test_env,
-            # train_interval=1,
+            train_interval=4,
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams
