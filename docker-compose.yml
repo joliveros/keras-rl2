@@ -34,7 +34,7 @@ services:
       volumes:
         - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
       command: bash -c "source ~/.bashrc &&
-        ./examples/dqn_orderbook/eval_agent.py BAKEUSDT -m 150 --valid-interval 15m"
+        ./examples/dqn_orderbook/eval_agent.py BAKEUSDT -m 150 --valid-interval 30m"
       environment:
         - LOG_LEVEL=DEBUG
         - NVIDIA_VISIBLE_DEVICES=all
