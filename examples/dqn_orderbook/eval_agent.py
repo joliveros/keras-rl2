@@ -1,5 +1,4 @@
 #! /usr/bin/env python
-import sys
 
 from cached_property import cached_property_with_ttl
 from copy import deepcopy
@@ -7,7 +6,6 @@ from datetime import timedelta, datetime
 from examples.dqn_orderbook.symbol_agent import SymbolAgent
 from exchange_data.emitters import Messenger
 from exchange_data.models.resnet.study_wrapper import StudyWrapper
-from exchange_data.utils import DateTimeUtils
 from pytimeparse.timeparse import timeparse
 
 import alog
@@ -20,6 +18,7 @@ class NotEnoughTrialsException(Exception): pass
 
 
 class SymbolEvalAgent(StudyWrapper, Messenger):
+
     def __init__(self, symbol, env_name, eval_interval, valid_interval, memory, **kwargs):
         super().__init__(symbol=symbol, **kwargs)
         Messenger.__init__(self)
@@ -32,7 +31,6 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         self.split_gpu()
         self.on(eval_interval, self.emit)
         self.sub([eval_interval])
-        self.cached = False
 
     @property
     def best_trial_id(self):
@@ -49,19 +47,15 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 
     @cached_property_with_ttl(ttl=60*4)
     def agent(self):
-        if not self.cached:
-            agent = SymbolAgent(symbol=self.symbol,
-                                trial_id=self.best_trial_id,
-                                env=self.env,
-                                nb_steps=2,
-                                **self._kwargs)
+        agent = SymbolAgent(symbol=self.symbol,
+                            trial_id=self.best_trial_id,
+                            env=self.env,
+                            nb_steps=2,
+                            **self._kwargs)
 
-            agent.load_weights()
-            self.cached = True
+        agent.load_weights()
 
-            return agent.agent
-        else:
-            sys.exit(0)
+        return agent.agent
 
     @property
     def env(self):
