@@ -15,7 +15,7 @@ services:
         command: bash -c "source ~/.bashrc &&
             ./examples/dqn_orderbook/run.py LINAUSDT -i 270m -D 4 --summary-interval 30 -g 30s -w 2m
             --database-name binance_futures -l 22 -d 28 --leverage 10.0
-            --offset-interval 0m --test-interval 30m --nb-steps 6900 -m 150 -s 3 --cache"
+            --offset-interval 0m --test-interval 45m --nb-steps 39800 -m 150 -s 3 --cache"
         environment:
             - LOG_LEVEL=INFO
             - NVIDIA_VISIBLE_DEVICES=all
@@ -29,7 +29,7 @@ services:
 
     eval_agent:
       deploy:
-        replicas: 1
+        replicas: 0
       image: 'registry.rubercubic.com:5001/dqn-orderbook'
       volumes:
         - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/

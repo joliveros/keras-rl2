@@ -155,16 +155,12 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        # self.trial.suggest_int('test_num', 1, 2)
+        self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
-            lr=self.trial.suggest_float('lr', 1e-3, 1.0),
-            nb_steps=self.trial.suggest_float('nb_steps', 1e4, 5e4)
         )
 
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 30}m'
-
-        self._kwargs.pop('nb_steps', None)
 
         kwargs = self._kwargs.copy()
 
