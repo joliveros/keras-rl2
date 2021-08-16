@@ -8,7 +8,7 @@ networks:
 services:
     train:
         deploy:
-            replicas: 6
+            replicas: 5
         image: 'registry.rubercubic.com:5001/dqn-orderbook'
         volumes:
             - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
@@ -29,7 +29,7 @@ services:
 
     eval_agent:
       deploy:
-        replicas: 0
+        replicas: 1
       image: 'registry.rubercubic.com:5001/dqn-orderbook'
       volumes:
         - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
