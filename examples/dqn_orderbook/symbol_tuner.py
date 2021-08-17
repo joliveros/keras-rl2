@@ -155,12 +155,13 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        self.trial.suggest_int('test_num', 1, 2)
+        # self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
+            interval_minutes=self.trial.suggest_categorical('interval_minutes', range(4, 18))
         )
 
-        # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 30}m'
+        self._kwargs['interval'] = f'{hparams["interval_minutes"] * 15}m'
 
         kwargs = self._kwargs.copy()
 

@@ -40,12 +40,12 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 
         alog.info(df)
 
-        if df.shape[0] < 3:
+        if df.shape[0] < 1:
             raise NotEnoughTrialsException()
         else:
             return df['value'].idxmax()
 
-    @cached_property_with_ttl(ttl=60*22)
+    @cached_property_with_ttl(ttl=60*20)
     def agent(self):
         agent = SymbolAgent(symbol=self.symbol,
                             trial_id=self.best_trial_id,
