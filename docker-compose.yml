@@ -8,12 +8,12 @@ networks:
 services:
     train:
         deploy:
-            replicas: 4
+            replicas: 6
         image: 'registry.rubercubic.com:5001/dqn-orderbook'
         volumes:
             - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
         command: bash -c "source ~/.bashrc &&
-            ./examples/dqn_orderbook/run.py DENTUSDT -i 90m -D 4 --summary-interval 30 -g 30s -w 2m
+            ./examples/dqn_orderbook/run.py DENTUSDT -i 210m -D 4 --summary-interval 30 -g 30s -w 2m
             --database-name binance_futures -l 22 -d 28 --leverage 10.0
             --offset-interval 0m --test-interval 120m --nb-steps 15000 -m 150 -s 3"
         environment:
@@ -29,7 +29,7 @@ services:
 
     eval_agent:
       deploy:
-        replicas: 1
+        replicas: 0
       image: 'registry.rubercubic.com:5001/dqn-orderbook'
       volumes:
         - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
