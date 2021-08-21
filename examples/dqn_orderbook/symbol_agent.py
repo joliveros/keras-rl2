@@ -29,7 +29,7 @@ class SymbolAgent(object):
         symbol,
         optimizer: int = 0,
         cache_limit=1265,
-        lr=0.2428707,
+        lr=0.001,
         test_env=None,
         trial_id=0,
         window_length=1,

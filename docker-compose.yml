@@ -8,16 +8,16 @@ networks:
 services:
     train:
         deploy:
-            replicas: 5
+            replicas: 1
         image: 'registry.rubercubic.com:5001/dqn-orderbook'
         volumes:
             - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
         command: bash -c "source ~/.bashrc &&
-            ./examples/dqn_orderbook/run.py COTIUSDT -i 210m -D 4 --summary-interval 30 -g 30s -w 2m
-            --database-name binance_futures -l 22 -d 28 --leverage 10.0
-            --offset-interval 0m --test-interval 120m --nb-steps 12500 -m 150 -s 3"
+            ./examples/dqn_orderbook/run.py GTCUSDT -i 36h -D 5 --summary-interval 30 -g 30s -w 2m
+            --database-name binance_futures -l 40 -d 56 --leverage 2.0
+            --offset-interval 0m --test-interval 120m --nb-steps 41500 -m 150 -s 3"
         environment:
-            - LOG_LEVEL=INFO
+            - LOG_LEVEL=DEBUG
             - NVIDIA_VISIBLE_DEVICES=all
         networks:
             - public
@@ -29,12 +29,12 @@ services:
 
     eval_agent:
       deploy:
-        replicas: 1
+        replicas: 0
       image: 'registry.rubercubic.com:5001/dqn-orderbook'
       volumes:
         - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
       command: bash -c "source ~/.bashrc &&
-        ./examples/dqn_orderbook/eval_agent.py COTIUSDT -m 150 --valid-interval 9m"
+        ./examples/dqn_orderbook/eval_agent.py GTCUSDT -m 150 --valid-interval 9m"
       environment:
         - LOG_LEVEL=DEBUG
         - NVIDIA_VISIBLE_DEVICES=all

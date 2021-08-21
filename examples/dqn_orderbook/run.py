@@ -38,7 +38,7 @@ class SymbolAgentTuner(SymbolTuner):
 @click.option('--session-limit', '-s', default=None, type=int)
 @click.option('--summary-interval', default=4, type=int)
 @click.option('--test-interval', default='2h', type=str)
-@click.option('--trading-fee', default=4e-4, type=float)
+@click.option('--trading-fee', default=1e-3, type=float)
 @click.option('--window-size', '-w', default='2m', type=str)
 def main(**kwargs):
     SymbolAgentTuner(**kwargs)
