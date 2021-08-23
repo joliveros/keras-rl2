@@ -155,16 +155,16 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        # self.trial.suggest_int('test_num', 1, 2)
-        max_volume_quantile=self.trial.suggest_float('max_volume_quantile', 0.1, 0.99)
+        self.trial.suggest_int('test_num', 1, 2)
+        policy_value_max=self.trial.suggest_float('policy_value_max', 1e-2, 1.0)
 
         hparams = dict(
+            policy_value_max=policy_value_max
         )
 
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 15}m'
-        self._kwargs['max_volume_quantile'] = max_volume_quantile
 
-        self.trial.set_user_attr('params', self._kwargs)
+        # self.trial.set_user_attr('params', self._kwargs)
 
         kwargs = self._kwargs.copy()
 

@@ -4,7 +4,7 @@ from exchange_data.models.resnet.model import Model as ResnetModel
 from pathlib import Path
 from rl.agents import DQNAgent
 from rl.memory import SequentialMemory
-from rl.policy import GreedyQPolicy
+from rl.policy import GreedyQPolicy, LinearAnnealedPolicy, EpsGreedyQPolicy
 from tensorflow.python.keras.callbacks import TensorBoard, History
 from tensorflow.python.keras.optimizer_v2.adadelta import Adadelta
 from tensorflow.python.keras.optimizer_v2.adam import Adam
@@ -27,9 +27,10 @@ class SymbolAgent(object):
         env,
         nb_steps,
         symbol,
+        policy_value_max,
         optimizer: int = 0,
         cache_limit=1265,
-        lr=0.001,
+        lr=0.01,
         test_env=None,
         trial_id=0,
         window_length=1,
@@ -64,8 +65,16 @@ class SymbolAgent(object):
         # even the metrics!
         memory = SequentialMemory(limit=cache_limit, window_length=window_length)
         processor = OrderBookFrameProcessor()
-        policy = GreedyQPolicy()
+        # policy = GreedyQPolicy()
 
+        policy = LinearAnnealedPolicy(
+            EpsGreedyQPolicy(),
+            attr='eps',
+            nb_steps=10000,
+            value_max=policy_value_max,
+            value_min=0.0,
+            value_test=0.0
+        )
         self.agent = DQNAgent(
             delta_clip=1.,
             gamma=.99,
