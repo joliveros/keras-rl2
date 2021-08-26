@@ -50,6 +50,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         agent = SymbolAgent(symbol=self.symbol,
                             trial_id=self.best_trial_id,
                             env=self.env,
+                            policy_value_max=0.25,
                             nb_steps=2,
                             **self._kwargs)
 
@@ -63,8 +64,20 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         return gym.make(self.env_name, symbol=self.symbol, **kwargs)
 
     def emit(self, *args):
-        observation = deepcopy(self.env.reset())
-        self.publish(f'{self.symbol}_prediction', str(self.agent.forward(observation)))
+        env = self.env
+        env.reset()
+
+        done = False
+
+        while not done:
+            obs, reward, _done, meta = env.step(0)
+            prediction = str(self.agent.forward(deepcopy(obs)))
+            self.agent.backward(0.0, terminal=False)
+            done = _done
+
+        alog.info(prediction)
+
+        self.publish(f'{self.symbol}_prediction', prediction)
 
     def split_gpu(self):
         physical_devices = tf.config.list_physical_devices('GPU')
@@ -82,7 +95,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 @click.argument('symbol', type=str)
 @click.option('--cache', is_flag=True)
 @click.option('--database-name', default='binance_futures', type=str)
-@click.option('--depth', '-d', default=28, type=int)
+@click.option('--depth', '-d', default=18, type=int)
 @click.option('--env-name', default='orderbook-frame-env-v0', type=str)
 @click.option('--eval-interval', '-e', default='30s', type=str)
 @click.option('--group-by', '-g', default='30s', type=str)
@@ -95,8 +108,8 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 @click.option('--min-capital', default=1.0, type=float)
 @click.option('--min-change', default=0.001, type=float)
 @click.option('--offset-interval', default='0h', type=str)
-@click.option('--round-decimals', '-D', default=4, type=int)
-@click.option('--sequence-length', '-l', default=22, type=int)
+@click.option('--round-decimals', '-D', default=6, type=int)
+@click.option('--sequence-length', '-l', default=3, type=int)
 @click.option('--summary-interval', default=4, type=int)
 @click.option('--valid-interval', default='30m', type=str)
 @click.option('--window-size', '-w', default='4m', type=str)
