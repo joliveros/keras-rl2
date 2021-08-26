@@ -29,11 +29,11 @@ class SymbolAgent(object):
         symbol,
         policy_value_max,
         optimizer: int = 0,
-        cache_limit=1265,
-        lr=0.01,
+        cache_limit=4000,
+        lr=0.001,
         test_env=None,
         trial_id=0,
-        window_length=1,
+        window_length=3,
         **kwargs
     ):
         kwargs['symbol'] = symbol
@@ -70,11 +70,12 @@ class SymbolAgent(object):
         policy = LinearAnnealedPolicy(
             EpsGreedyQPolicy(),
             attr='eps',
-            nb_steps=10000,
+            nb_steps=int(2000),
             value_max=policy_value_max,
             value_min=0.0,
             value_test=0.0
         )
+
         self.agent = DQNAgent(
             delta_clip=1.,
             gamma=.99,

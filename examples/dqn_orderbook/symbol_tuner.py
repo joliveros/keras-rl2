@@ -150,16 +150,15 @@ class SymbolTuner(StudyWrapper, Messenger):
         test_interval = kwargs['test_interval']
         kwargs['interval'] = test_interval
         kwargs['offset_interval'] = '0h'
-        kwargs['is_test'] = False
+        kwargs['is_test'] = True
         return gym.make(self.env_name, **kwargs)
 
     @property
     def agent(self):
         self.trial.suggest_int('test_num', 1, 2)
-        policy_value_max=self.trial.suggest_float('policy_value_max', 1e-2, 1.0)
+        # policy_value_max=self.trial.suggest_float('policy_value_max', 1e-2, 1.0)
 
         hparams = dict(
-            policy_value_max=policy_value_max
         )
 
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 15}m'
@@ -172,6 +171,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             batch_size=20,
             env=self.env,
             env_name=self.env_name,
+            policy_value_max=0.25,
             short_reward_enabled=True,
             target_model_update=43,
             test_env=self.test_env,
