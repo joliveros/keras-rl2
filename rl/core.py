@@ -396,6 +396,7 @@ class Agent:
             episode_logs = {
                 'episode_reward': episode_reward,
                 'nb_steps': episode_step,
+                'info': accumulated_info,
             }
             callbacks.on_episode_end(episode, episode_logs)
         callbacks.on_train_end()
