@@ -167,9 +167,6 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 12, 48)
         # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 12, 48)
 
-        self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 1e4, 5e4)
-        self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-6, 1e3)
-
         self._kwargs['max_flat_position_length'] = 44
         self._kwargs['max_position_length'] = 40
 
