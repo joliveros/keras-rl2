@@ -155,7 +155,7 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        self.trial.suggest_int('test_num', 1, 2)
+        # self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
         )
@@ -164,8 +164,11 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         # self.trial.set_user_attr('params', self._kwargs)
 
-        self._kwargs['max_flat_position_length'] = 43
-        self._kwargs['max_position_length'] = 20
+        self._kwargs['max_flat_position_length'] = self.trial.suggest_float('max_flat_position_length', 4, 56)
+        self._kwargs['max_position_length'] = self.trial.suggest_float('max_position_length', 4, 56)
+
+        # self._kwargs['max_flat_position_length'] = 43
+        # self._kwargs['max_position_length'] = 20
 
         kwargs = self._kwargs.copy()
 
