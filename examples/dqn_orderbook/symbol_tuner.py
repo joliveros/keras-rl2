@@ -158,17 +158,15 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
+            interval_minutes=self.trial.suggest_int('interval_minutes', 4, 48)
         )
 
-        # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 15}m'
+        self._kwargs['interval'] = f'{hparams["interval_minutes"] * 30}m'
 
         # self.trial.set_user_attr('params', self._kwargs)
 
-        self._kwargs['max_flat_position_length'] = self.trial.suggest_float('max_flat_position_length', 4, 56)
-        self._kwargs['max_position_length'] = self.trial.suggest_float('max_position_length', 4, 56)
-
-        # self._kwargs['max_flat_position_length'] = 43
-        # self._kwargs['max_position_length'] = 20
+        self._kwargs['max_flat_position_length'] = 6
+        self._kwargs['max_position_length'] = 46
 
         kwargs = self._kwargs.copy()
 
