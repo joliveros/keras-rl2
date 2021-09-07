@@ -23,7 +23,7 @@ class SymbolAgentTuner(SymbolTuner):
 @click.option('--interval', '-i', default='30m', type=str)
 @click.option('--leverage', default=1.0, type=float)
 @click.option('--max-loss', default=-0.999, type=float)
-@click.option('--max-negative-pnl', default=-0.999, type=float)
+@click.option('--max-negative-pnl', default=-0.01, type=float)
 @click.option('--max-summary', default=30, type=int)
 @click.option('--memory', '-m', default=0, type=int)
 @click.option('--min-capital', default=1.0, type=float)
@@ -38,7 +38,7 @@ class SymbolAgentTuner(SymbolTuner):
 @click.option('--session-limit', '-s', default=None, type=int)
 @click.option('--summary-interval', default=4, type=int)
 @click.option('--test-interval', default='2h', type=str)
-@click.option('--trading-fee', default=8e-4, type=float)
+@click.option('--trading-fee', default=4e-4, type=float)
 @click.option('--window-size', '-w', default='2m', type=str)
 def main(**kwargs):
     SymbolAgentTuner(**kwargs)

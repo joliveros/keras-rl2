@@ -151,6 +151,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         kwargs['interval'] = test_interval
         kwargs['offset_interval'] = '0h'
         kwargs['is_test'] = True
+        kwargs['random_frame_start'] = False
         return gym.make(self.env_name, **kwargs)
 
     @property
@@ -158,15 +159,22 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
-            interval_minutes=self.trial.suggest_int('interval_minutes', 4, 48)
+            # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 48)
         )
 
-        self._kwargs['interval'] = f'{hparams["interval_minutes"] * 30}m'
+        # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 30}m'
 
         # self.trial.set_user_attr('params', self._kwargs)
+        # self._kwargs['random_frame_start'] = self.trial.suggest_categorical('random_frame_start', [True, False])
+        # self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 4, 200)
+        # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 4, 200)
 
-        self._kwargs['max_flat_position_length'] = 6
-        self._kwargs['max_position_length'] = 46
+        self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 12)
+        self._kwargs['window_length'] = self.trial.suggest_int('window_length', 2, 12)
+
+        self._kwargs['max_flat_position_length'] = 200
+        self._kwargs['max_position_length'] = 48
+        self._kwargs['random_frame_start'] = True
 
         kwargs = self._kwargs.copy()
 
