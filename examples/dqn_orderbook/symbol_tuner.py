@@ -159,19 +159,10 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
-            # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 48)
+            interval_minutes=self.trial.suggest_int('interval_minutes', 4, 48)
         )
 
-        # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 30}m'
-
-        # self.trial.set_user_attr('params', self._kwargs)
-        # self._kwargs['random_frame_start'] = self.trial.suggest_categorical('random_frame_start', [True, False])
-        # self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 4, 200)
-        # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 4, 200)
-
-        self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 12)
-        self._kwargs['window_length'] = self.trial.suggest_int('window_length', 2, 12)
-        self._kwargs['depth'] = self.trial.suggest_int('depth', 8, 48)
+        self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
 
         self._kwargs['max_flat_position_length'] = 200
         self._kwargs['max_position_length'] = 48
@@ -182,6 +173,8 @@ class SymbolTuner(StudyWrapper, Messenger):
         env = self.env
         env.reset()
         self._kwargs['quantile'] = env.quantile
+
+        self.trial.set_user_attr('params', self._kwargs)
 
         params = dict(
             batch_size=20,
