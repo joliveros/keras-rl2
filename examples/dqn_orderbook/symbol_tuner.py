@@ -171,6 +171,7 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 12)
         self._kwargs['window_length'] = self.trial.suggest_int('window_length', 2, 12)
+        self._kwargs['depth'] = self.trial.suggest_int('depth', 8, 48)
 
         self._kwargs['max_flat_position_length'] = 200
         self._kwargs['max_position_length'] = 48
@@ -178,9 +179,13 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         kwargs = self._kwargs.copy()
 
+        env = self.env
+        env.reset()
+        self._kwargs['quantile'] = env.quantile
+
         params = dict(
             batch_size=20,
-            env=self.env,
+            env=env,
             env_name=self.env_name,
             policy_value_max=0.25,
             short_reward_enabled=True,
