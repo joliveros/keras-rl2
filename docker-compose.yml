@@ -15,7 +15,7 @@ services:
         command: bash -c "source ~/.bashrc &&
             ./examples/dqn_orderbook/run.py TLMUSDT -i 42h -D 4 --summary-interval 20 -g 30s -w 2m
             --database-name binance_futures -l 2 -d 16 --leverage 2.0
-            --offset-interval 4h --test-interval 4h --nb-steps 14000 -m 145 -s 3 --max-negative-pnl -0.025"
+            --offset-interval 4h --test-interval 4h --nb-steps 14000 -m 145 -s 3 --max-negative-pnl -0.025 --cache"
         environment:
             - LOG_LEVEL=INFO
             - NVIDIA_VISIBLE_DEVICES=all
