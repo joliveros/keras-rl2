@@ -47,21 +47,50 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 
     @cached_property_with_ttl(ttl=60*6)
     def agent(self):
-        agent = SymbolAgent(symbol=self.symbol,
+        params = self.best_trial_params
+        params.pop('cache', None)
+        params.pop('interval', None)
+        params.pop('nb_steps', None)
+        params.pop('offset_interval', None)
+
+        agent = SymbolAgent(
                             trial_id=self.best_trial_id,
                             env=self.env,
                             policy_value_max=0.25,
                             nb_steps=2,
-                            **self._kwargs)
+                            **params)
 
         agent.load_weights()
 
         return agent.agent
 
     @property
+    def best_trial_params(self):
+        best_trial_id = self.best_trial_id
+        df = self.study.trials_dataframe()
+
+        trial_row = df.iloc[best_trial_id]
+
+        return trial_row['user_attrs_params']
+
+    @property
     def env(self):
-        kwargs = self._kwargs.copy()
-        return gym.make(self.env_name, symbol=self.symbol, **kwargs)
+        params = self.best_trial_params
+        params.pop('offset_interval', None)
+        params.pop('interval', None)
+        params.pop('cache', None)
+
+        interval = self.interval_for_env(params)
+
+        return gym.make(self.env_name,
+                        interval=interval,
+                        **params)
+
+    def interval_for_env(self, params):
+        group_by = params['group_by']
+        sequence_length = params['sequence_length']
+        interval = f'{timeparse(group_by) * sequence_length * self._kwargs["window_length"]}s'
+        return interval
 
     def emit(self, *args):
         env = self.env
@@ -107,14 +136,12 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 @click.option('--max-position-length', default=20, type=int)
 @click.option('--max-summary', default=30, type=int)
 @click.option('--memory', '-m', default=400, type=int)
+@click.option('--window-length', default=3, type=int)
 @click.option('--min-capital', default=1.0, type=float)
 @click.option('--min-change', default=0.001, type=float)
 @click.option('--offset-interval', default='0h', type=str)
-@click.option('--round-decimals', '-D', default=6, type=int)
-@click.option('--sequence-length', '-l', default=3, type=int)
 @click.option('--summary-interval', default=4, type=int)
 @click.option('--valid-interval', default='30m', type=str)
-@click.option('--window-size', '-w', default='4m', type=str)
 def main(**kwargs):
     SymbolEvalAgent(**kwargs)
 
