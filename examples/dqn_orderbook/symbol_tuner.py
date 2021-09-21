@@ -173,12 +173,12 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
         # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 10000, 30000)
 
-        self._kwargs['window_length'] = self.trial.suggest_int('window_length', 2, 8)
-        self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 14, 48)
-        self._kwargs['depth'] = self.trial.suggest_int('depth', 32, 96)
-        self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-7, 1e-4)
-        self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -5/100, -0.5/100)
-        self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 2, 48)
+        self._kwargs['window_length'] = self.trial.suggest_int('window_length', 2, 16)
+        self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 14, 96)
+        self._kwargs['depth'] = self.trial.suggest_int('depth', 8, 96)
+        self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-7, 1e-2)
+        self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
+        self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
 
         self._kwargs['max_flat_position_length'] = 200
         # self._kwargs['max_position_length'] = 48
