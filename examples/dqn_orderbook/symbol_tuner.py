@@ -156,32 +156,31 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        # self.trial.suggest_int('test_num', 1, 2)
+        self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
-            # base_filter_size=self.trial.suggest_int('base_filter_size', 2, 16),
-            # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 16),
-            # block_kernel=self.trial.suggest_int('block_kernel', 1, 8),
-            # kernel_size=self.trial.suggest_int('kernel_size', 1, 8),
-            # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 8),
-            # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 8),
-            # padding=self.trial.suggest_int('padding', 1, 8),
-            # strides=self.trial.suggest_int('strides', 1, 8),
+            # base_filter_size=self.trial.suggest_int('base_filter_size', 2, 24),
+            # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 24),
+            # block_kernel=self.trial.suggest_int('block_kernel', 1, 12),
             # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 96)
+            # kernel_size=self.trial.suggest_int('kernel_size', 1, 12),
+            # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
+            # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
+            # padding=self.trial.suggest_int('padding', 1, 8),
+            # strides=self.trial.suggest_int('strides', 1, 16),
         )
 
+        # self._kwargs['depth'] = self.trial.suggest_int('depth', 8, 96)
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
+        # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-7, 1e-2)
+        # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
+        # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
         # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 10000, 30000)
-
-        self._kwargs['window_length'] = self.trial.suggest_int('window_length', 2, 16)
-        self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 14, 96)
-        self._kwargs['depth'] = self.trial.suggest_int('depth', 8, 96)
-        self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-7, 1e-2)
-        self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
-        self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
+        # self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 14, 96)
+        # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 2, 16)
 
         self._kwargs['max_flat_position_length'] = 200
-        # self._kwargs['max_position_length'] = 48
+        self._kwargs['max_position_length'] = 58
         self._kwargs['random_frame_start'] = True
 
         kwargs = self._kwargs.copy()
