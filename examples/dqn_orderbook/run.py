@@ -23,7 +23,7 @@ class SymbolAgentTuner(SymbolTuner):
 @click.option('--interval', '-i', default='30m', type=str)
 @click.option('--leverage', default=1.0, type=float)
 @click.option('--max-loss', default=-0.999, type=float)
-@click.option('--max-negative-pnl', default=-0.09738352, type=float)
+@click.option('--max-negative-pnl', default=-0.0587896, type=float)
 @click.option('--max-summary', default=30, type=int)
 @click.option('--memory', '-m', default=0, type=int)
 @click.option('--min-capital', default=1.0, type=float)
