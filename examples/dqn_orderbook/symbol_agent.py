@@ -30,7 +30,7 @@ class SymbolAgent(object):
         policy_value_max,
         optimizer: int = 0,
         cache_limit=4000,
-        lr=0.001045256,
+        lr=0.001985488,
         test_env=None,
         trial_id=0,
         window_length=3,

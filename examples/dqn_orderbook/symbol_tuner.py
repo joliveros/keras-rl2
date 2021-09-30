@@ -172,7 +172,7 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 8, 96)
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
-        self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-8, 4e-3)
+        # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-8, 4e-3)
         # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
         # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
         # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 10000, 30000)
