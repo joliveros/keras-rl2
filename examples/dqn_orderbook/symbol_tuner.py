@@ -32,16 +32,19 @@ class SymbolTuner(StudyWrapper, Messenger):
                  retry,
                  min_capital,
                  memory,
+                 train_recent_data=True,
                  num_locks=2,
                  **kwargs):
 
         self._kwargs = kwargs.copy()
+        self._kwargs['train_recent_data'] = train_recent_data
 
         super().__init__(**kwargs)
 
         StudyWrapper.__init__(self, **kwargs)
         Messenger.__init__(self, **kwargs)
 
+        self.train_recent_data = train_recent_data
         self.retry = retry
         self.export_best = export_best
         self.clear_runs = clear_runs
@@ -145,6 +148,14 @@ class SymbolTuner(StudyWrapper, Messenger):
         return gym.make(self.env_name, **kwargs)
 
     @property
+    def env2(self):
+        kwargs = self._kwargs.copy()
+        kwargs['interval'] = kwargs['interval2']
+        kwargs['offset_interval'] = '0h'
+        kwargs['random_frame_start'] = True
+        return gym.make(self.env_name, **kwargs)
+
+    @property
     def test_env(self):
         kwargs = self._kwargs.copy()
         test_interval = kwargs['test_interval']
@@ -163,6 +174,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 24),
             # block_kernel=self.trial.suggest_int('block_kernel', 1, 12),
             # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 96)
+            interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
             # kernel_size=self.trial.suggest_int('kernel_size', 1, 12),
             # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
             # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
@@ -173,6 +185,9 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 2, 4)
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 8, 96)
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
+        self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
+        self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 200, 6000)
+        self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
         # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-8, 4e-3)
         # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
         # self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 0, 200)
@@ -191,6 +206,10 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         env = self.env
         env.reset()
+
+        env2 = self.env2
+        env2.reset()
+
         self._kwargs['quantile'] = env.quantile
 
         self.trial.set_user_attr('params', self._kwargs)
@@ -198,6 +217,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         params = dict(
             batch_size=20,
             env=env,
+            env2=env2,
             env_name=self.env_name,
             policy_value_max=0.25,
             short_reward_enabled=True,

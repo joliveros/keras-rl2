@@ -19,7 +19,14 @@ class NotEnoughTrialsException(Exception): pass
 
 class SymbolEvalAgent(StudyWrapper, Messenger):
 
-    def __init__(self, symbol, env_name, eval_interval, valid_interval, memory, **kwargs):
+    def __init__(
+            self,
+            symbol,
+            env_name,
+            eval_interval,
+            valid_interval,
+            memory,
+            **kwargs):
         super().__init__(symbol=symbol, **kwargs)
         Messenger.__init__(self)
 

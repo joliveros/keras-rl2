@@ -25,9 +25,12 @@ class SymbolAgent(object):
     def __init__(
         self,
         env,
+        env2,
         nb_steps,
+        nb_steps_2,
         symbol,
         policy_value_max,
+        train_recent_data,
         optimizer: int = 0,
         cache_limit=4000,
         lr=0.001985488,
@@ -46,8 +49,11 @@ class SymbolAgent(object):
         self._optimizer = optimizer
         self.lr = lr
         self.nb_steps = nb_steps
+        self.nb_steps_2 = nb_steps_2
         self.env = env
+        self.env2 = env2
         self.test_env = test_env
+        self.train_recent_data = train_recent_data
 
         input_shape = (window_length, kwargs['sequence_length'], kwargs['depth'] * 2, 1)
         np.random.seed(123)
@@ -135,6 +141,9 @@ class SymbolAgent(object):
 
         # callbacks += [FileLogger(log_filename, interval=100)]
         self.agent.fit(self.env, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps, log_interval=1000)
+
+        if self.train_recent_data:
+            self.agent.fit(self.env2, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps_2, log_interval=1000)
 
         # After training is done, we save the final weights one more time.
         self.agent.save_weights(self.weights_filename, overwrite=True)
