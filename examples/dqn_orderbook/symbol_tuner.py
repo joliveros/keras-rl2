@@ -151,8 +151,6 @@ class SymbolTuner(StudyWrapper, Messenger):
     def env2(self):
         kwargs = self._kwargs.copy()
         kwargs['interval'] = kwargs['interval2']
-        kwargs['offset_interval'] = '0h'
-        kwargs['random_frame_start'] = True
         return gym.make(self.env_name, **kwargs)
 
     @property
@@ -167,19 +165,19 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        # self.trial.suggest_int('test_num', 1, 2)
+        self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
-            base_filter_size=self.trial.suggest_int('base_filter_size', 2, 24),
-            block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 24),
-            block_kernel=self.trial.suggest_int('block_kernel', 1, 12),
+            # base_filter_size=self.trial.suggest_int('base_filter_size', 2, 24),
+            # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 24),
+            # block_kernel=self.trial.suggest_int('block_kernel', 1, 12),
             # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 96)
             # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
-            kernel_size=self.trial.suggest_int('kernel_size', 1, 12),
-            max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
-            max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
-            padding=self.trial.suggest_int('padding', 1, 8),
-            strides=self.trial.suggest_int('strides', 1, 16),
+            # kernel_size=self.trial.suggest_int('kernel_size', 1, 12),
+            # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
+            # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
+            # padding=self.trial.suggest_int('padding', 1, 8),
+            # strides=self.trial.suggest_int('strides', 1, 16),
         )
 
         # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 2, 4)
