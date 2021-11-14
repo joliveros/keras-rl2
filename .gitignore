@@ -11,3 +11,6 @@ examples/checkpoint
 .idea
 keras_rl2.egg-info
 checkpoint
+build
+.egg
+*.egg

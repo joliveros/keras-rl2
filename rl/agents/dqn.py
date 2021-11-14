@@ -161,6 +161,7 @@ class DQNAgent(AbstractDQNAgent):
         return config
 
     def compile(self, optimizer, metrics=[]):
+
         metrics += [mean_q]  # register default metrics
 
         # We never train the target model, hence we can set the optimizer and loss arbitrarily.

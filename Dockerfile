@@ -8,6 +8,8 @@ USER root
 
 COPY . .
 
+RUN pip install --upgrade pip
+
 RUN pip install -e .
 
 USER joliveros

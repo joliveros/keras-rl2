@@ -1,6 +1,7 @@
 from setuptools import setup
 from setuptools import find_packages
 
+import alog
 
 setup(name='keras-rl2',
       version='1.0.4',
@@ -9,7 +10,7 @@ setup(name='keras-rl2',
       author_email='taylor.mcnally@emory.edu',
       url='https://github.com/wau/keras-rl2',
       license='MIT',
-      install_requires=['tensorflow==2.5.0'],
+      install_requires=['exchange-data'],
       extras_require={
           'gym': ['gym'],
       },

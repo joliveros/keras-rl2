@@ -10,6 +10,7 @@ from tensorflow.python.keras.optimizer_v2.adadelta import Adadelta
 from tensorflow.python.keras.optimizer_v2.adam import Adam
 from tensorflow.python.keras.optimizer_v2.adamax import Adamax
 
+
 import alog
 import gym
 import numpy as np

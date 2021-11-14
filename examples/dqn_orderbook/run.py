@@ -1,9 +1,8 @@
 #! /usr/bin/env python
 
-from examples.dqn_orderbook.symbol_tuner import SymbolTuner
-
 import click
 import tgym.envs
+from examples.dqn_orderbook.symbol_tuner import SymbolTuner
 
 
 class SymbolAgentTuner(SymbolTuner):
