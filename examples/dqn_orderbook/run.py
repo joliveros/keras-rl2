@@ -20,7 +20,7 @@ class SymbolAgentTuner(SymbolTuner):
 @click.option('--export-best', '-e', is_flag=True)
 @click.option('--group-by', '-g', default='30s', type=str)
 @click.option('--interval', '-i', default='30m', type=str)
-@click.option('--interval2', '-i', default='30m', type=str)
+@click.option('--interval2', default='30m', type=str)
 @click.option('--leverage', default=1.0, type=float)
 @click.option('--max-loss', default=-0.999, type=float)
 @click.option('--max-negative-pnl', default=-0.0587896, type=float)
