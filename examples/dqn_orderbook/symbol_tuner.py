@@ -182,8 +182,8 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 2, 4)
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 8, 96)
-        # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
-        # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
+        self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
+        self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
         self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 200, 6000)
         # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
         # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-8, 4e-3)
