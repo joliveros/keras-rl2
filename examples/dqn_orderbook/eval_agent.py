@@ -12,7 +12,9 @@ import alog
 import click
 import gym
 import tensorflow as tf
+import pandas as pd
 import tgym.envs
+
 
 class NotEnoughTrialsException(Exception): pass
 
@@ -45,6 +47,8 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         min_datetime_completed = datetime.utcnow() - timedelta(seconds=timeparse(self.valid_interval))
         df = df.loc[df['datetime_complete'] > min_datetime_completed]
 
+        pd.set_option('display.max_rows', len(df) + 1)
+
         alog.info(df)
 
         if df.shape[0] < 1:
@@ -52,20 +56,22 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         else:
             return df['value'].idxmax()
 
-    @cached_property_with_ttl(ttl=60*15)
+    @cached_property_with_ttl(ttl=60 * 15)
     def agent(self):
         params = self.best_trial_params
         params.pop('cache', None)
         params.pop('interval', None)
         params.pop('nb_steps', None)
         params.pop('offset_interval', None)
+        params.pop('random_frame_start', None)
 
         agent = SymbolAgent(
-                            trial_id=self.best_trial_id,
-                            env=self.env,
-                            policy_value_max=0.25,
-                            nb_steps=2,
-                            **params)
+            env=self.env,
+            nb_steps=2,
+            policy_value_max=0.25,
+            random_frame_start=False,
+            trial_id=self.best_trial_id,
+            **params)
 
         agent.load_weights()
 
@@ -83,13 +89,17 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
     @property
     def env(self):
         params = self.best_trial_params
-        params.pop('offset_interval', None)
-        params.pop('interval', None)
+        params = {**params, **self._kwargs}
+
         params.pop('cache', None)
+        params.pop('interval', None)
+        params.pop('offset_interval', None)
+        params.pop('random_frame_start', None)
 
         interval = self.interval_for_env(params)
 
         return gym.make(self.env_name,
+                        random_frame_start=False,
                         interval=interval,
                         **params)
 
@@ -123,31 +133,20 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
                 physical_devices[0],
                 [
                     tf.config.
-                    LogicalDeviceConfiguration(memory_limit=self.memory),
+                        LogicalDeviceConfiguration(memory_limit=self.memory),
                 ])
 
 
 @click.command()
 @click.argument('symbol', type=str)
-@click.option('--cache', is_flag=True)
 @click.option('--database-name', default='binance_futures', type=str)
-@click.option('--depth', '-d', default=18, type=int)
 @click.option('--env-name', default='orderbook-frame-env-v0', type=str)
 @click.option('--eval-interval', '-e', default='30s', type=str)
-@click.option('--group-by', '-g', default='30s', type=str)
 @click.option('--interval', '-i', default='1m', type=str)
-@click.option('--leverage', default=1.0, type=float)
-@click.option('--max-flat-position-length', default=43, type=int)
-@click.option('--max-loss', default=-0.01, type=float)
-@click.option('--max-negative-pnl', default=-10/100, type=float)
-@click.option('--max-position-length', default=20, type=int)
-@click.option('--max-summary', default=30, type=int)
 @click.option('--memory', '-m', default=400, type=int)
 @click.option('--window-length', default=3, type=int)
-@click.option('--min-capital', default=1.0, type=float)
-@click.option('--min-change', default=0.001, type=float)
 @click.option('--offset-interval', default='0h', type=str)
-@click.option('--summary-interval', default=4, type=int)
+@click.option('--summary-interval', default=1, type=int)
 @click.option('--valid-interval', default='30m', type=str)
 def main(**kwargs):
     SymbolEvalAgent(**kwargs)

@@ -30,12 +30,12 @@ services:
 
     eval_agent:
       deploy:
-        replicas: 0
+        replicas: 1
       image: 'registry.rubercubic.com:5001/dqn-orderbook'
       volumes:
         - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
       command: bash -c "source ~/.bashrc &&
-        ./examples/dqn_orderbook/eval_agent.py LRCUSDT --valid-interval 1h -d 48 -m 170"
+        ./examples/dqn_orderbook/eval_agent.py LRCUSDT --valid-interval 1h -m 170"
       environment:
         - LOG_LEVEL=DEBUG
         - NVIDIA_VISIBLE_DEVICES=all
