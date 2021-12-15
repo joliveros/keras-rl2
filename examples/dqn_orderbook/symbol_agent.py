@@ -26,12 +26,12 @@ class SymbolAgent(object):
     def __init__(
         self,
         env,
-        env2,
         nb_steps,
         nb_steps_2,
         symbol,
         policy_value_max,
         train_recent_data,
+        env2=None,
         optimizer: int = 0,
         cache_limit=4000,
         lr=0.001985488,

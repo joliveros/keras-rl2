@@ -52,7 +52,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         else:
             return df['value'].idxmax()
 
-    @cached_property_with_ttl(ttl=60*6)
+    @cached_property_with_ttl(ttl=60*15)
     def agent(self):
         params = self.best_trial_params
         params.pop('cache', None)
