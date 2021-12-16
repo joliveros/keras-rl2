@@ -161,6 +161,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         kwargs['offset_interval'] = '0h'
         kwargs['is_test'] = True
         kwargs['random_frame_start'] = False
+        kwargs['max_short_position_length'] = -1
         return gym.make(self.env_name, **kwargs)
 
     @property
