@@ -180,8 +180,9 @@ class SymbolTuner(StudyWrapper, Messenger):
             # strides=self.trial.suggest_int('strides', 1, 16),
         )
 
-        # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 2, 4)
-        self._kwargs['depth'] = self.trial.suggest_int('depth', 8, 48)
+        self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 4, 48)
+        # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 3, 5)
+        # self._kwargs['depth'] = self.trial.suggest_int('depth', 8, 48)
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
         # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
         # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 200, 6000)
@@ -199,6 +200,9 @@ class SymbolTuner(StudyWrapper, Messenger):
         self._kwargs['max_flat_position_length'] = 44
         self._kwargs['max_position_length'] = 31
         self._kwargs['random_frame_start'] = True
+
+        self._kwargs['num_conv'] = 5
+
 
         kwargs = self._kwargs.copy()
 
