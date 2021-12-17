@@ -183,8 +183,8 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         # self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 4, 48)
         self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 4, 5)
-        # self._kwargs['depth'] = self.trial.suggest_int('depth', 8, 48)
-        # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
+        # self._kwargs['depth'] = self.trial.suggest_int('depth', 2, 12)
+        # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m' 
         # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
         # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 200, 6000)
         # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
@@ -193,7 +193,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 0, 200)
         # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
         # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 10000, 30000)
-        # self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 14, 96)
+        self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 16)
         # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 2, 16)
 
         # self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 3, 16)
