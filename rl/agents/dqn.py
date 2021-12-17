@@ -103,8 +103,8 @@ class DQNAgent(AbstractDQNAgent):
         super().__init__(*args, **kwargs)
 
         # Validate (important) input.
-        # if list(model.output.shape) != list((None, self.nb_actions)):
-        #     raise ValueError(f'Model output "{model.output}" has invalid shape. DQN expects a model that has one dimension for each action, in this case {self.nb_actions}.')
+        if list(model.output.shape) != list((None, self.nb_actions)):
+            raise ValueError(f'Model output "{model.output}" has invalid shape. DQN expects a model that has one dimension for each action, in this case {self.nb_actions}.')
 
         # Parameters.
         self.enable_double_dqn = enable_double_dqn

@@ -169,20 +169,20 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
-            base_filter_size=self.trial.suggest_int('base_filter_size', 2, 24),
-            block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 24),
-            block_kernel=self.trial.suggest_int('block_kernel', 1, 12),
+            base_filter_size=self.trial.suggest_int('base_filter_size', 2, 8),
+            block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 8),
+            block_kernel=self.trial.suggest_int('block_kernel', 1, 8),
             # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 96),
             # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
-            kernel_size=self.trial.suggest_int('kernel_size', 1, 12),
-            max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
-            max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
-            padding=self.trial.suggest_int('padding', 1, 8),
-            strides=self.trial.suggest_int('strides', 1, 16),
+            kernel_size=self.trial.suggest_int('kernel_size', 1, 8),
+            # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
+            # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
+            # padding=self.trial.suggest_int('padding', 1, 8),
+            # strides=self.trial.suggest_int('strides', 1, 16),
         )
 
         # self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 4, 48)
-        # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 3, 5)
+        self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 4, 5)
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 8, 48)
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
         # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'

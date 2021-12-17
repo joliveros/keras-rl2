@@ -130,6 +130,7 @@ class Agent:
                     # Obtain the initial observation by resetting the environment.
                     self.reset_states()
                     observation = deepcopy(env.reset())
+
                     if self.processor is not None:
                         observation = self.processor.process_observation(observation)
                     assert observation is not None
