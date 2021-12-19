@@ -34,6 +34,7 @@ class SymbolAgent(object):
         env2=None,
         optimizer: int = 0,
         cache_limit=4000,
+        eps_greedy_policy_steps=0,
         lr=0.001985488,
         test_env=None,
         trial_id=0,
@@ -53,6 +54,7 @@ class SymbolAgent(object):
         self.nb_steps_2 = nb_steps_2
         self.env = env
         self.env2 = env2
+        self.eps_greedy_policy_steps = eps_greedy_policy_steps
         self.test_env = test_env
         self.train_recent_data = train_recent_data
 
@@ -77,7 +79,7 @@ class SymbolAgent(object):
         policy = LinearAnnealedPolicy(
             EpsGreedyQPolicy(),
             attr='eps',
-            nb_steps=int(2000),
+            nb_steps=int(self.eps_greedy_policy_steps),
             value_max=policy_value_max,
             value_min=0.0,
             value_test=0.0
