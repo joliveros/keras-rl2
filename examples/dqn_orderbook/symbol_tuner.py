@@ -166,29 +166,29 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        # self.trial.suggest_int('test_num', 1, 2)
+        self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
             # base_filter_size=self.trial.suggest_int('base_filter_size', 2, 8),
             # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 10),
             # block_kernel=self.trial.suggest_int('block_kernel', 1, 8),
-            interval_minutes=self.trial.suggest_int('interval_minutes', 4, 96),
-            interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
+            # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 96),
+            # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
             # kernel_size=self.trial.suggest_int('kernel_size', 1, 8),
             # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
             # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
             # padding=self.trial.suggest_int('padding', 1, 8),
             # strides=self.trial.suggest_int('strides', 1, 16),
-            eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 4000)
+            # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 4000)
         )
 
         # self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 12, 48)
         # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 4, 5)
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 2, 12)
-        self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
-        self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
-        self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 200, 6000)
-        self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 7000, 30000)
+        # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
+        # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
+        # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 200, 6000)
+        # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 7000, 30000)
         # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
         # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-8, 4e-3)
         # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
