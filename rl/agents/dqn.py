@@ -144,7 +144,6 @@ class DQNAgent(AbstractDQNAgent):
             test_policy = GreedyQPolicy()
         self.policy = policy
         self.test_policy = test_policy
-
         # State.
         self.reset_states()
 

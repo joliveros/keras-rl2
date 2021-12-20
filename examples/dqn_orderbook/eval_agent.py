@@ -65,6 +65,8 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         params.pop('offset_interval', None)
         params.pop('random_frame_start', None)
 
+        alog.info(alog.pformat(params))
+
         agent = SymbolAgent(
             env=self.env,
             nb_steps=2,
