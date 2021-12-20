@@ -84,9 +84,9 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         best_trial_id = self.best_trial_id
         df = self.study.trials_dataframe()
 
-        trial_row = df.iloc[best_trial_id]
+        trial_row = df.loc[df['number'] == best_trial_id].tail(1)
 
-        return trial_row['user_attrs_params']
+        return trial_row['user_attrs_params'].to_dict()[best_trial_id]
 
     @property
     def env(self):
@@ -99,7 +99,6 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         params.pop('random_frame_start', None)
 
         interval = self.interval_for_env(params)
-
         return gym.make(self.env_name,
                         random_frame_start=False,
                         interval=interval,
