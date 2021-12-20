@@ -65,8 +65,6 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         params.pop('offset_interval', None)
         params.pop('random_frame_start', None)
 
-        alog.info(alog.pformat(params))
-
         agent = SymbolAgent(
             env=self.env,
             nb_steps=2,
@@ -97,7 +95,6 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         params.pop('interval', None)
         params.pop('offset_interval', None)
         params.pop('random_frame_start', None)
-
         interval = self.interval_for_env(params)
         return gym.make(self.env_name,
                         random_frame_start=False,

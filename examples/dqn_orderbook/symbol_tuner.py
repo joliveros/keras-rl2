@@ -203,7 +203,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         self._kwargs['max_position_length'] = 31
         self._kwargs['random_frame_start'] = True
 
-        self._kwargs['num_conv'] = 3
+        self._kwargs['num_conv'] = 4
 
 
         kwargs = self._kwargs.copy()
