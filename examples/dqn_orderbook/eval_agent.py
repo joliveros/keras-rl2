@@ -54,7 +54,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         if df.shape[0] < 1:
             raise NotEnoughTrialsException()
         else:
-            return df['value'].idxmax()
+            return df['number'].iloc[-1]
 
     @cached_property_with_ttl(ttl=60 * 15)
     def agent(self):
