@@ -169,7 +169,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
-            # base_filter_size=self.trial.suggest_int('base_filter_size', 2, 8),
+            base_filter_size=self.trial.suggest_categorical('base_filter_size', [2, 4, 8, 16, 32]),
             # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 10),
             # block_kernel=self.trial.suggest_int('block_kernel', 1, 8),
             # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 96),
@@ -182,7 +182,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 4000)
         )
 
-        # self._kwargs['depth'] = self.trial.suggest_int('depth', 2, 12)
+        self._kwargs['depth'] = self.trial.suggest_int('depth', [8, 16, 24, 32, 36, 40, 48, 64, 72, 84])
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
         # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
         # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-8, 4e-3)
