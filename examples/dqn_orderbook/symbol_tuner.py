@@ -166,7 +166,7 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        self.trial.suggest_int('test_num', 1, 2)
+        # self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
             # base_filter_size=self.trial.suggest_int('base_filter_size', 2, 8),
@@ -182,29 +182,28 @@ class SymbolTuner(StudyWrapper, Messenger):
             # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 4000)
         )
 
-        # self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 12, 48)
-        # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 4, 5)
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 2, 12)
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
         # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
-        # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 200, 6000)
-        # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 7000, 30000)
-        # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
         # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-8, 4e-3)
-        # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
         # self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 0, 200)
+        # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
         # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
+        # self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 12, 48)
+        # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 1000, int(1e5))
+        # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(1e5))
+        # self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 3, 5)
+        # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 4, 5)
         # self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 24)
+        # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
         # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 2, 16)
-
-        # self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 3, 16)
+        self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.01)
 
         self._kwargs['max_flat_position_length'] = 44
         self._kwargs['max_position_length'] = 31
         self._kwargs['random_frame_start'] = True
 
-        self._kwargs['num_conv'] = 4
-
+        self._kwargs['num_conv'] = 3
 
         kwargs = self._kwargs.copy()
 
