@@ -199,7 +199,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 2, 16)
         self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.01)
         self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 500, 10000)
-
+        self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
         self._kwargs['max_flat_position_length'] = 44
         self._kwargs['max_position_length'] = 31
         self._kwargs['random_frame_start'] = True
