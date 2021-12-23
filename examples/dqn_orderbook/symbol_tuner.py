@@ -166,7 +166,7 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        # self.trial.suggest_int('test_num', 1, 2)
+        self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
             base_filter_size=self.trial.suggest_categorical('base_filter_size', [2, 4, 8, 16, 32]),
@@ -182,7 +182,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 4000)
         )
 
-        self._kwargs['depth'] = self.trial.suggest_categorical('depth', [8, 16, 24, 32, 36, 40, 48, 64, 72, 84])
+        # self._kwargs['depth'] = self.trial.suggest_categorical('depth', [8, 16, 24, 32, 36, 40, 48, 56])
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
         # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
         # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-8, 4e-3)
@@ -197,9 +197,9 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 24)
         # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
         # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 2, 16)
-        self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.01)
-        self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 500, 10000)
-        self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
+        # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
+        # self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 500, 10000)
+        # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
         self._kwargs['max_flat_position_length'] = 44
         self._kwargs['max_position_length'] = 31
         self._kwargs['random_frame_start'] = True
