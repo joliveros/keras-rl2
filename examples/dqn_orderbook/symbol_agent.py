@@ -33,8 +33,8 @@ class SymbolAgent(object):
         train_recent_data,
         env2=None,
         optimizer: int = 0,
-        cache_limit=8400,
-        eps_greedy_policy_steps=2000,
+        cache_limit=20000,
+        eps_greedy_policy_steps=4000,
         lr=0.001985488,
         test_env=None,
         trial_id=0,
@@ -143,10 +143,10 @@ class SymbolAgent(object):
         callbacks = [tb_callback]
 
         # callbacks += [FileLogger(log_filename, interval=100)]
-        self.agent.fit(self.env, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps, log_interval=1000)
+        self.agent.fit(self.env, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps, log_interval=80)
 
         if self.train_recent_data:
-            self.agent.fit(self.env2, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps_2, log_interval=1000)
+            self.agent.fit(self.env2, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps_2, log_interval=80)
 
         # After training is done, we save the final weights one more time.
         self.agent.save_weights(self.weights_filename, overwrite=True)
