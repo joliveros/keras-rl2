@@ -8,15 +8,15 @@ networks:
 services:
     train:
         deploy:
-            replicas: 4
+            replicas: 1
         image: 'registry.rubercubic.com:5001/dqn-orderbook'
         volumes:
             - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
         command: bash -c "source ~/.bashrc &&
-            ./examples/dqn_orderbook/run.py LRCUSDT -i 82h -D 5 --summary-interval 40 -g 30s -w 2m
-            --database-name binance_futures -l 9 -d 40 --leverage 2.0
-            --offset-interval 5h --test-interval 5h --nb-steps 15000 -m 400 -s 3 --max-negative-pnl -0.1
-            --nb-steps-2 5000 --interval2 240m --cache"
+            ./examples/dqn_orderbook/run.py LRCUSDT -i 32h -D 5 --summary-interval 40 -g 30s -w 2m
+            --database-name binance_futures -l 9 -d 42 --leverage 2.0
+            --offset-interval 5h --test-interval 5h --nb-steps 70000 -m 1200 -s 3 --max-negative-pnl -0.1
+            --nb-steps-2 50000 --interval2 6h"
         environment:
             - LOG_LEVEL=DEBUG
             - NVIDIA_VISIBLE_DEVICES=all
@@ -35,7 +35,7 @@ services:
       volumes:
         - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
       command: bash -c "source ~/.bashrc &&
-        ./examples/dqn_orderbook/eval_agent.py LRCUSDT --valid-interval 30m -m 400"
+        ./examples/dqn_orderbook/eval_agent.py LRCUSDT --valid-interval 30m -m 1200"
       environment:
         - LOG_LEVEL=INFO
         - NVIDIA_VISIBLE_DEVICES=all
