@@ -32,7 +32,7 @@ class SymbolTuner(StudyWrapper, Messenger):
                  retry,
                  min_capital,
                  memory,
-                 train_recent_data=True,
+                 train_recent_data=False,
                  num_locks=2,
                  **kwargs):
 
@@ -190,10 +190,8 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
         # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
         # self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 83, 320)
-        # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 1000,
-        #         int(5e4))
-        # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000,
-        #         int(5e4))
+        # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 1000, int(5e4))
+        # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
         # self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 3, 5)
         # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 4, 5)
         # self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 24)
@@ -207,8 +205,8 @@ class SymbolTuner(StudyWrapper, Messenger):
         self._kwargs['max_flat_position_length'] = 44
         self._kwargs['max_position_length'] = 31
         self._kwargs['random_frame_start'] = True
-        self._kwargs['max_short_position_length'] = 266
-        self._kwargs['num_conv'] = 3
+        # self._kwargs['max_short_position_length'] = 124
+        self._kwargs['num_conv'] = 8
 
         kwargs = self._kwargs.copy()
 
@@ -223,15 +221,15 @@ class SymbolTuner(StudyWrapper, Messenger):
         self.trial.set_user_attr('params', self._kwargs)
 
         params = dict(
-            batch_size=6,
+            batch_size=19,
             env=env,
             env2=env2,
             env_name=self.env_name,
             policy_value_max=0.25,
             short_reward_enabled=True,
-            target_model_update=271,
+            target_model_update=48,
             test_env=self.test_env,
-            train_interval=11,
+            train_interval=48,
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams

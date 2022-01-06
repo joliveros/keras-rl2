@@ -7,6 +7,7 @@ from examples.dqn_orderbook.symbol_agent import SymbolAgent
 from exchange_data.emitters import Messenger
 from exchange_data.models.resnet.study_wrapper import StudyWrapper
 from pytimeparse.timeparse import timeparse
+from collections import deque
 
 import alog
 import click
@@ -14,7 +15,7 @@ import gym
 import tensorflow as tf
 import pandas as pd
 import tgym.envs
-
+import numpy as np
 
 class NotEnoughTrialsException(Exception): pass
 
@@ -28,11 +29,13 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
             eval_interval,
             valid_interval,
             memory,
+            window_length,
             **kwargs):
         super().__init__(symbol=symbol, **kwargs)
         Messenger.__init__(self)
 
         self._kwargs = kwargs.copy()
+        self.window_length = window_length
         self.memory = memory
         self.valid_interval = valid_interval
         self.env_name = env_name
@@ -46,11 +49,9 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         df = self.study.trials_dataframe()
         min_datetime_completed = datetime.utcnow() - timedelta(seconds=timeparse(self.valid_interval))
         df = df.loc[df['datetime_complete'] > min_datetime_completed]
-
+        df = df[df['value'] > 0.0]
         pd.set_option('display.max_rows', len(df) + 1)
-
-        alog.info(df)
-
+       
         if df.shape[0] < 1:
             raise NotEnoughTrialsException()
         else:
@@ -80,6 +81,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
     @property
     def best_trial_params(self):
         best_trial_id = self.best_trial_id
+
         df = self.study.trials_dataframe()
 
         trial_row = df.loc[df['number'] == best_trial_id].tail(1)
@@ -104,7 +106,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
     def interval_for_env(self, params):
         group_by = params['group_by']
         sequence_length = params['sequence_length']
-        interval = f'{timeparse(group_by) * sequence_length * self._kwargs["window_length"]}s'
+        interval = f'{timeparse(group_by) * sequence_length * self.window_length}s'
         return interval
 
     def emit(self, *args):
@@ -112,10 +114,17 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         env.reset()
 
         done = False
+        _obs = deque(maxlen=self.window_length)
 
         while not done:
             obs, reward, _done, meta = env.step(0)
-            prediction = str(self.agent.forward(deepcopy(obs)))
+            _obs.append(obs)
+
+            # obs_arr = np.squeeze(np.array(_obs)) 
+            obs_arr = np.array(_obs)
+            alog.info(deepcopy(obs_arr).shape)
+            
+            prediction = str(self.agent.forward(deepcopy(obs_arr)))
             self.agent.backward(0.0, terminal=False)
             done = _done
 
@@ -142,7 +151,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 @click.option('--eval-interval', '-e', default='30s', type=str)
 @click.option('--interval', '-i', default='1m', type=str)
 @click.option('--memory', '-m', default=400, type=int)
-@click.option('--window-length', default=3, type=int)
+@click.option('--window-length', '-w', default=3, type=int)
 @click.option('--offset-interval', default='0h', type=str)
 @click.option('--summary-interval', default=1, type=int)
 @click.option('--valid-interval', default='30m', type=str)
