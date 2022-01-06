@@ -226,7 +226,6 @@ class DQNAgent(AbstractDQNAgent):
         state = self.memory.get_recent_state(observation)
 
         if len(np.asarray(state).shape) != 4:
-            alog.info(state)
             alog.info(np.asarray(state).shape)
             raise Exception()
 

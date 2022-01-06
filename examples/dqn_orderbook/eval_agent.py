@@ -98,6 +98,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         params.pop('offset_interval', None)
         params.pop('random_frame_start', None)
         interval = self.interval_for_env(params)
+
         return gym.make(self.env_name,
                         random_frame_start=False,
                         interval=interval,
@@ -106,7 +107,10 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
     def interval_for_env(self, params):
         group_by = params['group_by']
         sequence_length = params['sequence_length']
-        interval = f'{timeparse(group_by) * sequence_length * self.window_length}s'
+        seconds = timeparse(group_by) * \
+                  (sequence_length + self.window_length)
+
+        interval = f'{seconds}s'
         return interval
 
     def emit(self, *args):
@@ -118,13 +122,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 
         while not done:
             obs, reward, _done, meta = env.step(0)
-            _obs.append(obs)
-
-            # obs_arr = np.squeeze(np.array(_obs)) 
-            obs_arr = np.array(_obs)
-            alog.info(deepcopy(obs_arr).shape)
-            
-            prediction = str(self.agent.forward(deepcopy(obs_arr)))
+            prediction = str(self.agent.forward(deepcopy(obs)))
             self.agent.backward(0.0, terminal=False)
             done = _done
 
