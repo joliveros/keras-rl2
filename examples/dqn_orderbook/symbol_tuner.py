@@ -206,7 +206,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         self._kwargs['max_position_length'] = 31
         self._kwargs['random_frame_start'] = True
         # self._kwargs['max_short_position_length'] = 124
-        self._kwargs['num_conv'] = 8
+        self._kwargs['num_conv'] = 3
 
         kwargs = self._kwargs.copy()
 
@@ -221,15 +221,15 @@ class SymbolTuner(StudyWrapper, Messenger):
         self.trial.set_user_attr('params', self._kwargs)
 
         params = dict(
-            batch_size=19,
+            batch_size=6,
             env=env,
             env2=env2,
             env_name=self.env_name,
             policy_value_max=0.25,
             short_reward_enabled=True,
-            target_model_update=48,
+            target_model_update=12,
             test_env=self.test_env,
-            train_interval=48,
+            train_interval=12,
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams
