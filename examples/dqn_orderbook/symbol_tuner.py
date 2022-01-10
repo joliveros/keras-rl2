@@ -221,15 +221,15 @@ class SymbolTuner(StudyWrapper, Messenger):
         self.trial.set_user_attr('params', self._kwargs)
 
         params = dict(
-            batch_size=6,
+            batch_size=7,
             env=env,
             env2=env2,
             env_name=self.env_name,
             policy_value_max=0.25,
             short_reward_enabled=True,
-            target_model_update=12,
+            target_model_update=14,
             test_env=self.test_env,
-            train_interval=12,
+            train_interval=14,
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams
