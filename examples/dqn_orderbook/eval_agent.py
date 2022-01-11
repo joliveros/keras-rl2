@@ -5,7 +5,7 @@ from copy import deepcopy
 from datetime import timedelta, datetime
 from examples.dqn_orderbook.symbol_agent import SymbolAgent
 from exchange_data.emitters import Messenger
-from exchange_data.models.resnet.study_wrapper import StudyWrapper
+from exchange_data.models.study_wrapper import StudyWrapper
 from pytimeparse.timeparse import timeparse
 from collections import deque
 

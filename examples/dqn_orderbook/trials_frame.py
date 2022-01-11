@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from exchange_data.models.resnet.study_wrapper import StudyWrapper
+from exchange_data.models.study_wrapper import StudyWrapper
 from plotly.subplots import make_subplots
 import alog
 import click

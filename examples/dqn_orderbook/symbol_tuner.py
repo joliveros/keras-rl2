@@ -4,7 +4,7 @@ from numpy import NaN
 from examples.dqn_orderbook.symbol_agent import SymbolAgent, Optimizer
 from exchange_data import settings
 from exchange_data.emitters import Messenger
-from exchange_data.models.resnet.study_wrapper import StudyWrapper
+from exchange_data.models.study_wrapper import StudyWrapper
 from optuna import Trial
 from pathlib import Path
 from pytimeparse.timeparse import timeparse
@@ -185,7 +185,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 36, 48)
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
         # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
-        # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-8, 4e-3)
+        self._kwargs['lr'] = self.trial.suggest_float('lr', 0.00000005, 0.000000001)
         # self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 0, 200)
         # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
         # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
@@ -199,14 +199,13 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 2, 6)
         # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
         # self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 500, 10000)
-        # self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 6, 16)
-        # self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 100, 1000)
+        self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 3, 32)
+        self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 16, 32)
         # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
         self._kwargs['max_flat_position_length'] = 44
         self._kwargs['max_position_length'] = 31
         self._kwargs['random_frame_start'] = True
-        # self._kwargs['max_short_position_length'] = 124
-        self._kwargs['num_conv'] = 3
+        # self._kwargs['max_short_position_length'] = 240
 
         kwargs = self._kwargs.copy()
 
@@ -221,15 +220,15 @@ class SymbolTuner(StudyWrapper, Messenger):
         self.trial.set_user_attr('params', self._kwargs)
 
         params = dict(
-            batch_size=7,
+            batch_size=16,
             env=env,
             env2=env2,
             env_name=self.env_name,
             policy_value_max=0.25,
             short_reward_enabled=True,
-            target_model_update=14,
+            target_model_update=18,
             test_env=self.test_env,
-            train_interval=14,
+            train_interval=18,
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams

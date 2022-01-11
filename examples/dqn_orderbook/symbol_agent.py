@@ -1,6 +1,6 @@
 from bitmex_websocket.constants import NoValue
 from examples.dqn_orderbook.processor import OrderBookFrameProcessor
-from exchange_data.models.resnet.model import Model as ResnetModel
+from exchange_data.models.video_cnn import Model
 from pathlib import Path
 from rl.agents import DQNAgent
 from rl.memory import SequentialMemory
@@ -32,13 +32,13 @@ class SymbolAgent(object):
         policy_value_max,
         train_recent_data,
         env2=None,
-        optimizer: int = 0,
+        optimizer: int = 1,
         cache_limit=4000,
-        eps_greedy_policy_steps=5000,
-        lr=0.0010,
+        eps_greedy_policy_steps=20000,
+        lr=0.00000005,
         test_env=None,
         trial_id=0,
-        window_length=3,
+        window_length=2,
         **kwargs
     ):
         kwargs['symbol'] = symbol
@@ -63,7 +63,7 @@ class SymbolAgent(object):
         self.env.seed(123)
         nb_actions = self.env.action_space.n
 
-        model = ResnetModel(
+        model = Model(
             input_shape=input_shape,
             **kwargs
         )
