@@ -166,7 +166,7 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        self.trial.suggest_int('test_num', 1, 2)
+        # self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
             # base_filter_size=self.trial.suggest_categorical('base_filter_size', [2, 4, 8, 16, 32]),
@@ -175,6 +175,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 96),
             # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
             kernel_size=self.trial.suggest_categorical('kernel_size', [2, 3, 4]),
+            dense_size=self.trial.suggest_int('dense_size', 256, 512),
             # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
             # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
             # padding=self.trial.suggest_int('padding', 1, 8),
