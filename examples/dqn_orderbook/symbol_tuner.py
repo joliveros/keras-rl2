@@ -166,7 +166,7 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        # self.trial.suggest_int('test_num', 1, 2)
+        self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
             # base_filter_size=self.trial.suggest_categorical('base_filter_size', [2, 4, 8, 16, 32]),
@@ -191,7 +191,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
         # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
         # self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 83, 320)
-        self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', int(5e4), int(1e5))
+        # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', int(5e4), int(1e5))
         # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
         # self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 3, 5)
         # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 4, 5)
@@ -221,13 +221,13 @@ class SymbolTuner(StudyWrapper, Messenger):
         self.trial.set_user_attr('params', self._kwargs)
 
         params = dict(
-            batch_size=12,
+            batch_size=10,
             env=env,
             env2=env2,
             env_name=self.env_name,
             policy_value_max=0.25,
             short_reward_enabled=True,
-            target_model_update=94,
+            target_model_update=73,
             test_env=self.test_env,
             train_interval=73,
             trial_id=str(self.trial.number),

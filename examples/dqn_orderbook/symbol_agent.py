@@ -38,7 +38,7 @@ class SymbolAgent(object):
         lr=6.206748e-09 ,
         test_env=None,
         trial_id=0,
-        window_length=2,
+        window_length=6,
         **kwargs
     ):
         kwargs['symbol'] = symbol
