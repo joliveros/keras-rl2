@@ -166,7 +166,7 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        # self.trial.suggest_int('test_num', 1, 2)
+        self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
             # base_filter_size=self.trial.suggest_categorical('base_filter_size', [2, 4, 8, 16, 32]),
@@ -191,7 +191,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
         # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
         # self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 83, 320)
-        self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', int(5e4), int(1e5))
+        # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', int(5e4), int(1e5))
         # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
         # self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 3, 5)
         # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 4, 5)
@@ -205,8 +205,10 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
         self._kwargs['max_flat_position_length'] = 44
         self._kwargs['max_position_length'] = 31
-        self._kwargs['random_frame_start'] = False
-        self._kwargs['max_change'] = 0.015
+        self._kwargs['random_frame_start'] = True
+        self._kwargs['min_change'] = 0.0
+        self._kwargs['max_change'] = 0.007
+        self._kwargs['min_flat_change'] = -0.009
         # self._kwargs['max_short_position_length'] = 240
 
         kwargs = self._kwargs.copy()
@@ -221,7 +223,7 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         self.trial.set_user_attr('params', self._kwargs)
 
-        batch_size = 32
+        batch_size = 16
 
         params = dict(
             batch_size=batch_size,
@@ -232,7 +234,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             short_reward_enabled=False,
             target_model_update=int(batch_size * 1.5),
             test_env=self.test_env,
-            train_interval=int(batch_size * 1.5),
+            train_interval=int(3),
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams

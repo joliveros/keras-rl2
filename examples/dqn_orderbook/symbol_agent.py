@@ -33,12 +33,12 @@ class SymbolAgent(object):
         train_recent_data,
         env2=None,
         optimizer: int = 1,
-        cache_limit=4000,
-        eps_greedy_policy_steps=10000,
-        lr=5e-6,
+        cache_limit=int(3e3),
+        eps_greedy_policy_steps=4000,
+        lr=1e-8,
         test_env=None,
         trial_id=0,
-        window_length=6,
+        window_length=9,
         **kwargs
     ):
         kwargs['symbol'] = symbol
@@ -81,7 +81,7 @@ class SymbolAgent(object):
             attr='eps',
             nb_steps=int(self.eps_greedy_policy_steps),
             value_max=policy_value_max,
-            value_min=0.0,
+            value_min=0.001,
             value_test=0.0
         )
 
@@ -91,7 +91,7 @@ class SymbolAgent(object):
             memory=memory,
             model=model,
             nb_actions=nb_actions,
-            nb_steps_warmup=100,
+            nb_steps_warmup=1000,
             policy=policy,
             processor=processor,
             **kwargs,
