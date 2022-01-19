@@ -166,7 +166,7 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        self.trial.suggest_int('test_num', 1, 2)
+        # self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
             # base_filter_size=self.trial.suggest_categorical('base_filter_size', [2, 4, 8, 16, 32]),
@@ -186,7 +186,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 36, 48)
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
         # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
-        # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-10, 1e-8)
+        self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-9, 2e-8)
         # self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 0, 200)
         # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
         # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
