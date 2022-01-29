@@ -224,6 +224,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         env2.reset()
 
         self._kwargs['quantile'] = env.quantile
+        self._kwargs['trade_volume_max'] = env.trade_volume_max
 
         self.trial.set_user_attr('params', self._kwargs)
 
