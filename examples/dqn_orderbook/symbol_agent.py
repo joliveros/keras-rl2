@@ -34,11 +34,11 @@ class SymbolAgent(object):
         env2=None,
         optimizer: int = 1,
         cache_limit=int(3e3),
-        eps_greedy_policy_steps=4000,
-        lr=385.1564e-8,
+        eps_greedy_policy_steps=2000,
+        lr=3.851564e-5,
         test_env=None,
         trial_id=0,
-        window_length=4,
+        window_length=6,
         **kwargs
     ):
         kwargs['symbol'] = symbol
