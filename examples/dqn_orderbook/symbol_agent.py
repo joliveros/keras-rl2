@@ -35,7 +35,7 @@ class SymbolAgent(object):
         optimizer: int = 1,
         cache_limit=int(3e3),
         eps_greedy_policy_steps=4000,
-        lr=385.1564e-9,
+        lr=385.1564e-8,
         test_env=None,
         trial_id=0,
         window_length=4,
@@ -87,6 +87,9 @@ class SymbolAgent(object):
 
         self.agent = DQNAgent(
             delta_clip=1.,
+            dueling_type='avg',
+            enable_double_dqn=True,
+            enable_dueling_network=True,
             gamma=.99,
             memory=memory,
             model=model,

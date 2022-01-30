@@ -8,7 +8,7 @@ networks:
 services:
     train:
         deploy:
-            replicas: 2
+            replicas: 1
         image: 'registry.rubercubic.com:5001/dqn-orderbook'
         volumes:
             - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/

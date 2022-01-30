@@ -186,7 +186,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 36, 48)
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
         # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
-        self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-7, 1e-5)
+        # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-7, 1e-5)
         # self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 0, 200)
         # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
         # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
@@ -211,8 +211,8 @@ class SymbolTuner(StudyWrapper, Messenger):
         self._kwargs['max_position_length'] = 31
         self._kwargs['random_frame_start'] = True
         self._kwargs['min_change'] = 0.0
-        self._kwargs['max_change'] = 0.004282652
-        self._kwargs['min_flat_change'] = -0.006136402
+        # self._kwargs['max_change'] = 0.004282652
+        # self._kwargs['min_flat_change'] = -0.006136402
         # self._kwargs['max_short_position_length'] = 360
 
         kwargs = self._kwargs.copy()
@@ -237,9 +237,9 @@ class SymbolTuner(StudyWrapper, Messenger):
             env_name=self.env_name,
             policy_value_max=0.25,
             short_reward_enabled=False,
-            target_model_update=int(batch_size * 1.5),
+            target_model_update=int(batch_size * 1),
             test_env=self.test_env,
-            train_interval=int(batch_size * 1.5),
+            train_interval=int(batch_size * 1),
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams

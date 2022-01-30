@@ -112,7 +112,7 @@ class DQNAgent(AbstractDQNAgent):
         self.dueling_type = dueling_type
         if self.enable_dueling_network:
             # get the second last layer of the model, abandon the last layer
-            layer = model.layers[-2]
+            layer = model.layers[-1]
             nb_action = model.output.shape[-1]
             # layer y has a shape (nb_action+1,)
             # y[:,0] represents V(s;theta)
@@ -122,7 +122,7 @@ class DQNAgent(AbstractDQNAgent):
             # dueling_type == 'avg'
             # Q(s,a;theta) = V(s;theta) + (A(s,a;theta)-Avg_a(A(s,a;theta)))
             # dueling_type == 'max'
-            # Q(s,a;theta) = V(s;theta) + (A(s,a;theta)-max_a(A(s,a;theta)))
+            # Q(s,a;theta) = V(s;theta) + (A(s,;theta)-max_a(A(s,a;theta)))
             # dueling_type == 'naive'
             # Q(s,a;theta) = V(s;theta) + A(s,a;theta)
             if self.dueling_type == 'avg':
@@ -133,8 +133,7 @@ class DQNAgent(AbstractDQNAgent):
                 outputlayer = Lambda(lambda a: K.expand_dims(a[:, 0], -1) + a[:, 1:], output_shape=(nb_action,))(y)
             else:
                 assert False, "dueling_type must be one of {'avg','max','naive'}"
-
-            model = Model(inputs=model.input, outputs=outputlayer)
+            model = Model(inputs=model.input, outputs=[outputlayer])
 
         # Related objects.
         self.model = model
