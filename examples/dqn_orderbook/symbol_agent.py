@@ -1,14 +1,16 @@
 from bitmex_websocket.constants import NoValue
 from examples.dqn_orderbook.processor import OrderBookFrameProcessor
 from exchange_data.models.video_cnn import Model
+# from exchange_data.models.resnet.model import Model
 from pathlib import Path
 from rl.agents import DQNAgent
 from rl.memory import SequentialMemory
-from rl.policy import GreedyQPolicy, LinearAnnealedPolicy, EpsGreedyQPolicy
+from rl.policy import GreedyQPolicy, LinearAnnealedPolicy, EpsGreedyQPolicy, BoltzmannQPolicy
 from tensorflow.python.keras.callbacks import TensorBoard, History
 from tensorflow.python.keras.optimizer_v2.adadelta import Adadelta
 from tensorflow.python.keras.optimizer_v2.adam import Adam
 from tensorflow.python.keras.optimizer_v2.adamax import Adamax
+from tensorflow.python.keras.optimizer_v2.gradient_descent import SGD
 
 
 import alog
@@ -20,6 +22,7 @@ class Optimizer(NoValue):
     Adadelta = 0
     Adam = 1
     Adamax = 2
+    SGD = 3
 
 
 class SymbolAgent(object):
@@ -32,13 +35,13 @@ class SymbolAgent(object):
         policy_value_max,
         train_recent_data,
         env2=None,
-        optimizer: int = 1,
-        cache_limit=int(3e3),
-        eps_greedy_policy_steps=2000,
-        lr=3.851564e-5,
+        optimizer: int = 3,
+        cache_limit=int(5e3),
+        eps_greedy_policy_steps=5000,
+        lr=1.0e-4,
         test_env=None,
         trial_id=0,
-        window_length=6,
+        window_length=4,
         **kwargs
     ):
         kwargs['symbol'] = symbol
@@ -81,7 +84,7 @@ class SymbolAgent(object):
             attr='eps',
             nb_steps=int(self.eps_greedy_policy_steps),
             value_max=policy_value_max,
-            value_min=0.001,
+            value_min=0.0,
             value_test=0.0
         )
 
@@ -116,7 +119,8 @@ class SymbolAgent(object):
             return Adadelta(learning_rate=self.lr)
         elif optimizer == Optimizer.Adamax:
             return Adamax(learning_rate=self.lr)
-
+        elif optimizer == Optimizer.SGD:
+            return SGD(learning_rate=self.lr)
         raise Exception()
 
     @property

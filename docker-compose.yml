@@ -8,14 +8,14 @@ networks:
 services:
     train:
         deploy:
-            replicas: 2
+            replicas: 4
         image: 'registry.rubercubic.com:5001/dqn-orderbook'
         volumes:
             - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
         command: bash -c "source ~/.bashrc &&
-          ./examples/dqn_orderbook/run.py LRCUSDT -i 48h -D 5 --summary-interval 160 -g 10s -w 2m \
-          --database-name binance_futures -l 18 -d 48 --leverage 2.0 \
-          --offset-interval 12h --test-interval 12h --nb-steps 30000 --max-negative-pnl -0.02 -m 1000 --cache"
+          ./examples/dqn_orderbook/run.py LRCUSDT -i 72h -D 5 --summary-interval 160 -g 30s -w 6m \
+          --database-name binance_futures -l 16 -d 48 --leverage 2.0 \
+          --offset-interval 12h --test-interval 1d --nb-steps 50000 --max-negative-pnl -0.02 -m 300 --cache"
         environment:
             - LOG_LEVEL=DEBUG
             - NVIDIA_VISIBLE_DEVICES=all

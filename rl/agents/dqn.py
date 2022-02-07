@@ -117,7 +117,7 @@ class DQNAgent(AbstractDQNAgent):
             # layer y has a shape (nb_action+1,)
             # y[:,0] represents V(s;theta)
             # y[:,1:] represents A(s,a;theta)
-            y = Dense(nb_action + 1, activation='linear')(layer.output)
+            y = Dense(nb_action + 1, activation='softmax')(layer.output)
             # caculate the Q(s,a;theta)
             # dueling_type == 'avg'
             # Q(s,a;theta) = V(s;theta) + (A(s,a;theta)-Avg_a(A(s,a;theta)))
@@ -164,8 +164,8 @@ class DQNAgent(AbstractDQNAgent):
 
         # We never train the target model, hence we can set the optimizer and loss arbitrarily.
         self.target_model = clone_model(self.model, self.custom_model_objects)
-        self.target_model.compile(optimizer='sgd', loss='mse')
-        self.model.compile(optimizer='sgd', loss='mse')
+        self.target_model.compile(optimizer=optimizer, loss='mse')
+        self.model.compile(optimizer=optimizer, loss='mse')
 
         # Compile model.
         if self.target_model_update < 1.:
@@ -181,7 +181,7 @@ class DQNAgent(AbstractDQNAgent):
 
         # Create trainable model. The problem is that we need to mask the output since we only
         # ever want to update the Q values for a certain action. The way we achieve this is by
-        # using a custom Lambda layer that computes the loss. This gives us the necessary flexibility
+        # using a custom Lambda layer that computes the loss.This gives us the necessary flexibility
         # to mask out certain parameters by passing in multiple inputs to the Lambda layer.
         y_pred = self.model.output
         y_true = Input(name='y_true', shape=(self.nb_actions,))
@@ -224,9 +224,10 @@ class DQNAgent(AbstractDQNAgent):
         # Select an action.
         state = self.memory.get_recent_state(observation)
 
-        if len(np.asarray(state).shape) != 4:
-            alog.info(np.asarray(state).shape)
-            raise Exception()
+        # if len(np.asarray(state).shape) != 4:
+        #   alog.info(np.asarray(state))
+        #    alog.info(np.asarray(state).shape)
+        #    raise Exception()
 
         q_values = self.compute_q_values(state)
         if self.training:

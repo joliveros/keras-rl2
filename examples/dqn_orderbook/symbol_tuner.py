@@ -166,7 +166,7 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        # self.trial.suggest_int('test_num', 1, 2)
+        self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
             # base_filter_size=self.trial.suggest_categorical('base_filter_size', [2, 4, 8, 16, 32]),
@@ -186,7 +186,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 36, 48)
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
         # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
-        self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-7, 1e-3)
+        # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-7, 1e-3)
         # self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 0, 200)
         # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
         # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
@@ -212,8 +212,8 @@ class SymbolTuner(StudyWrapper, Messenger):
         self._kwargs['random_frame_start'] = True
         self._kwargs['min_change'] = 0.0
         self._kwargs['max_change'] = 0.01
-        self._kwargs['min_flat_change'] = -0.006136402
-        # self._kwargs['max_short_position_length'] = 360
+        self._kwargs['min_flat_change'] = -0.001
+        self._kwargs['max_short_position_length'] = 300
 
         kwargs = self._kwargs.copy()
 
@@ -228,18 +228,18 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         self.trial.set_user_attr('params', self._kwargs)
 
-        batch_size = 16
+        batch_size = 8
 
         params = dict(
             batch_size=batch_size,
             env=env,
             env2=env2,
             env_name=self.env_name,
-            policy_value_max=0.25,
+            policy_value_max=1.0,
             short_reward_enabled=False,
-            target_model_update=int(batch_size * 2),
+            target_model_update=4,
             test_env=self.test_env,
-            train_interval=int(batch_size + 2),
+            train_interval=4,
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams

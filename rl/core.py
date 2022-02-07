@@ -133,6 +133,7 @@ class Agent:
 
                     if self.processor is not None:
                         observation = self.processor.process_observation(observation)
+
                     assert observation is not None
 
                     # Perform random starts at beginning of episode and do not record them into the experience.
