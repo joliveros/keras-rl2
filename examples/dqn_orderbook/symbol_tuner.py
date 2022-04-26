@@ -213,7 +213,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         self._kwargs['min_change'] = 0.0
         self._kwargs['max_change'] = 0.01
         self._kwargs['min_flat_change'] = -0.001
-        self._kwargs['max_short_position_length'] = 300
+        self._kwargs['max_short_position_length'] = 0
 
         kwargs = self._kwargs.copy()
 
@@ -228,7 +228,7 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         self.trial.set_user_attr('params', self._kwargs)
 
-        batch_size = 8
+        batch_size = 16
 
         params = dict(
             batch_size=batch_size,
