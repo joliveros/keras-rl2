@@ -1,7 +1,7 @@
 from bitmex_websocket.constants import NoValue
 from examples.dqn_orderbook.processor import OrderBookFrameProcessor
-from exchange_data.models.video_cnn import Model
-# from exchange_data.models.resnet.model import Model
+# from exchange_data.models.video_cnn import Model
+from exchange_data.models.resnet.model import Model
 from pathlib import Path
 from rl.agents import DQNAgent
 from rl.memory import SequentialMemory
@@ -35,13 +35,13 @@ class SymbolAgent(object):
         policy_value_max,
         train_recent_data,
         env2=None,
-        optimizer: int = 3,
-        cache_limit=20000,
-        eps_greedy_policy_steps=30000,
-        lr=1.0e-5,
+        optimizer: int = 1,
+        cache_limit=10000,
+        eps_greedy_policy_steps=40000,
+        lr=1.0e-8,
         test_env=None,
         trial_id=0,
-        window_length=4,
+        window_length=2,
         **kwargs
     ):
         kwargs['symbol'] = symbol
@@ -77,16 +77,18 @@ class SymbolAgent(object):
         # even the metrics!
         memory = SequentialMemory(limit=cache_limit, window_length=window_length)
         processor = OrderBookFrameProcessor()
-        # policy = GreedyQPolicy()
-
-        policy = LinearAnnealedPolicy(
-            EpsGreedyQPolicy(),
-            attr='eps',
-            nb_steps=int(self.eps_greedy_policy_steps),
-            value_max=policy_value_max,
-            value_min=0.0,
-            value_test=0.0
+        policy = EpsGreedyQPolicy(
+            eps=policy_value_max,
         )
+
+        # policy = LinearAnnealedPolicy(
+        #     EpsGreedyQPolicy(),
+        #     attr='eps',
+        #     nb_steps=int(self.eps_greedy_policy_steps),
+        #     value_max=policy_value_max,
+        #     value_min=0.0,
+        #     value_test=0.0
+        # )
 
         self.agent = DQNAgent(
             delta_clip=1.,

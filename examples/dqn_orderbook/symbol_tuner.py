@@ -166,7 +166,7 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        self.trial.suggest_int('test_num', 1, 2)
+        # self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
             # base_filter_size=self.trial.suggest_categorical('base_filter_size', [2, 4, 8, 16, 32]),
@@ -183,10 +183,13 @@ class SymbolTuner(StudyWrapper, Messenger):
             # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 4000)
         )
 
+        self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.2)
+        self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 6, 16)
+        self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-8, 1e-5)
+
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 36, 48)
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
         # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
-        # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-7, 1e-3)
         # self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 0, 200)
         # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
         # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
@@ -203,17 +206,16 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 18, 84)
         # self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 18, 84)
         # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
-
         # self._kwargs['max_change'] = self.trial.suggest_float('max_change', 0.001, 0.02)
         # self._kwargs['min_flat_change'] = self.trial.suggest_float('min_flat_change', -0.01, 0.0)
 
-        self._kwargs['max_flat_position_length'] = 44
         self._kwargs['max_position_length'] = 31
         self._kwargs['random_frame_start'] = True
         self._kwargs['min_change'] = 0.0
         self._kwargs['max_change'] = 0.01
         self._kwargs['min_flat_change'] = -0.001
-        self._kwargs['max_short_position_length'] = 0
+        self._kwargs['max_flat_position_length'] = 120
+        self._kwargs['max_short_position_length'] = 120
 
         kwargs = self._kwargs.copy()
 
@@ -228,18 +230,18 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         self.trial.set_user_attr('params', self._kwargs)
 
-        batch_size = 16
+        batch_size = self._kwargs['batch_size']
 
         params = dict(
-            batch_size=batch_size,
+            # batch_size=batch_size,
             env=env,
             env2=env2,
             env_name=self.env_name,
-            policy_value_max=1.0,
+            policy_value_max=0.1,
             short_reward_enabled=False,
-            target_model_update=4,
+            target_model_update=batch_size,
             test_env=self.test_env,
-            train_interval=4,
+            train_interval=batch_size,
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams
