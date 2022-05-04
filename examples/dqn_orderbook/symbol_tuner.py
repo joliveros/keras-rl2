@@ -180,12 +180,12 @@ class SymbolTuner(StudyWrapper, Messenger):
             # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
             # padding=self.trial.suggest_int('padding', 1, 8),
             # strides=self.trial.suggest_int('strides', 1, 16),
-            # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 4000)
+            # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 10000, 50000)
         )
 
-        self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.2)
-        self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 6, 16)
-        self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-8, 1e-5)
+        # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
+        # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 6, 16)
+        # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-06, 1e-1)
 
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 36, 48)
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
@@ -202,7 +202,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
         # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 2, 6)
         # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
-        # self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 500, 10000)
+        self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 500, 10000)
         # self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 18, 84)
         # self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 18, 84)
         # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
@@ -214,8 +214,8 @@ class SymbolTuner(StudyWrapper, Messenger):
         self._kwargs['min_change'] = 0.0
         self._kwargs['max_change'] = 0.01
         self._kwargs['min_flat_change'] = -0.001
-        self._kwargs['max_flat_position_length'] = 120
-        self._kwargs['max_short_position_length'] = 120
+        self._kwargs['max_flat_position_length'] = 0
+        self._kwargs['max_short_position_length'] = 0
 
         kwargs = self._kwargs.copy()
 
@@ -230,14 +230,15 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         self.trial.set_user_attr('params', self._kwargs)
 
-        batch_size = self._kwargs['batch_size']
+        # batch_size = self._kwargs['batch_size']
+        batch_size = 10
 
         params = dict(
-            # batch_size=batch_size,
+            batch_size=batch_size,
             env=env,
             env2=env2,
             env_name=self.env_name,
-            policy_value_max=0.1,
+            policy_value_max=0.6896,
             short_reward_enabled=False,
             target_model_update=batch_size,
             test_env=self.test_env,
