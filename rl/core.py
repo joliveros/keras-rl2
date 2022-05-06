@@ -291,10 +291,12 @@ class Agent:
         history = History()
         callbacks += [history]
         callbacks = CallbackList(callbacks)
+
         if hasattr(callbacks, 'set_model'):
             callbacks.set_model(self)
         else:
             callbacks._set_model(self)
+
         callbacks._set_env(env)
         params = {
             'nb_episodes': nb_episodes,
@@ -321,6 +323,7 @@ class Agent:
             # Perform random starts at beginning of episode and do not record them into the experience.
             # This slightly changes the start position between games.
             nb_random_start_steps = 0 if nb_max_start_steps == 0 else np.random.randint(nb_max_start_steps)
+
             for _ in range(nb_random_start_steps):
                 if start_step_policy is None:
                     action = env.action_space.sample()

@@ -36,9 +36,9 @@ class SymbolAgent(object):
         train_recent_data,
         env2=None,
         optimizer: int = 1,
-        cache_limit=20000,
-        eps_greedy_policy_steps=40000,
-        lr=0.066,
+        cache_limit=2000,
+        eps_greedy_policy_steps=10000,
+        lr=6.0e-4,
         test_env=None,
         trial_id=0,
         window_length=3,
@@ -77,29 +77,18 @@ class SymbolAgent(object):
         # even the metrics!
         memory = SequentialMemory(limit=cache_limit, window_length=window_length)
         processor = OrderBookFrameProcessor()
-        # policy = EpsGreedyQPolicy(
-        #     eps=policy_value_max,
-        # )
-
-        policy = LinearAnnealedPolicy(
-            EpsGreedyQPolicy(),
-            attr='eps',
-            nb_steps=int(self.eps_greedy_policy_steps),
-            value_max=policy_value_max,
-            value_min=0.0,
-            value_test=0.0
-        )
+        policy = GreedyQPolicy()
 
         self.agent = DQNAgent(
             delta_clip=1.,
-            dueling_type='avg',
-            enable_double_dqn=True,
+            dueling_type='max',
+            # enable_double_dqn=True,
             enable_dueling_network=True,
             gamma=.99,
             memory=memory,
             model=model,
             nb_actions=nb_actions,
-            nb_steps_warmup=20000,
+            nb_steps_warmup=200,
             policy=policy,
             processor=processor,
             **kwargs,

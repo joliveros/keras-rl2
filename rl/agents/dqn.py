@@ -224,11 +224,6 @@ class DQNAgent(AbstractDQNAgent):
         # Select an action.
         state = self.memory.get_recent_state(observation)
 
-        # if len(np.asarray(state).shape) != 4:
-        #   alog.info(np.asarray(state))
-        #    alog.info(np.asarray(state).shape)
-        #    raise Exception()
-
         q_values = self.compute_q_values(state)
         if self.training:
             action = self.policy.select_action(q_values=q_values)

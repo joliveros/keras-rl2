@@ -185,7 +185,7 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
         # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 6, 16)
-        # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-06, 1e-1)
+        self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-06, 1e-1)
 
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 36, 48)
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
@@ -202,7 +202,7 @@ class SymbolTuner(StudyWrapper, Messenger):
         # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
         # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 2, 6)
         # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
-        self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 500, 10000)
+        # self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 500, 10000)
         # self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 18, 84)
         # self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 18, 84)
         # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
@@ -221,12 +221,14 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         env = self.env
         env.reset()
+        self._kwargs['quantile'] = env.quantile
+        self._kwargs['trade_volume_max'] = env.trade_volume_max
 
         env2 = self.env2
         env2.reset()
 
-        self._kwargs['quantile'] = env.quantile
-        self._kwargs['trade_volume_max'] = env.trade_volume_max
+        test_env = self.test_env
+        test_env.reset()
 
         self.trial.set_user_attr('params', self._kwargs)
 
@@ -238,10 +240,10 @@ class SymbolTuner(StudyWrapper, Messenger):
             env=env,
             env2=env2,
             env_name=self.env_name,
-            policy_value_max=0.6896,
+            policy_value_max=0.1,
             short_reward_enabled=False,
             target_model_update=batch_size,
-            test_env=self.test_env,
+            test_env=test_env,
             train_interval=batch_size,
             trial_id=str(self.trial.number),
             **kwargs,
