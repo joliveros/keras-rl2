@@ -19,5 +19,5 @@ class OrderBookFrameProcessor(Processor):
     #     processed_batch = batch.astype('float32') / 255.
     #     return processed_batch
 
-    def process_reward(self, reward):
-        return np.clip(reward, -1., 1.)
+    # def process_reward(self, reward):
+    #     return np.clip(reward, -1., 1.)

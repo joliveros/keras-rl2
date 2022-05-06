@@ -5,7 +5,7 @@ from exchange_data.models.resnet.model import Model
 from pathlib import Path
 from rl.agents import DQNAgent
 from rl.memory import SequentialMemory
-from rl.policy import GreedyQPolicy, LinearAnnealedPolicy, EpsGreedyQPolicy, BoltzmannQPolicy
+from rl.policy import GreedyQPolicy
 from tensorflow.python.keras.callbacks import TensorBoard, History
 from tensorflow.python.keras.optimizer_v2.adadelta import Adadelta
 from tensorflow.python.keras.optimizer_v2.adam import Adam
@@ -81,7 +81,7 @@ class SymbolAgent(object):
 
         self.agent = DQNAgent(
             delta_clip=1.,
-            dueling_type='max',
+            dueling_type='avg',
             # enable_double_dqn=True,
             enable_dueling_network=True,
             gamma=.99,
@@ -93,8 +93,6 @@ class SymbolAgent(object):
             processor=processor,
             **kwargs,
         )
-
-        alog.info(self.optimizer)
 
         self.agent.compile(self.optimizer, metrics=['mae'])
 
@@ -145,6 +143,8 @@ class SymbolAgent(object):
 
         if self.train_recent_data:
             self.agent.fit(self.env2, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps_2, log_interval=1)
+
+        self.load_weights()
 
         # After training is done, we save the final weights one more time.
         self.agent.save_weights(self.weights_filename, overwrite=True)
