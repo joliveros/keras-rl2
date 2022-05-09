@@ -4,6 +4,7 @@ from rl.core import Processor
 
 
 class OrderBookFrameProcessor(Processor):
+    pass
     # def process_observation(self, observation):
     #     assert observation.ndim == 3  # (height, width, channel)
     #     img = Image.fromarray(observation)

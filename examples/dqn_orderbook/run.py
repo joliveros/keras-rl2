@@ -2,6 +2,7 @@
 
 import click
 import tgym.envs
+
 from examples.dqn_orderbook.symbol_tuner import SymbolTuner
 
 
