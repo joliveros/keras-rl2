@@ -98,6 +98,7 @@ class DQNAgent(AbstractDQNAgent):
             `max`: Q(s,a;theta) = V(s;theta) + (A(s,a;theta)-max_a(A(s,a;theta)))
             `naive`: Q(s,a;theta) = V(s;theta) + A(s,a;theta)
     """
+
     def __init__(self, model, policy=None, test_policy=None, enable_double_dqn=False, enable_dueling_network=False,
                  dueling_type='avg', *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -112,7 +113,7 @@ class DQNAgent(AbstractDQNAgent):
         self.dueling_type = dueling_type
         if self.enable_dueling_network:
             # get the second last layer of the model, abandon the last layer
-            layer = model.layers[-1]
+            layer = model.layers[-2]
             nb_action = model.output.shape[-1]
             # layer y has a shape (nb_action+1,)
             # y[:,0] represents V(s;theta)
@@ -133,7 +134,7 @@ class DQNAgent(AbstractDQNAgent):
                 outputlayer = Lambda(lambda a: K.expand_dims(a[:, 0], -1) + a[:, 1:], output_shape=(nb_action,))(y)
             else:
                 assert False, "dueling_type must be one of {'avg','max','naive'}"
-            model = Model(inputs=model.input, outputs=[outputlayer])
+            model = Model(inputs=model.input, outputs=outputlayer)
 
         # Related objects.
         self.model = model
@@ -225,6 +226,10 @@ class DQNAgent(AbstractDQNAgent):
         state = self.memory.get_recent_state(observation)
 
         q_values = self.compute_q_values(state)
+
+        # if self.is_test:
+        #     alog.info(q_values)
+
         if self.training:
             action = self.policy.select_action(q_values=q_values)
         else:

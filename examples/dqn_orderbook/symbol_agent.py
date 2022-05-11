@@ -82,8 +82,8 @@ class SymbolAgent(object):
         self.agent = DQNAgent(
             delta_clip=1.,
             dueling_type='avg',
-            # enable_double_dqn=True,
-            enable_dueling_network=True,
+            enable_double_dqn=True,
+            enable_dueling_network=False,
             gamma=.99,
             memory=memory,
             model=model,
@@ -143,8 +143,6 @@ class SymbolAgent(object):
 
         if self.train_recent_data:
             self.agent.fit(self.env2, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps_2, log_interval=1)
-
-        self.load_weights()
 
         # After training is done, we save the final weights one more time.
         self.agent.save_weights(self.weights_filename, overwrite=True)

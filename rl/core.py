@@ -37,6 +37,9 @@ class Agent:
     # Arguments
         processor (`Processor` instance): See [Processor](#processor) for details.
     """
+
+    is_test = False
+
     def __init__(self, processor=None, **kwargs):
         self.processor = processor
         self.training = False
@@ -181,6 +184,7 @@ class Agent:
                     callbacks.on_action_begin(action)
                     observation, r, done, info = env.step(action)
                     observation = deepcopy(observation)
+
                     if self.processor is not None:
                         observation, r, done, info = self.processor.process_step(observation, r, done, info)
                     for key, value in info.items():
@@ -274,6 +278,9 @@ class Agent:
         # Returns
             A `keras.callbacks.History` instance that recorded the entire training process.
         """
+
+        self.is_test = True
+
         if not self.compiled:
             raise RuntimeError('Your tried to test your agent but it hasn\'t been compiled yet. Please call `compile()` before `test()`.')
         if action_repetition < 1:
@@ -406,7 +413,7 @@ class Agent:
             callbacks.on_episode_end(episode, episode_logs)
         callbacks.on_train_end()
         self._on_test_end()
-
+        self.is_test = False
         return history
 
     def reset_states(self):

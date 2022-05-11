@@ -242,7 +242,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             env_name=self.env_name,
             policy_value_max=0.1,
             short_reward_enabled=False,
-            target_model_update=batch_size,
+            target_model_update=batch_size * 12,
             test_env=test_env,
             train_interval=batch_size,
             trial_id=str(self.trial.number),
