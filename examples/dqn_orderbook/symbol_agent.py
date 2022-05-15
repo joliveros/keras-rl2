@@ -36,9 +36,9 @@ class SymbolAgent(object):
         train_recent_data,
         env2=None,
         optimizer: int = 1,
-        cache_limit=2000,
+        cache_limit=20000,
         eps_greedy_policy_steps=10000,
-        lr=6.0e-4,
+        lr=1.0e-6,
         test_env=None,
         trial_id=0,
         window_length=3,
@@ -142,13 +142,15 @@ class SymbolAgent(object):
         self.agent.fit(self.env, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps, log_interval=1)
 
         if self.train_recent_data:
-            self.agent.fit(self.env2, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps_2, log_interval=1)
+            self.agent.fit(self.env2, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps_2, log_interval=1,
+                           action_repetition=4)
 
         # After training is done, we save the final weights one more time.
         self.agent.save_weights(self.weights_filename, overwrite=True)
 
         # Finally, evaluate our algorithm for 1 episodes.
-        history: History = self.agent.test(self.test_env, verbose=2, nb_episodes=2, visualize=False, nb_max_start_steps=10)
+        history: History = self.agent.test(self.test_env, verbose=2, nb_episodes=2, visualize=False, nb_max_start_steps=10,
+                                           action_repetition=4)
 
         # ep_rewards = history.history['episode_reward']
         # nb_steps = history.history['nb_steps']

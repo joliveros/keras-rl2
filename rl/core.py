@@ -53,9 +53,9 @@ class Agent:
         """
         return {}
 
-    def fit(self, env, nb_steps, action_repetition=1, callbacks=None, verbose=1,
+    def fit(self, env, nb_steps, action_repetition=4, callbacks=None, verbose=1,
             visualize=False, nb_max_start_steps=0, start_step_policy=None, log_interval=10000,
-            nb_max_episode_steps=None):
+            nb_max_episode_steps=None, **kwargs):
         """Trains the agent on the given environment.
 
         # Arguments
@@ -248,7 +248,7 @@ class Agent:
 
         return history
 
-    def test(self, env, nb_episodes=1, action_repetition=1, callbacks=None, visualize=True,
+    def test(self, env, nb_episodes=1, action_repetition=4, callbacks=None, visualize=True,
              nb_max_episode_steps=None, nb_max_start_steps=0, start_step_policy=None, verbose=1):
         """Callback that is called before training begins.
 

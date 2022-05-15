@@ -19,7 +19,7 @@ import tensorflow as tf
 import time as t
 
 
-class SymbolTuner(StudyWrapper, Messenger):
+class SymbolTuner(StudyWrapper):
     current_lock_ix = 0
     hparams = None
     run_count = 0
@@ -42,7 +42,6 @@ class SymbolTuner(StudyWrapper, Messenger):
         super().__init__(**kwargs)
 
         StudyWrapper.__init__(self, **kwargs)
-        Messenger.__init__(self, **kwargs)
 
         self.train_recent_data = train_recent_data
         self.retry = retry
@@ -166,7 +165,7 @@ class SymbolTuner(StudyWrapper, Messenger):
 
     @property
     def agent(self):
-        # self.trial.suggest_int('test_num', 1, 2)
+        self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
             # base_filter_size=self.trial.suggest_categorical('base_filter_size', [2, 4, 8, 16, 32]),
@@ -185,7 +184,7 @@ class SymbolTuner(StudyWrapper, Messenger):
 
         # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
         # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 6, 16)
-        self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-06, 1e-1)
+        # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-06, 1e-1)
 
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 36, 48)
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
@@ -242,7 +241,7 @@ class SymbolTuner(StudyWrapper, Messenger):
             env_name=self.env_name,
             policy_value_max=0.1,
             short_reward_enabled=False,
-            target_model_update=batch_size * 12,
+            target_model_update=batch_size * 3,
             test_env=test_env,
             train_interval=batch_size,
             trial_id=str(self.trial.number),

@@ -228,7 +228,7 @@ class DQNAgent(AbstractDQNAgent):
         q_values = self.compute_q_values(state)
 
         # if self.is_test:
-        #     alog.info(q_values)
+        # alog.info(q_values)
 
         if self.training:
             action = self.policy.select_action(q_values=q_values)

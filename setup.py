@@ -1,8 +1,5 @@
 from setuptools import setup
 from setuptools import find_packages
-import alog
-
-alog.info(find_packages())
 
 setup(name='keras-rl2',
       version='1.0.4',
