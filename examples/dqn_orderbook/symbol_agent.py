@@ -36,9 +36,9 @@ class SymbolAgent(object):
         train_recent_data,
         env2=None,
         optimizer: int = 1,
-        cache_limit=20000,
+        cache_limit=5000,
         eps_greedy_policy_steps=10000,
-        lr=1.0e-6,
+        lr=1.0e-4,
         test_env=None,
         trial_id=0,
         window_length=3,
@@ -139,7 +139,8 @@ class SymbolAgent(object):
         callbacks = [tb_callback]
 
         # callbacks += [FileLogger(log_filename, interval=100)]
-        self.agent.fit(self.env, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps, log_interval=1)
+        self.agent.fit(self.env, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps,
+                       log_interval=1, action_repetition=4)
 
         if self.train_recent_data:
             self.agent.fit(self.env2, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps_2, log_interval=1,

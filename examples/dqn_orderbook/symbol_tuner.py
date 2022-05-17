@@ -232,7 +232,7 @@ class SymbolTuner(StudyWrapper):
         self.trial.set_user_attr('params', self._kwargs)
 
         # batch_size = self._kwargs['batch_size']
-        batch_size = 10
+        batch_size = 26
 
         params = dict(
             batch_size=batch_size,
