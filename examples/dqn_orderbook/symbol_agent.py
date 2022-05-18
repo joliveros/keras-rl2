@@ -38,10 +38,10 @@ class SymbolAgent(object):
         optimizer: int = 1,
         cache_limit=5000,
         eps_greedy_policy_steps=10000,
-        lr=1.0e-4,
+        lr=0.000092,
         test_env=None,
         trial_id=0,
-        window_length=3,
+        window_length=4,
         **kwargs
     ):
         kwargs['symbol'] = symbol
@@ -81,9 +81,9 @@ class SymbolAgent(object):
 
         self.agent = DQNAgent(
             delta_clip=1.,
-            dueling_type='avg',
+            dueling_type='max',
             enable_double_dqn=True,
-            enable_dueling_network=False,
+            enable_dueling_network=True,
             gamma=.99,
             memory=memory,
             model=model,
