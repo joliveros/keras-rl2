@@ -139,8 +139,9 @@ class SymbolAgent(object):
         callbacks = [tb_callback]
 
         # callbacks += [FileLogger(log_filename, interval=100)]
+        action_repetition = 4
         self.agent.fit(self.env, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps,
-                       log_interval=1, action_repetition=4)
+                       log_interval=1, action_repetition=action_repetition)
 
         if self.train_recent_data:
             self.agent.fit(self.env2, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps_2, log_interval=1,
@@ -151,7 +152,7 @@ class SymbolAgent(object):
 
         # Finally, evaluate our algorithm for 1 episodes.
         history: History = self.agent.test(self.test_env, verbose=2, nb_episodes=2, visualize=False, nb_max_start_steps=10,
-                                           action_repetition=4)
+                                           action_repetition=action_repetition)
 
         # ep_rewards = history.history['episode_reward']
         # nb_steps = history.history['nb_steps']
@@ -159,6 +160,8 @@ class SymbolAgent(object):
         # nb_steps_avg = sum(nb_steps) / len(nb_steps)
 
         capital = [info['capital'].tolist() for info in history.history['info']]
+
         capital_avg = sum(capital) / len(capital)
+        capital_avg = capital_avg / (action_repetition - 1)
 
         return capital_avg

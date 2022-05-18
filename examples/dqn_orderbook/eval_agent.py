@@ -97,6 +97,9 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         params.pop('interval', None)
         params.pop('offset_interval', None)
         params.pop('random_frame_start', None)
+
+        alog.info(alog.pformat(params))
+
         interval = self.interval_for_env(params)
 
         return gym.make(self.env_name,
@@ -146,7 +149,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 @click.argument('symbol', type=str)
 @click.option('--database-name', default='binance_futures', type=str)
 @click.option('--env-name', default='orderbook-frame-env-v0', type=str)
-@click.option('--eval-interval', '-e', default='30s', type=str)
+@click.option('--eval-interval', '-e', default='2m', type=str)
 @click.option('--interval', '-i', default='1m', type=str)
 @click.option('--memory', '-m', default=400, type=int)
 @click.option('--window-length', '-w', default=3, type=int)
