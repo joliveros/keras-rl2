@@ -165,7 +165,7 @@ class SymbolTuner(StudyWrapper):
 
     @property
     def agent(self):
-        self.trial.suggest_int('test_num', 1, 2)
+        # self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
             # base_filter_size=self.trial.suggest_categorical('base_filter_size', [2, 4, 8, 16, 32]),
@@ -184,7 +184,7 @@ class SymbolTuner(StudyWrapper):
 
         # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
         # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 6, 16)
-        # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-06, 1e-4)
+        self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-06, 1e-3)
 
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 36, 48)
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
@@ -202,8 +202,8 @@ class SymbolTuner(StudyWrapper):
         # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 2, 6)
         # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
         # self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 500, 10000)
-        # self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 18, 84)
-        # self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 18, 84)
+        self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 26, 78)
+        self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 0, 84)
         # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
         # self._kwargs['max_change'] = self.trial.suggest_float('max_change', 0.001, 0.02)
         # self._kwargs['min_flat_change'] = self.trial.suggest_float('min_flat_change', -0.01, 0.0)
@@ -232,6 +232,8 @@ class SymbolTuner(StudyWrapper):
         self.trial.set_user_attr('params', self._kwargs)
 
         # batch_size = self._kwargs['batch_size']
+        target_model_update = self._kwargs['target_model_update'] + self._kwargs['train_interval']
+        self._kwargs['target_model_update'] = target_model_update
         batch_size = 26
 
         params = dict(
@@ -241,9 +243,9 @@ class SymbolTuner(StudyWrapper):
             env_name=self.env_name,
             policy_value_max=0.1,
             short_reward_enabled=False,
-            target_model_update=batch_size * 3,
+            # target_model_update=batch_size * 3,
             test_env=test_env,
-            train_interval=batch_size,
+            # train_interval=batch_size,
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams
