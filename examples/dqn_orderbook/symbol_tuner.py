@@ -239,7 +239,7 @@ class SymbolTuner(StudyWrapper):
             env=env,
             env2=env2,
             env_name=self.env_name,
-            policy_value_max=0.25,
+            policy_value_max=0.5,
             short_reward_enabled=False,
             target_model_update=52,
             test_env=test_env,
