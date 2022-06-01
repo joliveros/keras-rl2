@@ -36,9 +36,9 @@ class SymbolAgent(object):
         train_recent_data,
         env2=None,
         optimizer: int = 2,
-        cache_limit=2800,
-        eps_greedy_policy_steps=5000,
-        lr=0.00003,
+        cache_limit=1300,
+        eps_greedy_policy_steps=4000,
+        lr=0.001,
         test_env=None,
         trial_id=0,
         window_length=3,
@@ -82,7 +82,7 @@ class SymbolAgent(object):
             attr='eps',
             nb_steps=int(self.eps_greedy_policy_steps),
             value_max=policy_value_max,
-            value_min=0.0,
+            value_min=0.0001,
             value_test=0.0
         )
 
@@ -169,6 +169,8 @@ class SymbolAgent(object):
         capital = [info['capital'].tolist() for info in history.history['info']]
 
         capital_avg = sum(capital) / len(capital)
-        capital_avg = capital_avg / (action_repetition - 1)
+
+        if action_repetition > 1:
+            capital_avg = capital_avg / (action_repetition - 1)
 
         return capital_avg
