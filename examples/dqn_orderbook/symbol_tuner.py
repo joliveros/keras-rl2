@@ -165,7 +165,7 @@ class SymbolTuner(StudyWrapper):
 
     @property
     def agent(self):
-        # self.trial.suggest_int('test_num', 1, 2)
+        self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
             # base_filter_size=self.trial.suggest_categorical('base_filter_size', [2, 4, 8, 16, 32]),
@@ -184,7 +184,7 @@ class SymbolTuner(StudyWrapper):
 
         # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
         # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 6, 16)
-        self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-05, 5e-4)
+        # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-067, 0.0130)
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 36)
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
         # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
@@ -192,15 +192,15 @@ class SymbolTuner(StudyWrapper):
         # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
         # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
         # self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 83, 320)
-        # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', int(4e4), int(1e5))
+        # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 20000, 50000)
         # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
         # self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 3, 5)
         # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 4, 5)
         # self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 16)
         # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
-        # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 2, 6)
+        self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 4)
         # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
-        self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 4000, 5000)
+        # self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 700, 5000)
         # self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 26, 78)
         # self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 0, 84)
         # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
@@ -240,9 +240,9 @@ class SymbolTuner(StudyWrapper):
             env_name=self.env_name,
             policy_value_max=0.5,
             short_reward_enabled=False,
-            target_model_update=batch_size * 2,
+            target_model_update=16,
             test_env=test_env,
-            train_interval=batch_size,
+            train_interval=16,
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams
