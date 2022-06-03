@@ -165,10 +165,12 @@ class SymbolTuner(StudyWrapper):
 
     @property
     def agent(self):
-        self.trial.suggest_int('test_num', 1, 2)
+        # self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
-            # base_filter_size=self.trial.suggest_categorical('base_filter_size', [2, 4, 8, 16, 32]),
+            base_filter_size=self.trial.suggest_categorical('base_filter_size',
+                [2, 4, 8, 16, 32, 36, 40]),
+            dense_width=self.trial.suggest_int('dense_width', 4, 64),
             # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 10),
             # block_kernel=self.trial.suggest_int('block_kernel', 1, 8),
             # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 96),
@@ -179,7 +181,8 @@ class SymbolTuner(StudyWrapper):
             # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
             # padding=self.trial.suggest_int('padding', 1, 8),
             # strides=self.trial.suggest_int('strides', 1, 16),
-            # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 30000)
+            eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps',
+                1000, 34000)
         )
 
         # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
@@ -198,7 +201,7 @@ class SymbolTuner(StudyWrapper):
         # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 4, 5)
         # self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 16)
         # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
-        self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 4)
+        # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 4)
         # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
         # self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 700, 5000)
         # self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 26, 78)
