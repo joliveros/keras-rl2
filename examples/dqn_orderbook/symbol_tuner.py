@@ -165,12 +165,11 @@ class SymbolTuner(StudyWrapper):
 
     @property
     def agent(self):
-        # self.trial.suggest_int('test_num', 1, 2)
+        self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
-            base_filter_size=self.trial.suggest_categorical('base_filter_size',
-                [2, 4, 8, 16, 32, 36, 40]),
-            dense_width=self.trial.suggest_int('dense_width', 4, 64),
+            # base_filter_size=self.trial.suggest_categorical('base_filter_size', [2, 4, 8, 16, 32, 36, 40]),
+            # dense_width=self.trial.suggest_int('dense_width', 4, 64),
             # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 10),
             # block_kernel=self.trial.suggest_int('block_kernel', 1, 8),
             # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 96),
@@ -181,8 +180,7 @@ class SymbolTuner(StudyWrapper):
             # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
             # padding=self.trial.suggest_int('padding', 1, 8),
             # strides=self.trial.suggest_int('strides', 1, 16),
-            eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps',
-                1000, 34000)
+            # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 34000)
         )
 
         # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
@@ -191,7 +189,7 @@ class SymbolTuner(StudyWrapper):
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 36)
         # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
         # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
-        # self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 0, 200)
+        # self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 55, 300)
         # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
         # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
         # self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 83, 320)
@@ -215,7 +213,7 @@ class SymbolTuner(StudyWrapper):
         self._kwargs['min_change'] = 0.0
         self._kwargs['max_change'] = 0.01
         self._kwargs['min_flat_change'] = -0.001
-        self._kwargs['max_flat_position_length'] = 0
+        self._kwargs['max_flat_position_length'] = 173
         self._kwargs['max_short_position_length'] = 0
 
         kwargs = self._kwargs.copy()
