@@ -15,7 +15,7 @@ services:
         command: bash -c "source ~/.bashrc &&
           ./examples/dqn_orderbook/run.py LRCUSDT -i 18h -D 4 --summary-interval 940 -g 30s -w 6m \
           --database-name binance_futures -l 12 -d 21 --leverage 2.0 \
-          --offset-interval 12h --test-interval 12h --nb-steps 34000 --max-negative-pnl -0.99 -m 590"
+          --offset-interval 0h --test-interval 12h --nb-steps 34000 --max-negative-pnl -0.99 -m 590"
         environment:
             - LOG_LEVEL=DEBUG
             - NVIDIA_VISIBLE_DEVICES=all
@@ -34,7 +34,7 @@ services:
       volumes:
         - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
       command: bash -c "source ~/.bashrc &&
-        ./examples/dqn_orderbook/eval_agent.py LRCUSDT --valid-interval 2h -m 1400 -e 2m"
+        ./examples/dqn_orderbook/eval_agent.py LRCUSDT --valid-interval 2h -m 590 -e 2m"
       environment:
         - LOG_LEVEL=INFO
         - NVIDIA_VISIBLE_DEVICES=all
