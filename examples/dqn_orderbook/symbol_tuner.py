@@ -166,8 +166,11 @@ class SymbolTuner(StudyWrapper):
     @property
     def agent(self):
         tune = self._kwargs['tune']
+        hparams = dict()
 
         if tune:
+            self.trial.set_user_attr('tuned', True)
+
             hparams = dict(
                 # base_filter_size=self.trial.suggest_categorical('base_filter_size', [2, 4, 8, 16, 32, 36, 40]),
                 # dense_width=self.trial.suggest_int('dense_width', 4, 64),
@@ -210,6 +213,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['min_flat_change'] = self.trial.suggest_float('min_flat_change', -0.01, 0.0)
 
         else:
+            self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
 
             

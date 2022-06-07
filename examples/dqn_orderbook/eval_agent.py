@@ -50,6 +50,13 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         min_datetime_completed = datetime.utcnow() - timedelta(seconds=timeparse(self.valid_interval))
         df = df.loc[df['datetime_complete'] > min_datetime_completed]
         df = df[df['value'] > 0.0]
+
+        for index, row in df.iterrows():
+            # alog.info(row['user_attrs_params'])
+            df.loc[index, 'tuned'] = row['user_attrs_params'].get('tuned', True) 
+
+        # alog.info(df)
+
         pd.set_option('display.max_rows', len(df) + 1)
        
         if df.shape[0] < 1:

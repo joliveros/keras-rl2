@@ -1,0 +1,32 @@
+version: '3.8'
+
+networks:
+  public:
+    name: public
+    external: true
+
+services:
+
+    agent:
+      deploy:
+        replicas: 1
+      image: 'registry.rubercubic.com:5001/dqn-orderbook'
+      volumes:
+        - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
+      command: bash -c "source ~/.bashrc &&
+        ./examples/dqn_orderbook/eval_agent.py LRCUSDT --valid-interval 1h -m 40 -e 2m"
+      environment:
+        - LOG_LEVEL=INFO
+        - NVIDIA_VISIBLE_DEVICES=all
+      networks:
+        - public
+      depends_on:
+        - influxdb
+        - redis
+      secrets:
+        - DB
+
+
+secrets:
+  DB:
+      external: true
