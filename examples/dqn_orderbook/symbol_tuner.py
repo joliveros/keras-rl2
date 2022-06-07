@@ -176,7 +176,7 @@ class SymbolTuner(StudyWrapper):
                 # dense_width=self.trial.suggest_int('dense_width', 4, 64),
                 # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 10),
                 # block_kernel=self.trial.suggest_int('block_kernel', 1, 8),
-                interval_minutes=self.trial.suggest_int('interval_minutes', 4, 24),
+                # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 24),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
                 # kernel_size=self.trial.suggest_categorical('kernel_size', [2, 3, 4]),
                 # dense_size=self.trial.suggest_int('dense_size', 256, 512),
@@ -187,11 +187,12 @@ class SymbolTuner(StudyWrapper):
                 # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 34000)
             )
 
+            self._kwargs['trading_fee'] = self.trial.suggest_float('trading_fee', 0.0004, 0.002)
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
             # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 6, 16)
             # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-067, 0.0130)
             # self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 36)
-            self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
+            # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
             # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
             # self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 55, 300)
             # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
