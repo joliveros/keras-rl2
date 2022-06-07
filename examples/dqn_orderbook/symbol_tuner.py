@@ -165,14 +165,14 @@ class SymbolTuner(StudyWrapper):
 
     @property
     def agent(self):
-        self.trial.suggest_int('test_num', 1, 2)
+        # self.trial.suggest_int('test_num', 1, 2)
 
         hparams = dict(
             # base_filter_size=self.trial.suggest_categorical('base_filter_size', [2, 4, 8, 16, 32, 36, 40]),
             # dense_width=self.trial.suggest_int('dense_width', 4, 64),
             # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 10),
             # block_kernel=self.trial.suggest_int('block_kernel', 1, 8),
-            # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 96),
+            interval_minutes=self.trial.suggest_int('interval_minutes', 4, 24),
             # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
             # kernel_size=self.trial.suggest_categorical('kernel_size', [2, 3, 4]),
             # dense_size=self.trial.suggest_int('dense_size', 256, 512),
@@ -187,7 +187,7 @@ class SymbolTuner(StudyWrapper):
         # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 6, 16)
         # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-067, 0.0130)
         # self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 36)
-        # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
+        self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
         # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
         # self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 55, 300)
         # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
