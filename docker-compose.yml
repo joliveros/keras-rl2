@@ -6,7 +6,7 @@ networks:
     external: true
 
 services:
-    train:
+    train_live:
         deploy:
           replicas: 1
         image: 'registry.rubercubic.com:5001/dqn-orderbook'
@@ -16,6 +16,27 @@ services:
           ./examples/dqn_orderbook/run.py LRCUSDT -i 18h -D 4 --summary-interval 940 -g 30s -w 6m \
           --database-name binance_futures -l 12 -d 21 --leverage 2.0 \
           --offset-interval 0h --test-interval 12h --nb-steps 34000 --max-negative-pnl -0.99 -m 590"
+        environment:
+            - LOG_LEVEL=DEBUG
+            - NVIDIA_VISIBLE_DEVICES=all
+        networks:
+            - public
+        depends_on:
+            - influxdb
+            - redis
+        secrets:
+            - DB
+
+    train_tune:
+        deploy:
+          replicas: 3
+        image: 'registry.rubercubic.com:5001/dqn-orderbook'
+        volumes:
+            - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
+        command: bash -c "source ~/.bashrc &&
+          ./examples/dqn_orderbook/run.py LRCUSDT -i 18h -D 4 --summary-interval 940 -g 30s -w 6m \
+          --database-name binance_futures -l 12 -d 21 --leverage 2.0 \
+          --offset-interval 12h --test-interval 12h --nb-steps 34000 --max-negative-pnl -0.99 -m 590 --tune"
         environment:
             - LOG_LEVEL=DEBUG
             - NVIDIA_VISIBLE_DEVICES=all
@@ -37,7 +58,7 @@ services:
         ./examples/dqn_orderbook/eval_agent.py LRCUSDT --valid-interval 1h -m 590 -e 2m"
       environment:
         - LOG_LEVEL=INFO
-        - NVIDIA_VISIBLE_DEVICES=all
+        - NVIDIA_VISIBLE_DEVICES=-1
       networks:
         - public
       depends_on:

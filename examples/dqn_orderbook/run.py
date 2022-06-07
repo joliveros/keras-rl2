@@ -42,6 +42,7 @@ class SymbolAgentTuner(SymbolTuner):
 @click.option('--test-interval', default='2h', type=str)
 @click.option('--trading-fee', default=4e-4, type=float)
 @click.option('--window-size', '-w', default='2m', type=str)
+@click.option('--tune', is_flag=True)
 def main(**kwargs):
     SymbolAgentTuner(**kwargs)
 
