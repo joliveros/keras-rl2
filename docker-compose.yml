@@ -8,12 +8,12 @@ networks:
 services:
     train_live:
         deploy:
-          replicas: 0
+          replicas: 1
         image: 'registry.rubercubic.com:5001/dqn-orderbook'
         volumes:
             - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
         command: bash -c "source ~/.bashrc &&
-          ./examples/dqn_orderbook/run.py LRCUSDT -i 8h -D 4 --summary-interval 940 -g 30s -w 6m \
+          ./examples/dqn_orderbook/run.py LRCUSDT -i 12h -D 4 --summary-interval 940 -g 30s -w 6m \
           --database-name binance_futures -l 12 -d 21 --leverage 2.0 \
           --offset-interval 0h --test-interval 12h --nb-steps 34000 --max-negative-pnl -0.99 -m 490"
         environment:
@@ -29,7 +29,7 @@ services:
 
     train_tune:
         deploy:
-          replicas: 4
+          replicas: 3
         image: 'registry.rubercubic.com:5001/dqn-orderbook'
         volumes:
             - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
