@@ -190,8 +190,8 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['fee_ratio'] = self.trial.suggest_float('fee_ratio', 0.9, 2.0)
             # self._kwargs['trading_fee'] = self.trial.suggest_float('trading_fee', 0.0004, 0.01)
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
-            # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 6, 16)
-            # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-067, 0.0130)
+            # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 32, 128)
+            self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-04, 0.01)
             # self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 36)
             # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
             # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
@@ -207,7 +207,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
             # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 4)
             # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
-            self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 700, 5000)
+            # self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 700, 5000)
             # self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 26, 78)
             # self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 0, 84)
             # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
@@ -217,6 +217,7 @@ class SymbolTuner(StudyWrapper):
         else:
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
+            self._kwargs['batch_size'] = 87
 
             
         self._kwargs['max_position_length'] = 31
@@ -242,12 +243,8 @@ class SymbolTuner(StudyWrapper):
         test_env.reset()
 
         self.trial.set_user_attr('params', self._kwargs)
-
-        # batch_size = self._kwargs['batch_size']
-        batch_size = 32
-
+                
         params = dict(
-            batch_size=batch_size,
             env=env,
             env2=env2,
             env_name=self.env_name,

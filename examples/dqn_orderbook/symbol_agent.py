@@ -38,10 +38,10 @@ class SymbolAgent(object):
         optimizer: int = 2,
         cache_limit=1847,
         eps_greedy_policy_steps=30500,
-        lr=0.009293375,
+        lr=0.006,
         test_env=None,
         trial_id=0,
-        window_length=3,
+        window_length=4,
         **kwargs
     ):
         kwargs['symbol'] = symbol
