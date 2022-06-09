@@ -15,7 +15,7 @@ services:
         command: bash -c "source ~/.bashrc &&
           ./examples/dqn_orderbook/run.py LRCUSDT -i 12h -D 4 --summary-interval 940 -g 30s -w 6m \
           --database-name binance_futures -l 17 -d 14 --leverage 2.0 \
-          --offset-interval 0h --test-interval 12h --nb-steps 34000 --max-negative-pnl -0.99 -m 490"
+          --offset-interval 0h --test-interval 12h --nb-steps 34000 --max-negative-pnl -0.99 -m 490 -s 1"
         environment:
             - LOG_LEVEL=DEBUG
             - NVIDIA_VISIBLE_DEVICES=all
