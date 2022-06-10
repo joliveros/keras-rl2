@@ -54,7 +54,8 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         for index, row in df.iterrows():
             df.loc[index, 'tuned'] = row['user_attrs_params'].get('tune', True) 
 
-        df = df[df['tuned'] == False]
+        if not df.empty:
+            df = df[df['tuned'] == False]
 
         pd.set_option('display.max_rows', len(df) + 1)
        
