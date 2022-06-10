@@ -379,6 +379,9 @@ class Agent:
                         if key not in accumulated_info:
                             accumulated_info[key] = np.zeros_like(value)
                         accumulated_info[key] += value
+
+                    accumulated_info['num_steps'] = _ + 1
+
                     if d:
                         done = True
                         break

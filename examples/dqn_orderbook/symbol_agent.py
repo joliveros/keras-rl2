@@ -152,7 +152,7 @@ class SymbolAgent(object):
 
         if self.train_recent_data:
             self.agent.fit(self.env2, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps_2, log_interval=1,
-                           action_repetition=4)
+                           action_repetition=action_repetition)
 
         # After training is done, we save the final weights one more time.
         self.agent.save_weights(self.weights_filename, overwrite=True)
@@ -166,11 +166,8 @@ class SymbolAgent(object):
         # ep_rewards_avg = sum(ep_rewards) / len(ep_rewards)
         # nb_steps_avg = sum(nb_steps) / len(nb_steps)
 
-        capital = [info['capital'].tolist() for info in history.history['info']]
+        capital = [info['capital'] / info['num_steps'] for info in history.history['info']]
 
         capital_avg = sum(capital) / len(capital)
-
-        if action_repetition > 1:
-            capital_avg = capital_avg / (action_repetition - 1)
 
         return capital_avg
