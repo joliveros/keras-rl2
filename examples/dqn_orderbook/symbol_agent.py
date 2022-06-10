@@ -38,7 +38,7 @@ class SymbolAgent(object):
         optimizer: int = 2,
         cache_limit=1847,
         eps_greedy_policy_steps=30500,
-        lr=0.006,
+        lr=0.00680613,
         test_env=None,
         trial_id=0,
         window_length=4,
