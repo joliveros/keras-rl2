@@ -208,8 +208,8 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 4)
             # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
             # self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 700, 5000)
-            self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 2, 78)
-            self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 2, 84)
+            # self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 2, 78)
+            # self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 2, 84)
             # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
             # self._kwargs['max_change'] = self.trial.suggest_float('max_change', 0.001, 0.02)
             # self._kwargs['min_flat_change'] = self.trial.suggest_float('min_flat_change', -0.01, 0.0)
@@ -252,9 +252,9 @@ class SymbolTuner(StudyWrapper):
             env_name=self.env_name,
             policy_value_max=0.5,
             short_reward_enabled=False,
-            target_model_update=16,
+            target_model_update=74,
             test_env=test_env,
-            train_interval=16,
+            train_interval=15,
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams
