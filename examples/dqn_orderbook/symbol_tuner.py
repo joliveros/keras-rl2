@@ -190,7 +190,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['fee_ratio'] = self.trial.suggest_float('fee_ratio', 0.9, 2.0)
             # self._kwargs['trading_fee'] = self.trial.suggest_float('trading_fee', 0.0004, 0.01)
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
-            # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 12, 34)
+            # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 24)
             # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-05, 0.01)
             # self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 36)
             # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
@@ -217,11 +217,13 @@ class SymbolTuner(StudyWrapper):
         else:
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
-            self._kwargs['batch_size'] = 29
+            self._kwargs['num_conv'] = 3
+            self._kwargs['base_filter_size'] = 4
 
 
 
-            
+
+        self._kwargs['batch_size'] = 9
         self._kwargs['max_position_length'] = 31
         self._kwargs['random_frame_start'] = False
         self._kwargs['min_change'] = 0.0
@@ -252,7 +254,7 @@ class SymbolTuner(StudyWrapper):
             env_name=self.env_name,
             policy_value_max=0.5,
             short_reward_enabled=False,
-            target_model_update=74,
+            target_model_update=66,
             test_env=test_env,
             train_interval=15,
             trial_id=str(self.trial.number),
