@@ -220,9 +220,6 @@ class SymbolTuner(StudyWrapper):
             self._kwargs['num_conv'] = 3
             self._kwargs['base_filter_size'] = 4
 
-
-
-
         self._kwargs['batch_size'] = 9
         self._kwargs['max_position_length'] = 31
         self._kwargs['random_frame_start'] = False
