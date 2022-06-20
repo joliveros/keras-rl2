@@ -227,7 +227,7 @@ class SymbolTuner(StudyWrapper):
         self._kwargs['min_change'] = 0.0
         self._kwargs['max_change'] = 0.01
         self._kwargs['min_flat_change'] = -0.001
-        self._kwargs['max_flat_position_length'] = 0
+        self._kwargs['max_flat_position_length'] = 33
         self._kwargs['max_short_position_length'] = 0
         
 
