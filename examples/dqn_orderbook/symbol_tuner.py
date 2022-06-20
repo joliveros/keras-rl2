@@ -217,17 +217,18 @@ class SymbolTuner(StudyWrapper):
         else:
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
-            self._kwargs['num_conv'] = 3
-            self._kwargs['base_filter_size'] = 4
+            self._kwargs['num_conv'] = 16
+            self._kwargs['base_filter_size'] = 32
 
-        self._kwargs['batch_size'] = 9
+        # self._kwargs['batch_size'] = 9
+        self._kwargs['batch_size'] = 18
         self._kwargs['max_position_length'] = 31
-        self._kwargs['random_frame_start'] = False
+        self._kwargs['random_frame_start'] = True
         self._kwargs['min_change'] = 0.0
         self._kwargs['max_change'] = 0.01
         self._kwargs['min_flat_change'] = -0.001
-        self._kwargs['max_flat_position_length'] = 380
-        self._kwargs['max_short_position_length'] = 140
+        self._kwargs['max_flat_position_length'] = 0
+        self._kwargs['max_short_position_length'] = 0
         
 
         kwargs = self._kwargs.copy()
@@ -252,6 +253,7 @@ class SymbolTuner(StudyWrapper):
             policy_value_max=0.5,
             short_reward_enabled=False,
             target_model_update=66,
+            # target_model_update=15,
             test_env=test_env,
             train_interval=15,
             trial_id=str(self.trial.number),
