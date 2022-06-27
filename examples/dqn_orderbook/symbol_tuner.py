@@ -172,7 +172,7 @@ class SymbolTuner(StudyWrapper):
             self.trial.set_user_attr('tuned', True)
 
             hparams = dict(
-                base_filter_size=self.trial.suggest_categorical('base_filter_size', [16, 32, 48, 56, 64]),
+                # base_filter_size=self.trial.suggest_categorical('base_filter_size', [16, 32, 48, 56, 64]),
                 # dense_width=self.trial.suggest_int('dense_width', 4, 64),
                 # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 10),
                 # block_kernel=self.trial.suggest_int('block_kernel', 1, 8),
@@ -190,9 +190,9 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['fee_ratio'] = self.trial.suggest_float('fee_ratio', 0.9, 2.0)
             # self._kwargs['trading_fee'] = self.trial.suggest_float('trading_fee', 0.0004, 0.01)
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
-            self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 14)
+            # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 14)
             # self._kwargs['lr'] = self.trial.suggest_loguniform('lr', 1e-07, 1e-01)
-            self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 32)
+            # self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 32)
             # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
             # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
             # self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 33, 1000)
@@ -203,7 +203,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
             # self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 3, 9)
             # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 4, 5)
-            self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 6, 21)
+            # self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 6, 21)
             # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
             # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 4)
             # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
@@ -219,8 +219,8 @@ class SymbolTuner(StudyWrapper):
             self.trial.suggest_int('test_num', 1, 2)
 
         self._kwargs['num_conv'] = 9
-        # self._kwargs['base_filter_size'] = 64
-        # self._kwargs['batch_size'] = 16
+        self._kwargs['base_filter_size'] = 64
+        self._kwargs['batch_size'] = 13
         self._kwargs['max_position_length'] = 31
         self._kwargs['random_frame_start'] = True
         self._kwargs['min_change'] = 0.0
