@@ -192,7 +192,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['trading_fee'] = self.trial.suggest_float('trading_fee', 0.0004, 0.01)
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
             # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 14)
-            # self._kwargs['lr'] = self.trial.suggest_loguniform('lr', 1e-07, 1e-01)
+            # self._kwargs['lr'] = self.trial.suggest_loguniform('lr', 1e-06, 1e-03)
             # self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 32)
             # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
             # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
@@ -201,11 +201,11 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
             # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
             # self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 83, 320)
-            self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 19000, 50000)
+            # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 19000, 50000)
             # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
             # self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 3, 9)
             # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 4, 5)
-            # self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 6, 21)
+            self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 6, 18)
             # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
             # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 4)
             # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
@@ -254,7 +254,6 @@ class SymbolTuner(StudyWrapper):
             policy_value_max=0.5,
             short_reward_enabled=False,
             target_model_update=66,
-            # target_model_update=15,
             test_env=test_env,
             train_interval=15,
             trial_id=str(self.trial.number),

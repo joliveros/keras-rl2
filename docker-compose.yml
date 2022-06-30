@@ -15,7 +15,7 @@ services:
         command: bash -c "source ~/.bashrc &&
           ./examples/dqn_orderbook/run.py LRCUSDT -i 28h -D 4 --summary-interval 400 -g 30s -w 6m \
           --database-name binance_futures -l 10 -d 31 --leverage 2.0 \
-          --offset-interval 3h --test-interval 12h --nb-steps 19300 --max-negative-pnl -0.99 -m 550 -s 1"
+          --offset-interval 3h --test-interval 3h --nb-steps 19300 --max-negative-pnl -0.99 -m 550 -s 1"
         environment:
             - LOG_LEVEL=DEBUG
             - NVIDIA_VISIBLE_DEVICES=all
@@ -36,7 +36,7 @@ services:
         command: bash -c "source ~/.bashrc &&
           ./examples/dqn_orderbook/run.py LRCUSDT -i 28h -D 4 --summary-interval 400 -g 30s -w 6m \
           --database-name binance_futures -l 10 -d 31 --leverage 2.0 \
-          --offset-interval 3h --test-interval 12h --nb-steps 19300 --max-negative-pnl -0.99 -m 550 --tune -s 1"
+          --offset-interval 3h --test-interval 3h --nb-steps 19300 --max-negative-pnl -0.99 -m 720 --tune -s 1"
         environment:
             - LOG_LEVEL=DEBUG
             - NVIDIA_VISIBLE_DEVICES=all
