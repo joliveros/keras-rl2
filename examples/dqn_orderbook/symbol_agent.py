@@ -171,5 +171,11 @@ class SymbolAgent(object):
 
         capital_avg = sum(capital) / len(capital)
         trade_avg = sum(trades) / len(trades)
+        
+        if trade_avg > 5:
+            trade_avg = 0
+        else:
+            trade_avg = trade_avg / 5
 
-        return capital_avg * trade_avg
+        return capital_avg * trade_avg 
+
