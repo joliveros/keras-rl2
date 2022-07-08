@@ -10,10 +10,16 @@ import plotly.graph_objects as go
 
 
 class TrialsFrame(StudyWrapper):
-    def __init__(self, **kwargs):
+    def __init__(self, min_value, **kwargs):
         super().__init__(**kwargs)
+        self.min_value = min_value
         pd.options.plotting.backend = "plotly"
         df = self.study.trials_dataframe()
+
+        df = df.drop(['datetime_start', 'datetime_complete', 'state',  'user_attrs_params', 'user_attrs_tuned'], axis=1)
+
+        df = df[df['value'] >= self.min_value]
+
         pd.set_option('display.max_rows', len(df) + 1)
         alog.info(df)
 
@@ -37,6 +43,7 @@ class TrialsFrame(StudyWrapper):
 
 @click.command()
 @click.argument('symbol', type=str)
+@click.option('--min-value', default=0.9, type=float)
 def main(**kwargs):
     TrialsFrame(**kwargs)
 
