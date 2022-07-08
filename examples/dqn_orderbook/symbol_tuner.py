@@ -241,8 +241,8 @@ class SymbolTuner(StudyWrapper):
         self._kwargs['quantile'] = env.quantile
         self._kwargs['trade_volume_max'] = env.trade_volume_max
 
-        env2 = self.env2
-        env2.reset()
+        # env2 = self.env2
+        # env2.reset()
 
         test_env = self.test_env
         test_env.reset()
@@ -251,7 +251,7 @@ class SymbolTuner(StudyWrapper):
                 
         params = dict(
             env=env,
-            env2=env2,
+            # env2=env2,
             env_name=self.env_name,
             policy_value_max=0.5,
             short_reward_enabled=False,

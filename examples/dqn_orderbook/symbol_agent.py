@@ -167,7 +167,9 @@ class SymbolAgent(object):
         # nb_steps_avg = sum(nb_steps) / len(nb_steps)
 
         capital = [info['capital'] / info['num_steps'] for info in history.history['info']]
+        trades = [info['trades'] / info['num_steps'] for info in history.history['info']]
 
         capital_avg = sum(capital) / len(capital)
+        trade_avg = sum(trades) / len(trades)
 
-        return capital_avg
+        return capital_avg * trade_avg
