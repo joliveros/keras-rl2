@@ -171,11 +171,13 @@ class SymbolAgent(object):
 
         capital_avg = sum(capital) / len(capital)
         trade_avg = sum(trades) / len(trades)
+
+        min_trade_count = 12
         
-        if trade_avg > 5:
+        if trade_avg > min_trade_count:
             trade_avg = 0
         else:
-            trade_avg = trade_avg / 5
+            trade_avg = trade_avg / min_trade_count
 
         return capital_avg * trade_avg 
 
