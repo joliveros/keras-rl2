@@ -105,6 +105,8 @@ class SymbolAgent(object):
 
     @property
     def optimizer(self):
+        beta_1 = self._kwargs.get('beta_1', 0.9)
+        beta_2 = self._kwargs.get('beta_2', 0.999)
         optimizer = Optimizer(self._optimizer)
 
         alog.info(optimizer)
@@ -114,7 +116,7 @@ class SymbolAgent(object):
         elif optimizer == Optimizer.Adadelta:
             return Adadelta(learning_rate=self.lr)
         elif optimizer == Optimizer.Adamax:
-            return Adamax(learning_rate=self.lr)
+            return Adamax(learning_rate=self.lr, beta_1=beta_1, beta_2=beta_2)
         elif optimizer == Optimizer.SGD:
             return SGD(learning_rate=self.lr)
         raise Exception()

@@ -190,6 +190,8 @@ class SymbolTuner(StudyWrapper):
                 # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 10000)
             )
 
+            self._kwargs['beta_1'] = self.trial.suggest_float('beta_1', 0.0, 0.99999)
+            self._kwargs['beta_2'] = self.trial.suggest_float('beta_2', 0.0, 0.99999)
             # self._kwargs['fee_ratio'] = self.trial.suggest_float('fee_ratio', 0.9, 2.0)
             # self._kwargs['trading_fee'] = self.trial.suggest_float('trading_fee', 0.0004, 0.005)
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
@@ -203,7 +205,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
             # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
             self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 2, 100)
-            self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 10000, 100000)
+            # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 10000, 100000)
             # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
             # self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 3, 7)
             # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 2, 3)
