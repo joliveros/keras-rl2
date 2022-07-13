@@ -196,7 +196,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['trading_fee'] = self.trial.suggest_float('trading_fee', 0.0004, 0.005)
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
             self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 26)
-            # self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-07, 1e-01)
+            self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-07, 1e-01)
             # self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 32)
             # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
             # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
