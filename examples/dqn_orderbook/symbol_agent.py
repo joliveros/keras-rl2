@@ -37,8 +37,8 @@ class SymbolAgent(object):
         env2=None,
         optimizer: int = 2,
         cache_limit=1218,
-        eps_greedy_policy_steps=7656,
-        lr=0.030632,
+        eps_greedy_policy_steps=3179.0,
+        lr=0.011471,
         test_env=None,
         trial_id=0,
         window_length=1,
@@ -105,8 +105,8 @@ class SymbolAgent(object):
 
     @property
     def optimizer(self):
-        beta_1 = self._kwargs.get('beta_1', 0.962034)
-        beta_2 = self._kwargs.get('beta_2', 0.524051)
+        beta_1 = self._kwargs.get('beta_1', 0.544466)
+        beta_2 = self._kwargs.get('beta_2', 0.724386)
         optimizer = Optimizer(self._optimizer)
 
         alog.info(optimizer)
@@ -181,5 +181,5 @@ class SymbolAgent(object):
         else:
             trade_avg = trade_avg / min_trade_count
 
-        return capital_avg * trade_avg 
+        return (capital_avg * 0.8) + (trade_avg * 0.2) 
 
