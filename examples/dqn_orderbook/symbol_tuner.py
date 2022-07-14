@@ -223,8 +223,8 @@ class SymbolTuner(StudyWrapper):
         else:
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
-            self._kwargs['max_flat_position_length'] = 63
-            self._kwargs['max_short_position_length'] = 49
+            self._kwargs['max_flat_position_length'] = 32
+            self._kwargs['max_short_position_length'] = 50
         
 
         if 'num_conv' not in self._kwargs:
