@@ -223,14 +223,14 @@ class SymbolTuner(StudyWrapper):
         else:
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
-            self._kwargs['max_flat_position_length'] = 32
-            self._kwargs['max_short_position_length'] = 50
+            self._kwargs['max_flat_position_length'] = 65
+            self._kwargs['max_short_position_length'] = 80
         
 
         if 'num_conv' not in self._kwargs:
-            self._kwargs['num_conv'] = 3
+            self._kwargs['num_conv'] = 7
 
-        self._kwargs['batch_size'] = 20
+        self._kwargs['batch_size'] = 14
         self._kwargs['trading_fee'] = 0.0008
         self._kwargs['base_filter_size'] = 64
         self._kwargs['max_position_length'] = 31
