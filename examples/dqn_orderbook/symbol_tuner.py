@@ -213,9 +213,9 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
             # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 2)
             # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
-            # self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 700, 10000)
-            # self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 2, 78)
-            # self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 2, 84)
+            self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 700, 10000)
+            self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 2, 112)
+            self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 2, 112)
             # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
             # self._kwargs['max_change'] = self.trial.suggest_float('max_change', 0.001, 0.02)
             # self._kwargs['min_flat_change'] = self.trial.suggest_float('min_flat_change', -0.01, 0.0)
@@ -223,8 +223,8 @@ class SymbolTuner(StudyWrapper):
         else:
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
-            self._kwargs['max_flat_position_length'] = 65
-            self._kwargs['max_short_position_length'] = 80
+            self._kwargs['max_flat_position_length'] = 82
+            self._kwargs['max_short_position_length'] = 36
         
 
         if 'num_conv' not in self._kwargs:
@@ -261,9 +261,9 @@ class SymbolTuner(StudyWrapper):
             env_name=self.env_name,
             policy_value_max=0.5,
             short_reward_enabled=False,
-            target_model_update=60,
+            target_model_update=96,
             test_env=test_env,
-            train_interval=15,
+            train_interval=96,
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams
