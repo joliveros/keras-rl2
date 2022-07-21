@@ -246,6 +246,7 @@ class SymbolTuner(StudyWrapper):
         env.reset()
         self._kwargs['quantile'] = env.quantile
         self._kwargs['trade_volume_max'] = env.trade_volume_max
+        self._kwargs['change_max'] = env.change_max
 
         # env2 = self.env2
         # env2.reset()

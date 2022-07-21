@@ -61,7 +61,7 @@ class SymbolAgent(object):
         self.test_env = test_env
         self.train_recent_data = train_recent_data
 
-        input_shape = (window_length, kwargs['sequence_length'], (kwargs['depth'] * 2) + 1, 1)
+        input_shape = (window_length, kwargs['sequence_length'], (kwargs['depth'] * 2) + 2, 1)
         np.random.seed(123)
         self.env.seed(123)
         nb_actions = self.env.action_space.n
