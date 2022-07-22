@@ -174,7 +174,7 @@ class SymbolTuner(StudyWrapper):
             self.trial.set_user_attr('tuned', True)
 
             hparams = dict(
-                # base_filter_size=self.trial.suggest_categorical('base_filter_size', [16, 32, 48, 56, 64]),
+                # base_filter_size=self.trial.suggest_categorical('base_filter_size', [16, 32, 48, 56, 64, 128, 256]),
                 # dense_width=self.trial.suggest_int('dense_width', 4, 64),
                 # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 10),
                 # block_kernel=self.trial.suggest_int('block_kernel', 1, 8),
@@ -205,7 +205,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
             # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
             self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 2, 100)
-            # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 10000, 100000)
+            self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 5000, 20000)
             # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
             # self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 3, 7)
             # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 2, 3)
@@ -228,11 +228,11 @@ class SymbolTuner(StudyWrapper):
         
 
         if 'num_conv' not in self._kwargs:
-            self._kwargs['num_conv'] = 7
+            self._kwargs['num_conv'] = 3
 
+        self._kwargs['base_filter_size'] = 76
         self._kwargs['batch_size'] = 14
         self._kwargs['trading_fee'] = 0.0008
-        self._kwargs['base_filter_size'] = 64
         self._kwargs['max_position_length'] = 31
         self._kwargs['random_frame_start'] = False
         self._kwargs['min_change'] = 0.0
@@ -262,9 +262,9 @@ class SymbolTuner(StudyWrapper):
             env_name=self.env_name,
             policy_value_max=0.5,
             short_reward_enabled=False,
-            target_model_update=96,
+            # target_model_update=96,
             test_env=test_env,
-            train_interval=96,
+            # train_interval=96,
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams
