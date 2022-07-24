@@ -223,8 +223,8 @@ class SymbolTuner(StudyWrapper):
         else:
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
-            self._kwargs['max_flat_position_length'] = 82
-            self._kwargs['max_short_position_length'] = 36
+            self._kwargs['max_flat_position_length'] = 58
+            self._kwargs['max_short_position_length'] = 44
         
 
         if 'num_conv' not in self._kwargs:
@@ -262,9 +262,9 @@ class SymbolTuner(StudyWrapper):
             env_name=self.env_name,
             policy_value_max=0.5,
             short_reward_enabled=False,
-            # target_model_update=96,
+            target_model_update=109,
             test_env=test_env,
-            # train_interval=96,
+            train_interval=99,
             trial_id=str(self.trial.number),
             **kwargs,
             **hparams
