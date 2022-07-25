@@ -230,7 +230,7 @@ class SymbolTuner(StudyWrapper):
         if 'num_conv' not in self._kwargs:
             self._kwargs['num_conv'] = 3
 
-        self._kwargs['base_filter_size'] = 76
+        self._kwargs['base_filter_size'] = 294
         self._kwargs['batch_size'] = 14
         self._kwargs['trading_fee'] = 0.0008
         self._kwargs['max_position_length'] = 31
