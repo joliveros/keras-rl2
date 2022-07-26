@@ -36,9 +36,9 @@ class SymbolAgent(object):
         train_recent_data,
         env2=None,
         optimizer: int = 2,
-        cache_limit=1573,
-        eps_greedy_policy_steps=6405,
-        lr=0.000018,
+        cache_limit=1559,
+        eps_greedy_policy_steps=4297,
+        lr=5.314764e-07,
         test_env=None,
         trial_id=0,
         window_length=1,
@@ -105,8 +105,8 @@ class SymbolAgent(object):
 
     @property
     def optimizer(self):
-        beta_1 = self._kwargs.get('beta_1', 0.709286)
-        beta_2 = self._kwargs.get('beta_2', 0.335202)
+        beta_1 = self._kwargs.get('beta_1', 0.940385)
+        beta_2 = self._kwargs.get('beta_2', 0.832861)
         optimizer = Optimizer(self._optimizer)
 
         alog.info(optimizer)

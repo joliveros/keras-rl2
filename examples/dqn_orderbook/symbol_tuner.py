@@ -214,8 +214,8 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 2)
             # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
             self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 700, 10000)
-            self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 2, 112)
-            self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 2, 112)
+            #self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 2, 112)
+            #self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 2, 112)
             # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
             # self._kwargs['max_change'] = self.trial.suggest_float('max_change', 0.001, 0.02)
             # self._kwargs['min_flat_change'] = self.trial.suggest_float('min_flat_change', -0.01, 0.0)
@@ -223,8 +223,8 @@ class SymbolTuner(StudyWrapper):
         else:
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
-            self._kwargs['max_flat_position_length'] = 58
-            self._kwargs['max_short_position_length'] = 44
+            self._kwargs['max_flat_position_length'] = 50
+            self._kwargs['max_short_position_length'] = 62
         
 
         if 'num_conv' not in self._kwargs:
