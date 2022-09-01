@@ -196,7 +196,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['trading_fee'] = self.trial.suggest_float('trading_fee', 0.0004, 0.005)
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
             # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 26)
-            self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-09, 1e-05)
+            self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-10, 1e-08)
             # self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 32)
             # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
             # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
@@ -223,8 +223,8 @@ class SymbolTuner(StudyWrapper):
         else:
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
-            self._kwargs['max_flat_position_length'] = 39
-            self._kwargs['max_short_position_length'] = 50
+            self._kwargs['max_flat_position_length'] = 96
+            self._kwargs['max_short_position_length'] = 22
         
 
         if 'num_conv' not in self._kwargs:
