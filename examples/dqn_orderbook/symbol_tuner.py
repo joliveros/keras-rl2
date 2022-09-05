@@ -187,7 +187,7 @@ class SymbolTuner(StudyWrapper):
                 # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
                 # padding=self.trial.suggest_int('padding', 1, 8),
                 # strides=self.trial.suggest_int('strides', 1, 16),
-                eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 40000)
+                eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 60000)
             )
 
             self._kwargs['beta_1'] = self.trial.suggest_float('beta_1', 0.0, 0.99999)
@@ -196,12 +196,12 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['trading_fee'] = self.trial.suggest_float('trading_fee', 0.0004, 0.005)
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
             # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 26)
-            self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-12, 1e-06)
+            self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-12, 1e-05)
             self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 40)
             # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
             # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
             # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
-            self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 4, 100)
+            self._kwargs['max_flat_position_length'] = self.trial.suggest_int('max_flat_position_length', 4, 400)
             # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
             # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
             self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 2, 200)
@@ -209,7 +209,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
             # self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 3, 7)
             # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 2, 3)
-            self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 6, 24)
+            self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 18)
             # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
             # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 2)
             # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
@@ -223,10 +223,10 @@ class SymbolTuner(StudyWrapper):
         else:
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
-            self._kwargs['max_flat_position_length'] = 96
-            self._kwargs['max_short_position_length'] = 22
-            self._kwargs['target_model_update'] = 109
-            self._kwargs['train_interval'] = 99
+            self._kwargs['max_flat_position_length'] = 200
+            self._kwargs['max_short_position_length'] = 106
+            self._kwargs['target_model_update'] = 238
+            self._kwargs['train_interval'] = 39
         
 
         if 'num_conv' not in self._kwargs:
