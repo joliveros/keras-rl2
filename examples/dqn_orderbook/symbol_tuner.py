@@ -236,7 +236,7 @@ class SymbolTuner(StudyWrapper):
             self._kwargs['num_conv'] = 6
 
         # self._kwargs['base_filter_size'] = 294
-        self._kwargs['base_filter_size'] = 512
+        self._kwargs['base_filter_size'] = 256
 
         self._kwargs['batch_size'] = 5
         self._kwargs['trading_fee'] = 0.0008
