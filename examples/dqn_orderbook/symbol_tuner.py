@@ -178,6 +178,7 @@ class SymbolTuner(StudyWrapper):
                 # dense_width=self.trial.suggest_int('dense_width', 4, 64),
                 # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 10),
                 block_kernel=self.trial.suggest_int('block_kernel', 1, 8),
+                num_dense=self.trial.suggest_int('num_dense', 0, 3),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
                 # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 36),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
@@ -230,7 +231,7 @@ class SymbolTuner(StudyWrapper):
             self._kwargs['train_interval'] = 41
             self._kwargs['kernel_size'] = 4
             self._kwargs['block_kernel'] = 8
-        
+            self._kwargs['num_dense'] = 3
 
         if 'num_conv' not in self._kwargs:
             self._kwargs['num_conv'] = 6
