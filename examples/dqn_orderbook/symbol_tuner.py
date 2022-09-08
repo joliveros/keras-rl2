@@ -175,7 +175,8 @@ class SymbolTuner(StudyWrapper):
 
             hparams = dict(
                 # base_filter_size=self.trial.suggest_categorical('base_filter_size',[16, 32, 48, 56, 64, 128, 256, 128 * 3, 128 * 4, 128 * 5]),
-                # dense_width=self.trial.suggest_int('dense_width', 4, 64),
+                base_filter_size=self.trial.suggest_int('base_filter_size', 4, 224),
+                dense_width=self.trial.suggest_int('dense_width', 4, 248),
                 # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 10),
                 block_kernel=self.trial.suggest_int('block_kernel', 1, 8),
                 num_dense=self.trial.suggest_int('num_dense', 0, 3),
@@ -237,9 +238,9 @@ class SymbolTuner(StudyWrapper):
             self._kwargs['num_conv'] = 6
 
         # self._kwargs['base_filter_size'] = 294
-        self._kwargs['base_filter_size'] = 256
+        # self._kwargs['base_filter_size'] = 224
 
-        self._kwargs['batch_size'] = 5
+        self._kwargs['batch_size'] = 4
         self._kwargs['trading_fee'] = 0.0008
         self._kwargs['max_position_length'] = 31
         self._kwargs['random_frame_start'] = False
