@@ -223,6 +223,7 @@ class SymbolTuner(StudyWrapper):
         else:
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
+            self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 15000, 40000)
             self._kwargs['max_flat_position_length'] = 200
             self._kwargs['max_short_position_length'] = 106
             self._kwargs['target_model_update'] = 2725
