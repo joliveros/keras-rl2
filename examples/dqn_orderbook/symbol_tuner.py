@@ -188,7 +188,7 @@ class SymbolTuner(StudyWrapper):
                 # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
                 # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
                 # padding=self.trial.suggest_int('padding', 1, 8),
-                # strides=self.trial.suggest_int('strides', 1, 16),
+                strides=self.trial.suggest_int('strides', 1, 12),
                 # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 60000)
             )
 
