@@ -178,12 +178,12 @@ class SymbolTuner(StudyWrapper):
                 base_filter_size=self.trial.suggest_int('base_filter_size', 4, 224),
                 dense_width=self.trial.suggest_int('dense_width', 4, 248),
                 # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 10),
-                block_kernel=self.trial.suggest_int('block_kernel', 1, 8),
+                block_kernel=self.trial.suggest_int('block_kernel', 1, 12),
                 num_dense=self.trial.suggest_int('num_dense', 0, 3),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
                 # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 36),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
-                kernel_size=self.trial.suggest_categorical('kernel_size', [1, 2, 3, 4]),
+                kernel_size=self.trial.suggest_int('kernel_size', 1, 7),
                 # dense_size=self.trial.suggest_int('dense_size', 256, 512),
                 # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
                 # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
@@ -207,9 +207,9 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
             # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
             # self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 2, 200)
-            # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 5000, 20000)
+            self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 5000, 40000)
             # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
-            self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 3, 7)
+            self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 3, 11)
             # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 2, 3)
             # self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 18)
             # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
@@ -230,12 +230,15 @@ class SymbolTuner(StudyWrapper):
             self._kwargs['max_short_position_length'] = 106
             self._kwargs['target_model_update'] = 2725
             self._kwargs['train_interval'] = 41
-            self._kwargs['kernel_size'] = 4
-            self._kwargs['block_kernel'] = 8
+            self._kwargs['kernel_size'] = 3
+            self._kwargs['block_kernel'] = 3
             self._kwargs['num_dense'] = 3
+            self._kwargs['num_conv'] = 11
+            self._kwargs['base_filter_size'] = 224
+
 
         if 'num_conv' not in self._kwargs:
-            self._kwargs['num_conv'] = 6
+            self._kwargs['num_conv'] = 9
 
         # self._kwargs['base_filter_size'] = 294
         # self._kwargs['base_filter_size'] = 224
