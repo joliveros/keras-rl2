@@ -216,7 +216,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 2)
             # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
             # self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 700, 10000)
-            self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 2, 300)
+            self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 2, 500)
             self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 2, 3000)
             # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
             # self._kwargs['max_change'] = self.trial.suggest_float('max_change', 0.001, 0.02)
@@ -233,7 +233,7 @@ class SymbolTuner(StudyWrapper):
             self._kwargs['kernel_size'] = 3
             self._kwargs['block_kernel'] = 3
             self._kwargs['num_dense'] = 3
-            self._kwargs['num_conv'] = 11
+            self._kwargs['num_conv'] = 13
             self._kwargs['base_filter_size'] = 224
 
 
