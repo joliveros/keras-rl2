@@ -178,7 +178,7 @@ class SymbolTuner(StudyWrapper):
                 base_filter_size=self.trial.suggest_int('base_filter_size', 4, 136),
                 dense_width=self.trial.suggest_int('dense_width', 4, 248),
                 # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 10),
-                block_kernel=self.trial.suggest_int('block_kernel', 1, 12),
+                block_kernel=self.trial.suggest_int('block_kernel', 1, 24),
                 num_dense=self.trial.suggest_int('num_dense', 0, 5),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
                 # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 36),
@@ -242,7 +242,8 @@ class SymbolTuner(StudyWrapper):
 
         # self._kwargs['base_filter_size'] = 294
         # self._kwargs['base_filter_size'] = 224
-
+        self._kwargs['max_flat_position_length'] = 200
+        self._kwargs['max_short_position_length'] = 106
         self._kwargs['batch_size'] = 2
         self._kwargs['trading_fee'] = 0.0008
         self._kwargs['max_position_length'] = 31
