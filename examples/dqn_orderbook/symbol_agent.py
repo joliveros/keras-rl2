@@ -42,6 +42,7 @@ class SymbolAgent(object):
         test_env=None,
         trial_id=0,
         window_length=1,
+        action_repetition=3,
         **kwargs
     ):
         kwargs['symbol'] = symbol
@@ -60,6 +61,7 @@ class SymbolAgent(object):
         self.eps_greedy_policy_steps = eps_greedy_policy_steps
         self.test_env = test_env
         self.train_recent_data = train_recent_data
+        self.action_repetition = action_repetition
 
         input_shape = (window_length, kwargs['sequence_length'], (kwargs['depth'] * 2) + 2, 1)
         np.random.seed(123)
@@ -148,7 +150,8 @@ class SymbolAgent(object):
         callbacks = [tb_callback]
 
         # callbacks += [FileLogger(log_filename, interval=100)]
-        action_repetition = 3
+        action_repetition = self.action_repetition
+
         self.agent.fit(self.env, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps,
                        log_interval=1, action_repetition=action_repetition)
 

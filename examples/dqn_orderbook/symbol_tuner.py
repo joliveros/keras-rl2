@@ -221,6 +221,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
             # self._kwargs['max_change'] = self.trial.suggest_float('max_change', 0.001, 0.02)
             # self._kwargs['min_flat_change'] = self.trial.suggest_float('min_flat_change', -0.01, 0.0)
+            self._kwargs['action_repetition'] = self.trial.suggest_int('action_repetition', 1, 12)
 
         else:
             self.trial.set_user_attr('tuned', False)
