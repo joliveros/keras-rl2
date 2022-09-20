@@ -189,7 +189,7 @@ class SymbolTuner(StudyWrapper):
                 # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
                 # padding=self.trial.suggest_int('padding', 1, 8),
                 strides=self.trial.suggest_int('strides', 1, 12),
-                # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 60000)
+                eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 60000)
             )
 
             # self._kwargs['beta_1'] = self.trial.suggest_float('beta_1', 0.0, 0.99999)
@@ -209,7 +209,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 2, 200)
             self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 5000, 40000)
             # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
-            self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 3, 12)
+            self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 3, 16)
             # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 2, 3)
             # self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 18)
             # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
@@ -226,16 +226,22 @@ class SymbolTuner(StudyWrapper):
         else:
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
-            self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 15000, 40000)
             self._kwargs['max_flat_position_length'] = 200
             self._kwargs['max_short_position_length'] = 106
-            self._kwargs['target_model_update'] = 2725
-            self._kwargs['train_interval'] = 41
-            self._kwargs['kernel_size'] = 3
-            self._kwargs['block_kernel'] = 3
-            self._kwargs['num_dense'] = 5
-            self._kwargs['num_conv'] = 16
-            self._kwargs['base_filter_size'] = 136
+            self._kwargs['target_model_update'] = 448
+            self._kwargs['train_interval'] = 3571
+            self._kwargs['kernel_size'] = 2
+            self._kwargs['block_kernel'] = 1
+            self._kwargs['num_dense'] = 2
+            self._kwargs['dense_width'] = 166
+            self._kwargs['num_conv'] = 5
+            self._kwargs['base_filter_size'] = 41
+            self._kwargs['strides'] = 12
+            self._kwargs['action_repetition'] = 1
+            self._kwargs['eps_greedy_policy_steps'] = 59281
+            self._kwargs['lr'] = 0.000032
+
+            
 
 
         if 'num_conv' not in self._kwargs:
