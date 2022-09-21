@@ -196,7 +196,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['fee_ratio'] = self.trial.suggest_float('fee_ratio', 0.9, 2.0)
             # self._kwargs['trading_fee'] = self.trial.suggest_float('trading_fee', 0.0004, 0.005)
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
-            self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 73)
+            self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 64)
             self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-12, 1e-03)
             # self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 40)
             # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
@@ -227,19 +227,19 @@ class SymbolTuner(StudyWrapper):
             self.trial.suggest_int('test_num', 1, 2)
             self._kwargs['max_flat_position_length'] = 200
             self._kwargs['max_short_position_length'] = 106
-            self._kwargs['target_model_update'] = 448
-            self._kwargs['train_interval'] = 12
+            self._kwargs['target_model_update'] = 1558
+            self._kwargs['train_interval'] = 3625
             self._kwargs['kernel_size'] = 5
-            self._kwargs['block_kernel'] = 5
+            self._kwargs['block_kernel'] = 1
             self._kwargs['num_dense'] = 5
-            self._kwargs['dense_width'] = 144
-            self._kwargs['num_conv'] = 16
-            self._kwargs['base_filter_size'] = 48
-            self._kwargs['strides'] = 4
-            self._kwargs['action_repetition'] = 1
-            self._kwargs['eps_greedy_policy_steps'] = 59281
-            self._kwargs['lr'] = 0.000032
-            self._kwargs['batch_size'] = 73
+            self._kwargs['dense_width'] = 56
+            self._kwargs['num_conv'] = 12
+            self._kwargs['base_filter_size'] = 26
+            self._kwargs['strides'] = 15
+            self._kwargs['action_repetition'] = 2
+            self._kwargs['eps_greedy_policy_steps'] = 20321
+            self._kwargs['lr'] = 0.000832
+            self._kwargs['batch_size'] = 39
             
 
         if 'num_conv' not in self._kwargs:

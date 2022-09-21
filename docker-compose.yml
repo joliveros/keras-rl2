@@ -8,17 +8,17 @@ networks:
 services:
     train_live:
         deploy:
-          replicas: 0
+          replicas: 1
         image: 'registry.rubercubic.com:5001/dqn-orderbook'
         volumes:
             - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
         command: bash -c "source ~/.bashrc &&
           ./examples/dqn_orderbook/run.py UNFIUSDT -i 14d -D 2 --summary-interval 400 -g 1m -w 30m \
-          --database-name binance_futures -l 14 -d 25 --leverage 2.0 \
-          --offset-interval 0h --test-interval 1d --nb-steps 32266 --max-negative-pnl -0.99 -m 2100 -s 1"
+          --database-name binance_futures -l 24 -d 30 --leverage 2.0 \
+          --offset-interval 0h --test-interval 1d --nb-steps 36610 --max-negative-pnl -0.99 -m 2100 -s 1"
         environment:
             - LOG_LEVEL=DEBUG
-            - NVIDIA_VISIBLE_DEVICES=all
+            - CUDA_VISIBLE_DEVICES=0
         networks:
             - public
         depends_on:
@@ -29,14 +29,14 @@ services:
 
     train_tune:
         deploy:
-          replicas: 2
+          replicas: 0
         image: 'registry.rubercubic.com:5001/dqn-orderbook'
         volumes:
             - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
         command: bash -c "source ~/.bashrc &&
-            ./examples/dqn_orderbook/run.py UNFIUSDT -i 14d -D 2 --summary-interval 400 -g 1m -w 30m \
-            --database-name binance_futures -l 36 -d 30 --leverage 2.0 \
-            --offset-interval 2d --test-interval 2d --nb-steps 32266 --max-negative-pnl -0.99 -m 1000 --tune -s 1 --cache"
+            ./examples/dqn_orderbook/run.py UNFIUSDT -i 8d -D 2 --summary-interval 400 -g 1m -w 30m \
+            --database-name binance_futures -l 24 -d 30 --leverage 2.0 \
+            --offset-interval 2d --test-interval 2d --nb-steps 32266 --max-negative-pnl -0.99 -m 1533 --tune -s 1 --cache"
         environment:
             - LOG_LEVEL=DEBUG
             - CUDA_VISIBLE_DEVICES=1

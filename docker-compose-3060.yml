@@ -14,8 +14,8 @@ services:
         volumes:
             - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
         command: bash -c "source ~/.bashrc &&
-            ./examples/dqn_orderbook/run.py UNFIUSDT -i 14d -D 2 --summary-interval 400 -g 1m -w 30m \
-            --database-name binance_futures -l 36 -d 30 --leverage 2.0 \
+            ./examples/dqn_orderbook/run.py UNFIUSDT -i 8d -D 2 --summary-interval 400 -g 1m -w 30m \
+            --database-name binance_futures -l 24 -d 30 --leverage 2.0 \
             --offset-interval 2d --test-interval 2d --nb-steps 32266 --max-negative-pnl -0.99 -m 533 --tune -s 1 --cache"
         environment:
             - LOG_LEVEL=DEBUG
