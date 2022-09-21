@@ -47,7 +47,6 @@ class SymbolAgent(object):
     ):
         kwargs['symbol'] = symbol
         self._kwargs = kwargs
-
         self.symbol = symbol
         self.base_model_dir = f'{Path.home()}/.exchange-data/models' \
                              f'/{self.symbol}'
@@ -177,11 +176,5 @@ class SymbolAgent(object):
         capital_avg = sum(capital) / len(capital)
         trade_avg = sum(trades) / len(trades)
 
-        min_trade_count = 12
-        
-        trade_avg = trade_avg / min_trade_count
-
-        return (capital_avg * 0.9) + (trade_avg * 0.1) 
-
-        # return capital_avg
+        return (capital_avg * 0.9) + ((trade_avg ** -2) * 0.10) 
 

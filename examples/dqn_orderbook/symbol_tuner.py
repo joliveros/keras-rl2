@@ -174,22 +174,21 @@ class SymbolTuner(StudyWrapper):
             self.trial.set_user_attr('tuned', True)
 
             hparams = dict(
-                # base_filter_size=self.trial.suggest_categorical('base_filter_size',[16, 32, 48, 56, 64, 128, 256, 128 * 3, 128 * 4, 128 * 5]),
-                base_filter_size=self.trial.suggest_int('base_filter_size', 4, 136),
-                dense_width=self.trial.suggest_int('dense_width', 4, 248),
+                base_filter_size=self.trial.suggest_int('base_filter_size', 4, 48),
+                dense_width=self.trial.suggest_int('dense_width', 4, 144),
                 # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 10),
-                block_kernel=self.trial.suggest_int('block_kernel', 1, 24),
+                block_kernel=self.trial.suggest_int('block_kernel', 1, 5),
                 num_dense=self.trial.suggest_int('num_dense', 0, 5),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
                 # interval_minutes=self.trial.suggest_int('interval_minutes', 4, 36),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
-                kernel_size=self.trial.suggest_int('kernel_size', 1, 7),
+                kernel_size=self.trial.suggest_int('kernel_size', 1, 5),
                 # dense_size=self.trial.suggest_int('dense_size', 256, 512),
                 # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
                 # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
                 # padding=self.trial.suggest_int('padding', 1, 8),
-                strides=self.trial.suggest_int('strides', 1, 12),
-                eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 60000)
+                strides=self.trial.suggest_int('strides', 1, 16),
+                eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 100000)
             )
 
             # self._kwargs['beta_1'] = self.trial.suggest_float('beta_1', 0.0, 0.99999)
@@ -197,8 +196,8 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['fee_ratio'] = self.trial.suggest_float('fee_ratio', 0.9, 2.0)
             # self._kwargs['trading_fee'] = self.trial.suggest_float('trading_fee', 0.0004, 0.005)
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
-            # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 26)
-            self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-12, 1e-01)
+            self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 73)
+            self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-12, 1e-03)
             # self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 40)
             # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
             # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
@@ -229,20 +228,19 @@ class SymbolTuner(StudyWrapper):
             self._kwargs['max_flat_position_length'] = 200
             self._kwargs['max_short_position_length'] = 106
             self._kwargs['target_model_update'] = 448
-            self._kwargs['train_interval'] = 3571
-            self._kwargs['kernel_size'] = 2
-            self._kwargs['block_kernel'] = 1
-            self._kwargs['num_dense'] = 2
-            self._kwargs['dense_width'] = 166
-            self._kwargs['num_conv'] = 5
-            self._kwargs['base_filter_size'] = 41
-            self._kwargs['strides'] = 12
+            self._kwargs['train_interval'] = 12
+            self._kwargs['kernel_size'] = 5
+            self._kwargs['block_kernel'] = 5
+            self._kwargs['num_dense'] = 5
+            self._kwargs['dense_width'] = 144
+            self._kwargs['num_conv'] = 16
+            self._kwargs['base_filter_size'] = 48
+            self._kwargs['strides'] = 4
             self._kwargs['action_repetition'] = 1
             self._kwargs['eps_greedy_policy_steps'] = 59281
             self._kwargs['lr'] = 0.000032
-
+            self._kwargs['batch_size'] = 73
             
-
 
         if 'num_conv' not in self._kwargs:
             self._kwargs['num_conv'] = 9
@@ -251,7 +249,6 @@ class SymbolTuner(StudyWrapper):
         # self._kwargs['base_filter_size'] = 224
         self._kwargs['max_flat_position_length'] = 200
         self._kwargs['max_short_position_length'] = 106
-        self._kwargs['batch_size'] = 2
         self._kwargs['trading_fee'] = 0.0008
         self._kwargs['max_position_length'] = 31
         self._kwargs['random_frame_start'] = False
