@@ -7,10 +7,11 @@ from rl.agents import DQNAgent
 from rl.memory import SequentialMemory
 from rl.policy import GreedyQPolicy, EpsGreedyQPolicy, LinearAnnealedPolicy
 from tensorflow.python.keras.callbacks import TensorBoard, History
-from tensorflow.python.keras.optimizer_v2.adadelta import Adadelta
-from tensorflow.python.keras.optimizer_v2.adam import Adam
-from tensorflow.python.keras.optimizer_v2.adamax import Adamax
-from tensorflow.python.keras.optimizer_v2.gradient_descent import SGD
+from tensorflow.keras.optimizers import Adadelta
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers import Adamax
+from tensorflow.keras.optimizers import SGD
+import tensorflow as tf
 
 
 import alog
@@ -108,8 +109,6 @@ class SymbolAgent(object):
         beta_1 = self._kwargs.get('beta_1', 0.623391)
         beta_2 = self._kwargs.get('beta_2', 0.42108)
         optimizer = Optimizer(self._optimizer)
-
-        alog.info(optimizer)
 
         if optimizer == Optimizer.Adam:
             return Adam(lr=self.lr)
