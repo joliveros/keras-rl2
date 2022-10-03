@@ -18,7 +18,7 @@ services:
           --offset-interval 0h --test-interval 1d --nb-steps 36610 --max-negative-pnl -0.99 -m 200 -s 1"
         environment:
             - LOG_LEVEL=DEBUG
-            - CUDA_VISIBLE_DEVICES=0
+            - CUDA_VISIBLE_DEVICES=1
         networks:
             - public
         depends_on:
