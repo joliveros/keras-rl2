@@ -189,6 +189,8 @@ class SymbolTuner(StudyWrapper):
                 # padding=self.trial.suggest_int('padding', 1, 8),
                 # strides=self.trial.suggest_int('strides', 1, 16),
                 # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 100000)
+                num_lstm=self.trial.suggest_int('num_lstm', 0, 4),
+                lstm_size=self.trial.suggest_int('lstm_size', 16, 56),
             )
 
             self._kwargs['beta_1'] = self.trial.suggest_float('beta_1', 0.0, 0.99999)
@@ -225,6 +227,9 @@ class SymbolTuner(StudyWrapper):
         else:
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
+            self._kwargs['num_lstm'] = 4
+            self._kwargs['lstm_size'] = 56
+
 
 
         self._kwargs['max_flat_position_length'] = 200
