@@ -174,6 +174,10 @@ class SymbolTuner(StudyWrapper):
             self.trial.set_user_attr('tuned', True)
 
             hparams = dict(
+                delta_clip=self.trial.suggest_float('delta_clip', 0, 99),
+                gamma=self.trial.suggest_float('gamma', 0, 0.9999),
+                enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
+                dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
                 base_filter_size=self.trial.suggest_int('base_filter_size', 4, 48),
                 dense_width=self.trial.suggest_int('dense_width', 4, 144),
                 # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 10),

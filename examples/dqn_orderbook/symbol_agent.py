@@ -92,11 +92,11 @@ class SymbolAgent(object):
         )
 
         self.agent = DQNAgent(
-            delta_clip=1.,
-            dueling_type='max',
-            enable_double_dqn=True,
-            enable_dueling_network=True,
-            gamma=.99,
+            # delta_clip=1.,
+            # dueling_type='max',
+            # enable_double_dqn=True,
+            # enable_dueling_network=True,
+            # gamma=.99,
             memory=memory,
             model=model,
             nb_actions=nb_actions,
