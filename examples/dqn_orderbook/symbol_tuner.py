@@ -174,20 +174,20 @@ class SymbolTuner(StudyWrapper):
             self.trial.set_user_attr('tuned', True)
 
             hparams = dict(
-                # base_filter_size=self.trial.suggest_int('base_filter_size', 4, 48),
+                base_filter_size=self.trial.suggest_int('base_filter_size', 4, 48),
                 dense_width=self.trial.suggest_int('dense_width', 4, 144),
                 # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 10),
-                # block_kernel=self.trial.suggest_int('block_kernel', 1, 5),
+                block_kernel=self.trial.suggest_int('block_kernel', 1, 5),
                 num_dense=self.trial.suggest_int('num_dense', 0, 5),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
                 interval_minutes=self.trial.suggest_int('interval_minutes', 1, 18),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
-                # kernel_size=self.trial.suggest_int('kernel_size', 1, 5),
-                # dense_size=self.trial.suggest_int('dense_size', 256, 512),
+                kernel_size=self.trial.suggest_int('kernel_size', 1, 5),
+                dense_size=self.trial.suggest_int('dense_size', 256, 512),
                 # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
                 # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
                 # padding=self.trial.suggest_int('padding', 1, 8),
-                # strides=self.trial.suggest_int('strides', 1, 16),
+                strides=self.trial.suggest_int('strides', 1, 16),
                 eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000),
                 num_lstm=self.trial.suggest_int('num_lstm', 0, 4),
                 lstm_size=self.trial.suggest_int('lstm_size', 16, 56),
@@ -198,7 +198,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['fee_ratio'] = self.trial.suggest_float('fee_ratio', 0.9, 2.0)
             # self._kwargs['trading_fee'] = self.trial.suggest_float('trading_fee', 0.0004, 0.005)
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
-            # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 64)
+            self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 64)
             self._kwargs['lr'] = self.trial.suggest_float('lr', 1e-12, 1e-03)
             self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 144)
             # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
@@ -222,7 +222,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
             # self._kwargs['max_change'] = self.trial.suggest_float('max_change', 0.001, 0.02)
             # self._kwargs['min_flat_change'] = self.trial.suggest_float('min_flat_change', -0.01, 0.0)
-            # self._kwargs['action_repetition'] = self.trial.suggest_int('action_repetition', 1, 12)
+            self._kwargs['action_repetition'] = self.trial.suggest_int('action_repetition', 1, 12)
 
         else:
             self.trial.set_user_attr('tuned', False)
@@ -230,23 +230,21 @@ class SymbolTuner(StudyWrapper):
             self._kwargs['num_lstm'] = 4
             self._kwargs['lstm_size'] = 56
 
-
-
         self._kwargs['max_flat_position_length'] = 200
         self._kwargs['max_short_position_length'] = 106
         # self._kwargs['target_model_update'] = 1558
         # self._kwargs['train_interval'] = 3625
-        self._kwargs['kernel_size'] = 5
-        self._kwargs['block_kernel'] = 1
+        # self._kwargs['kernel_size'] = 5
+        # self._kwargs['block_kernel'] = 1
         # self._kwargs['num_dense'] = 5
         # self._kwargs['dense_width'] = 56
         # self._kwargs['num_conv'] = 12
-        self._kwargs['base_filter_size'] = 26
-        self._kwargs['strides'] = 15
-        self._kwargs['action_repetition'] = 2
+        # self._kwargs['base_filter_size'] = 26
+        # self._kwargs['strides'] = 15
+        # self._kwargs['action_repetition'] = 2
         # self._kwargs['eps_greedy_policy_steps'] = 20321
         # self._kwargs['lr'] = 0.000832
-        self._kwargs['batch_size'] = 39
+        # self._kwargs['batch_size'] = 39
         self._kwargs['max_flat_position_length'] = 200
         self._kwargs['max_short_position_length'] = 106
         self._kwargs['trading_fee'] = 0.0008

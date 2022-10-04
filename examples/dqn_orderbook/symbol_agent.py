@@ -1,4 +1,6 @@
 from bitmex_websocket.constants import NoValue
+from optuna import Study
+
 from examples.dqn_orderbook.processor import OrderBookFrameProcessor
 # from exchange_data.models.video_cnn import Model
 from exchange_data.models.resnet.model import Model
@@ -48,7 +50,7 @@ class SymbolAgent(object):
         **kwargs
     ):
         kwargs['symbol'] = symbol
-        self.study = study
+        self.study: Study = study
         self._kwargs = kwargs
         self.symbol = symbol
         self.base_model_dir = f'{Path.home()}/.exchange-data/models' \
@@ -175,6 +177,9 @@ class SymbolAgent(object):
 
         capital_avg = sum(capital) / len(capital)
         trade_avg = sum(trades) / len(trades)
+
+        self.study.set_user_attr('trades', len(trades))
+        self.study.set_user_attr('capital', capital_avg)
 
         return (capital_avg * 0.9) + ((trade_avg ** -2) * 0.10) 
 
