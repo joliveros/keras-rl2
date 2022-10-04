@@ -35,6 +35,7 @@ class SymbolAgent(object):
         symbol,
         policy_value_max,
         train_recent_data,
+        study,
         env2=None,
         optimizer: int = 2,
         cache_limit=6089,
@@ -47,6 +48,7 @@ class SymbolAgent(object):
         **kwargs
     ):
         kwargs['symbol'] = symbol
+        self.study = study
         self._kwargs = kwargs
         self.symbol = symbol
         self.base_model_dir = f'{Path.home()}/.exchange-data/models' \
