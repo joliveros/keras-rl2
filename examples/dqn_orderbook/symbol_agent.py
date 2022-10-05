@@ -178,6 +178,9 @@ class SymbolAgent(object):
         capital_avg = sum(capital) / len(capital)
         trade_avg = sum(trades) / len(trades)
 
+        if trade_avg < 1:
+            trade_avg = 0
+
         self.study.set_user_attr('trades', len(trades))
         self.study.set_user_attr('capital', capital_avg)
 
