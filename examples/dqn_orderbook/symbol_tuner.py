@@ -204,7 +204,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
             self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 64)
             self._kwargs['lr'] = self.trial.suggest_uniform('lr', 1e-12, 1e-03)
-            self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 144)
+            self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 256)
             # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
             self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
             # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
@@ -216,7 +216,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
             self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 1, 16)
             # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 2, 3)
-            self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 48)
+            self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 96)
             # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
             # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 2)
             # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
