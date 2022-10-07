@@ -220,7 +220,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
             # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 2)
             # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
-            # self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 700, 10000)
+            self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 100, 10000)
             self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 2, 4000)
             self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 2, 4000)
             # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
