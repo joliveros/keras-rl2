@@ -16,6 +16,7 @@ from tensorflow.keras.optimizers import SGD
 import tensorflow as tf
 
 
+import math
 import alog
 import gym
 import numpy as np
@@ -184,5 +185,7 @@ class SymbolAgent(object):
         self.study.set_user_attr('trades', len(trades))
         self.study.set_user_attr('capital', capital_avg)
 
-        return (capital_avg * 0.9) + ((trade_avg ** -2) * 0.10) 
+        trade_scaled = (1/(1+math.e**(-trade_avg)))
+
+        return (capital_avg * 0.9) + (trade_scaled * 0.10) 
 

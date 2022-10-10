@@ -185,7 +185,7 @@ class SymbolTuner(StudyWrapper):
                 block_kernel=self.trial.suggest_int('block_kernel', 1, 5),
                 num_dense=self.trial.suggest_int('num_dense', 0, 5),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
-                interval_minutes=self.trial.suggest_int('interval_minutes', 1, 36),
+                interval_minutes=self.trial.suggest_int('interval_minutes', 1, 18),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
                 kernel_size=self.trial.suggest_int('kernel_size', 1, 5),
                 dense_size=self.trial.suggest_int('dense_size', 256, 512),
@@ -213,7 +213,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
             # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
             # self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 2, 200)
-            self._kwargs['nb_steps'] = self.trial.suggest_uniform('nb_steps', 5000, 1000000)
+            self._kwargs['nb_steps'] = self.trial.suggest_uniform('nb_steps', 5000, 70000)
             # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
             self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 1, 16)
             # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 2, 3)
