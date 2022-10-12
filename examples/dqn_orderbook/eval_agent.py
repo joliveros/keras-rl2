@@ -79,6 +79,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
             policy_value_max=0.25,
             random_frame_start=False,
             trial_id=self.best_trial_id,
+            study=self.study,
             **params)
 
         agent.load_weights()
