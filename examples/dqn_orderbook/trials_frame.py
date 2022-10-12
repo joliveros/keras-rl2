@@ -10,7 +10,7 @@ import plotly.graph_objects as go
 
 
 class TrialsFrame(StudyWrapper):
-    def __init__(self, min_value, **kwargs):
+    def __init__(self, min_value, chart, dict, **kwargs):
         super().__init__(**kwargs)
         self.min_value = min_value
         pd.options.plotting.backend = "plotly"
@@ -21,13 +21,22 @@ class TrialsFrame(StudyWrapper):
         df = df[df['value'] >= self.min_value]
 
         pd.set_option('display.max_rows', len(df) + 1)
+
         alog.info(df)
 
+        if dict:
+            alog.info(alog.pformat(df.to_dict(orient='records')))
+
+        if chart:
+            self.chart(df)
+
+    def chart(self, df):
         params = [col for col in df.columns if 'params_' in col]
 
         fig = make_subplots(rows=1, cols=len(params))
 
         col_ix = 1
+
         for param in params:
             fig.add_trace(go.Scatter(
                 mode="markers",
@@ -43,6 +52,8 @@ class TrialsFrame(StudyWrapper):
 
 @click.command()
 @click.argument('symbol', type=str)
+@click.option('--chart', is_flag=True)
+@click.option('--dict', is_flag=True)
 @click.option('--min-value', default=0.9, type=float)
 def main(**kwargs):
     TrialsFrame(**kwargs)
