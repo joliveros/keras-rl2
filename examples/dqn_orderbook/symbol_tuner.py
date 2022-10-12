@@ -175,14 +175,14 @@ class SymbolTuner(StudyWrapper):
 
             hparams = dict(
                 memory_interval=self.trial.suggest_int('memory_interval', 1, 99),
-                delta_clip=self.trial.suggest_uniform('delta_clip', 0, 99),
+                # delta_clip=self.trial.suggest_uniform('delta_clip', 0, 99),
                 gamma=self.trial.suggest_uniform('gamma', 0, 0.9999),
                 enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
                 dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
-                base_filter_size=self.trial.suggest_int('base_filter_size', 4, 48),
+                # base_filter_size=self.trial.suggest_int('base_filter_size', 4, 48),
                 dense_width=self.trial.suggest_int('dense_width', 4, 144),
                 # block_filter_factor=self.trial.suggest_int('block_filter_factor', 1, 10),
-                block_kernel=self.trial.suggest_int('block_kernel', 1, 5),
+                # block_kernel=self.trial.suggest_int('block_kernel', 1, 5),
                 num_dense=self.trial.suggest_int('num_dense', 0, 5),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
                 interval_minutes=self.trial.suggest_int('interval_minutes', 1, 18),
@@ -202,7 +202,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['fee_ratio'] = self.trial.suggest_float('fee_ratio', 0.9, 2.0)
             # self._kwargs['trading_fee'] = self.trial.suggest_float('trading_fee', 0.0004, 0.005)
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
-            self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 64)
+            # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 64)
             self._kwargs['lr'] = self.trial.suggest_uniform('lr', 1e-12, 1e-03)
             self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 256)
             # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
@@ -220,13 +220,13 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
             # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 2)
             # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
-            self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 100, 10000)
+            # self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 100, 10000)
             self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 2, 4000)
             self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 2, 4000)
             # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
             # self._kwargs['max_change'] = self.trial.suggest_float('max_change', 0.001, 0.02)
             # self._kwargs['min_flat_change'] = self.trial.suggest_float('min_flat_change', -0.01, 0.0)
-            self._kwargs['action_repetition'] = self.trial.suggest_int('action_repetition', 1, 12)
+            # self._kwargs['action_repetition'] = self.trial.suggest_int('action_repetition', 1, 12)
 
         else:
             self.trial.set_user_attr('tuned', False)
@@ -236,19 +236,22 @@ class SymbolTuner(StudyWrapper):
 
         self._kwargs['max_flat_position_length'] = 200
         self._kwargs['max_short_position_length'] = 106
+        self._kwargs['cache_limit'] = 8924
+        self._kwargs['delta_clip'] = 42.251147
+
         # self._kwargs['target_model_update'] = 1558
         # self._kwargs['train_interval'] = 3625
         # self._kwargs['kernel_size'] = 5
-        # self._kwargs['block_kernel'] = 1
+        self._kwargs['block_kernel'] = 5
         # self._kwargs['num_dense'] = 5
         # self._kwargs['dense_width'] = 56
         # self._kwargs['num_conv'] = 12
-        # self._kwargs['base_filter_size'] = 26
+        self._kwargs['base_filter_size'] = 41
         # self._kwargs['strides'] = 15
-        # self._kwargs['action_repetition'] = 2
+        self._kwargs['action_repetition'] = 2
         # self._kwargs['eps_greedy_policy_steps'] = 20321
         # self._kwargs['lr'] = 0.000832
-        # self._kwargs['batch_size'] = 39
+        self._kwargs['batch_size'] = 56
         self._kwargs['max_flat_position_length'] = 200
         self._kwargs['max_short_position_length'] = 106
         self._kwargs['trading_fee'] = 0.0008

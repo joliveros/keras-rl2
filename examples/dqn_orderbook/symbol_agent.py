@@ -111,8 +111,8 @@ class SymbolAgent(object):
 
     @property
     def optimizer(self):
-        beta_1 = self._kwargs.get('beta_1', 0.623391)
-        beta_2 = self._kwargs.get('beta_2', 0.42108)
+        beta_1 = self._kwargs.get('beta_1', 0.267097)
+        beta_2 = self._kwargs.get('beta_2', 0.602793)
         optimizer = Optimizer(self._optimizer)
 
         if optimizer == Optimizer.Adam:
