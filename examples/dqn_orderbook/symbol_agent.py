@@ -33,6 +33,8 @@ class SymbolAgent(object):
     def __init__(
         self,
         env,
+        beta_1,
+        beta_2,
         nb_steps,
         nb_steps_2,
         symbol,
@@ -53,6 +55,8 @@ class SymbolAgent(object):
         kwargs['symbol'] = symbol
         self.study: Study = study
         self._kwargs = kwargs
+        self.beta_1 = beta_1
+        self.beta_2 = beta_2
         self.symbol = symbol
         self.base_model_dir = f'{Path.home()}/.exchange-data/models' \
                              f'/{self.symbol}'
@@ -111,8 +115,6 @@ class SymbolAgent(object):
 
     @property
     def optimizer(self):
-        beta_1 = self._kwargs.get('beta_1', 0.267097)
-        beta_2 = self._kwargs.get('beta_2', 0.602793)
         optimizer = Optimizer(self._optimizer)
 
         if optimizer == Optimizer.Adam:
@@ -120,7 +122,7 @@ class SymbolAgent(object):
         elif optimizer == Optimizer.Adadelta:
             return Adadelta(learning_rate=self.lr)
         elif optimizer == Optimizer.Adamax:
-            return Adamax(learning_rate=self.lr, beta_1=beta_1, beta_2=beta_2)
+            return Adamax(learning_rate=self.lr, beta_1=self.beta_1, self.beta_2=beta_2)
         elif optimizer == Optimizer.SGD:
             return SGD(learning_rate=self.lr)
         raise Exception()
@@ -187,5 +189,5 @@ class SymbolAgent(object):
 
         trade_scaled = (1/(1+math.e**(-trade_avg)))
 
-        return (capital_avg * 0.9) + (trade_scaled * 0.10) 
+        return (capital_avg * 2 / 3) + (trade_scaled / 3) 
 
