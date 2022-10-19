@@ -268,16 +268,19 @@ class SymbolTuner(StudyWrapper):
         params['train_interval'] = 1053
 
         kwargs = self._kwargs.copy()
+        kwargs = {**kwargs, **hparams}
+
+        alog.info(alog.pformat(kwargs))
 
         for param in params:
-            if param in kwargs:
-                params[param] = kwargs[param]
+            if param not in kwargs:
+                kwargs[param] = params[param]
 
         env = self.env
         env.reset()
-        self._kwargs['quantile'] = env.quantile
-        self._kwargs['trade_volume_max'] = env.trade_volume_max
-        self._kwargs['change_max'] = env.change_max
+        kwargs['quantile'] = env.quantile
+        kwargs['trade_volume_max'] = env.trade_volume_max
+        kwargs['change_max'] = env.change_max
 
         # env2 = self.env2
         # env2.reset()
@@ -285,8 +288,8 @@ class SymbolTuner(StudyWrapper):
         test_env = self.test_env
         test_env.reset()
 
-        self.trial.set_user_attr('params', self._kwargs)
-                
+        self.trial.set_user_attr('params', kwargs)
+
         params = dict(
             env=env,
             # env2=env2,
@@ -296,8 +299,7 @@ class SymbolTuner(StudyWrapper):
             test_env=test_env,
             trial_id=str(self.trial.number),
             study=self.study,
-            **kwargs,
-            **hparams
+            **kwargs
         )
 
         alog.info(alog.pformat(params))
