@@ -176,18 +176,22 @@ class SymbolAgent(object):
         # nb_steps_avg = sum(nb_steps) / len(nb_steps)
 
         capital = [info['capital'] / info['num_steps'] for info in history.history['info']]
-        trades = [info['trades'] / info['num_steps'] for info in history.history['info']]
+        trades = []
+        trades += [info['trades'] for info in history.history['info']]
+
+        def flatten(l):
+            return [item for sublist in l for item in sublist]
+
+        trades = flatten(trades)
+        trades = list({hash(t): t for t in trades}.values())
 
         capital_avg = sum(capital) / len(capital)
-        trade_avg = sum(trades) / len(trades)
-
-        if trade_avg < 1:
-            trade_avg = 0
+        trade_len = len([t.pnl for t in trades if t.pnl > 0])
 
         self.study.set_user_attr('trades', len(trades))
         self.study.set_user_attr('capital', capital_avg)
 
-        trade_scaled = (1/(1+math.e**(-trade_avg)))
+        trade_scaled = (1/(1+math.e**(-trade_len)))
 
         return (capital_avg * 2 / 3) + (trade_scaled / 3) 
 

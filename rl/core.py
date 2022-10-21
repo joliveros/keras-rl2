@@ -190,11 +190,19 @@ class Agent:
                     if self.processor is not None:
                         observation, r, done, info = self.processor.process_step(observation, r, done, info)
                     for key, value in info.items():
-                        if not np.isreal(value):
-                            continue
+                        # if not np.isreal(value):
+                        #     continue
                         if key not in accumulated_info:
-                            accumulated_info[key] = np.zeros_like(value)
+                            if isinstance(value, int) or isinstance(value, float):
+                                accumulated_info[key] = np.zeros_like(value)
+                            else:
+                                accumulated_info[key] = []
+
+                        # alog.info((key, value))
+                        # if isinstance(value, int) or isinstance(value, float):
+
                         accumulated_info[key] += value
+
                     callbacks.on_action_end(action)
                     reward += r
 
@@ -374,10 +382,14 @@ class Agent:
                     callbacks.on_action_end(action)
                     reward += r
                     for key, value in info.items():
-                        if not np.isreal(value):
-                            continue
+                        # if not np.isreal(value):
+                        #     continue
                         if key not in accumulated_info:
-                            accumulated_info[key] = np.zeros_like(value)
+                            if isinstance(value, int) or isinstance(value, float):
+                                accumulated_info[key] = np.zeros_like(value)
+                            else:
+                                accumulated_info[key] = []
+
                         accumulated_info[key] += value
 
                     accumulated_info['num_steps'] = _ + 1
