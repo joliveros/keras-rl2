@@ -232,30 +232,28 @@ class SymbolTuner(StudyWrapper):
             self.trial.suggest_int('test_num', 1, 2)
 
         params = dict()
-        params['max_flat_position_length'] = 0
-        params['max_short_position_length'] = 0
-        params['cache_limit'] = 8921
-        params['delta_clip'] = 11.941750652493848
-        params['dueling_type'] = 'avg'
+        params['cache_limit'] = 3033
+        params['delta_clip'] = 28.91045275240408
+        params['dueling_type'] = 'naive'
         params['enable_double_dqn'] = True
-        params['gamma'] = 0.8390573094022862
-        params['memory_interval'] = 61
-        params['beta_1'] = 0.5291707803738089 
-        params['beta_2'] = 0.3087393993079038
+        params['gamma'] = 0.3559229630158902
+        params['memory_interval'] = 75
+        params['beta_1'] = 0.3433393933754707
+        params['beta_2'] = 0.7592398346559109
 
-        params['lstm_size'] = 34
+        params['lstm_size'] = 19
         params['num_lstm'] = 1
-        params['kernel_size'] = 3
-        params['block_kernel'] = 1
-        params['num_dense'] = 4
-        params['dense_width'] = 76
-        params['num_conv'] = 1
-        params['base_filter_size'] = 78
-        params['strides'] = 13
+        params['kernel_size'] = 1
+        params['block_kernel'] = 4
+        params['num_dense'] = 2
+        params['dense_width'] = 37
+        params['num_conv'] = 8
+        params['base_filter_size'] = 63
+        params['strides'] = 9
         params['action_repetition'] = 1
-        params['eps_greedy_policy_steps'] = 573952
-        params['lr'] = 0.0008799433366618456
-        params['batch_size'] = 64
+        params['eps_greedy_policy_steps'] = 378170
+        params['lr'] = 0.00037013114324678433
+        params['batch_size'] = 18
         params['max_flat_position_length'] = 200
         params['max_short_position_length'] = 106
         params['trading_fee'] = 0.0008
@@ -264,8 +262,8 @@ class SymbolTuner(StudyWrapper):
         params['min_change'] = 0.0
         params['max_change'] = 0.01
         params['min_flat_change'] = -0.001
-        params['target_model_update'] = 16
-        params['train_interval'] = 1053
+        params['target_model_update'] = 309
+        params['train_interval'] = 887
 
         kwargs = self._kwargs.copy()
         kwargs = {**kwargs, **hparams}
