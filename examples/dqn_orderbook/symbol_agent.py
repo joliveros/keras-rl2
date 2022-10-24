@@ -105,7 +105,7 @@ class SymbolAgent(object):
             memory=memory,
             model=model,
             nb_actions=nb_actions,
-            nb_steps_warmup=200,
+            nb_steps_warmup=800,
             policy=policy,
             processor=processor,
             **kwargs,
