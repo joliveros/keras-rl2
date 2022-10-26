@@ -193,5 +193,5 @@ class SymbolAgent(object):
 
         trade_scaled = (1/(1+math.e**(-trade_len)))
 
-        return (capital_avg * 7 / 8) + (trade_scaled / 8) 
+        return (capital_avg * 31 / 32) + (trade_scaled / 32) 
 
