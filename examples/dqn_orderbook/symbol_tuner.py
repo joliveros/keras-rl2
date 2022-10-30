@@ -232,38 +232,38 @@ class SymbolTuner(StudyWrapper):
             self.trial.suggest_int('test_num', 1, 2)
 
         params = dict()
-        params['cache_limit'] = 9064
-        params['delta_clip'] = 66.81736939551209
+        params['cache_limit'] = 8978
+        params['delta_clip'] = 77.49890324446035
         params['dueling_type'] = 'avg'
-        params['enable_double_dqn'] = True
-        params['gamma'] = 0.7879196979591616
-        params['memory_interval'] = 50
-        params['beta_1'] = 0.14961983156788333
-        params['beta_2'] = 0.4018614701558895
+        params['enable_double_dqn'] = False
+        params['gamma'] = 0.8155649630155706
+        params['memory_interval'] = 46
+        params['beta_1'] = 0.5692086887313117
+        params['beta_2'] = 0.4380206740466757
 
-        params['lstm_size'] = 76
+        params['lstm_size'] = 70
         params['num_lstm'] = 0
-        params['kernel_size'] = 5
+        params['kernel_size'] = 8
         params['block_kernel'] = 1
         params['num_dense'] = 0
-        params['dense_width'] = 47
+        params['dense_width'] = 128
         params['num_conv'] = 13
-        params['base_filter_size'] = 58
+        params['base_filter_size'] = 67
         params['strides'] = 9
         params['action_repetition'] = 1
-        params['eps_greedy_policy_steps'] = 103450
-        params['lr'] = 0.005657754815762859
-        params['batch_size'] = 59
-        params['max_flat_position_length'] = 408
-        params['max_short_position_length'] = 281
+        params['eps_greedy_policy_steps'] = 79611
+        params['lr'] = 0.005343296591236032
+        params['batch_size'] = 43
+        params['max_flat_position_length'] = 441
+        params['max_short_position_length'] = 96
         params['trading_fee'] = 0.0012
         params['max_position_length'] = 31
         params['random_frame_start'] = False
         params['min_change'] = 0.0
         params['max_change'] = 0.01
         params['min_flat_change'] = -0.001
-        params['target_model_update'] = 45
-        params['train_interval'] = 114
+        params['target_model_update'] = 40
+        params['train_interval'] = 155
 
         kwargs = self._kwargs.copy()
         kwargs = {**kwargs, **hparams}
