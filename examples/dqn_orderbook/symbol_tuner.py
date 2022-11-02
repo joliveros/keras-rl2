@@ -184,7 +184,7 @@ class SymbolTuner(StudyWrapper):
                 # block_kernel=self.trial.suggest_int('block_kernel', 1, 8),
                 # num_dense=self.trial.suggest_int('num_dense', 0, 5),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
-                interval_minutes=self.trial.suggest_int('interval_minutes', 1, 24 * 5),
+                interval_minutes=self.trial.suggest_int('interval_minutes', 1, 24 * 7),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
                 # kernel_size=self.trial.suggest_int('kernel_size', 1, 8),
                 # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
