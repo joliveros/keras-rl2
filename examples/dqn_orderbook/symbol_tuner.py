@@ -247,10 +247,10 @@ class SymbolTuner(StudyWrapper):
         params['block_kernel'] = 1
         params['num_dense'] = 0
         params['dense_width'] = 128
-        params['num_conv'] = 19
+        params['num_conv'] = 15
         params['base_filter_size'] = 67
         params['strides'] = 9
-        params['action_repetition'] = 1
+        params['action_repetition'] = 4
         params['eps_greedy_policy_steps'] = 79611
         params['lr'] = 0.005343296591236032
         params['batch_size'] = 43
