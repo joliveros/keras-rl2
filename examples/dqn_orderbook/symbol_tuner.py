@@ -196,6 +196,7 @@ class SymbolTuner(StudyWrapper):
                 # lstm_size=self.trial.suggest_int('lstm_size', 16, 112),
             )
 
+            self._kwargs['trade_ratio'] = self.trial.suggest_float('trade_ratio', 0, 1.0)
             # self._kwargs['beta_1'] = self.trial.suggest_uniform('beta_1', 0.0, 0.99999)
             # self._kwargs['beta_2'] = self.trial.suggest_uniform('beta_2', 0.0, 0.99999)
             # self._kwargs['fee_ratio'] = self.trial.suggest_float('fee_ratio', 0.9, 2.0)
@@ -213,7 +214,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['max_short_position_length'] = self.trial.suggest_int('max_short_position_length', 1, 400)
             # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 5000, 100000, log=True)
             # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
-            self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 13, 19)
+            # self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 13, 19)
             # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 2, 3)
             # self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 96)
             # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
@@ -225,7 +226,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
             # self._kwargs['max_change'] = self.trial.suggest_float('max_change', 0.001, 0.02)
             # self._kwargs['min_flat_change'] = self.trial.suggest_float('min_flat_change', -0.01, 0.0)
-            self._kwargs['action_repetition'] = self.trial.suggest_int('action_repetition', 1, 12)
+            # self._kwargs['action_repetition'] = self.trial.suggest_int('action_repetition', 1, 12)
 
         else:
             self.trial.set_user_attr('tuned', False)
@@ -250,7 +251,7 @@ class SymbolTuner(StudyWrapper):
         params['num_conv'] = 15
         params['base_filter_size'] = 67
         params['strides'] = 9
-        params['action_repetition'] = 9
+        params['action_repetition'] = 1
         params['eps_greedy_policy_steps'] = 79611
         params['lr'] = 0.005343296591236032
         params['batch_size'] = 43

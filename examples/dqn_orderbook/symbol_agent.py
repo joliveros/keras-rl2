@@ -41,6 +41,7 @@ class SymbolAgent(object):
         policy_value_max,
         train_recent_data,
         study,
+        trade_ratio,
         env2=None,
         optimizer: int = 2,
         cache_limit=6089,
@@ -71,6 +72,7 @@ class SymbolAgent(object):
         self.test_env = test_env
         self.train_recent_data = train_recent_data
         self.action_repetition = action_repetition
+        self.trade_ratio = trade_ratio
 
         input_shape = (window_length, kwargs['sequence_length'], (kwargs['depth'] * 2) + 2, 1)
         self.env.seed(1)
@@ -193,5 +195,7 @@ class SymbolAgent(object):
 
         trade_scaled = (1/(1+math.e**(-trade_len)))
 
-        return (capital_avg * 15 / 16) + (trade_scaled * 1 / 16) 
+        capitol_ratio = (1 - self.trade_ratio)
+
+        return (capital_avg * capitol_ratio) + (trade_scaled * trade_ratio) 
 
