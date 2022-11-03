@@ -250,7 +250,7 @@ class SymbolTuner(StudyWrapper):
         params['num_conv'] = 15
         params['base_filter_size'] = 67
         params['strides'] = 9
-        params['action_repetition'] = 4
+        params['action_repetition'] = 9
         params['eps_greedy_policy_steps'] = 79611
         params['lr'] = 0.005343296591236032
         params['batch_size'] = 43
