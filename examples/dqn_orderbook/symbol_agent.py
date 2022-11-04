@@ -202,5 +202,5 @@ class SymbolAgent(object):
 
         capitol_ratio = (1 - self.trade_ratio)
 
-        return (capital_avg * capitol_ratio) + (trade_scaled * trade_ratio) 
+        return (capital_avg * capitol_ratio) + (trade_scaled * self.trade_ratio) 
 
