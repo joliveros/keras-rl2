@@ -174,26 +174,26 @@ class SymbolTuner(StudyWrapper):
             self.trial.set_user_attr('tuned', True)
 
             hparams = dict(
-                # memory_interval=self.trial.suggest_int('memory_interval', 1, 99),
-                # delta_clip=self.trial.suggest_uniform('delta_clip', 0, 99),
-                # gamma=self.trial.suggest_uniform('gamma', 0, 0.9999),
+                memory_interval=self.trial.suggest_int('memory_interval', 1, 99),
+                delta_clip=self.trial.suggest_uniform('delta_clip', 0, 99),
+                gamma=self.trial.suggest_uniform('gamma', 0, 0.9999),
                 # enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
-                # dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
-                # base_filter_size=self.trial.suggest_int('base_filter_size', 4, 96),
-                # dense_width=self.trial.suggest_int('dense_width', 4, 256),
-                # block_kernel=self.trial.suggest_int('block_kernel', 1, 8),
-                # num_dense=self.trial.suggest_int('num_dense', 0, 5),
+                dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
+                base_filter_size=self.trial.suggest_int('base_filter_size', 4, 72),
+                dense_width=self.trial.suggest_int('dense_width', 4, 256),
+                block_kernel=self.trial.suggest_int('block_kernel', 1, 8),
+                num_dense=self.trial.suggest_int('num_dense', 0, 5),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
                 # interval_minutes=self.trial.suggest_int('interval_minutes', 1, 24 * 7),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
-                # kernel_size=self.trial.suggest_int('kernel_size', 1, 8),
+                kernel_size=self.trial.suggest_int('kernel_size', 1, 8),
                 # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
                 # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
                 # padding=self.trial.suggest_int('padding', 1, 8),
-                # strides=self.trial.suggest_int('strides', 1, 16),
+                strides=self.trial.suggest_int('strides', 1, 16),
                 # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000),
-                # num_lstm=self.trial.suggest_int('num_lstm', 0, 4),
-                # lstm_size=self.trial.suggest_int('lstm_size', 16, 112),
+                num_lstm=self.trial.suggest_int('num_lstm', 0, 4),
+                lstm_size=self.trial.suggest_int('lstm_size', 16, 112),
             )
 
             # self._kwargs['trade_ratio'] = self.trial.suggest_float('trade_ratio', 0, 1.0)
@@ -208,12 +208,12 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
             # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
             # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
-            self._kwargs['max_flat_position_length'] \
-                = self.trial.suggest_int('max_flat_position_length', 1, 200)
+            # self._kwargs['max_flat_position_length'] \
+            # = self.trial.suggest_int('max_flat_position_length', 1, 200)
             # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
             # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
-            self._kwargs['max_short_position_length'] \
-                = self.trial.suggest_int('max_short_position_length', 1, 200)
+            # self._kwargs['max_short_position_length'] \
+                # = self.trial.suggest_int('max_short_position_length', 1, 200)
             # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 5000, 100000, log=True)
             # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
             # self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 13, 19)

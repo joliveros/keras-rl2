@@ -194,8 +194,13 @@ class SymbolAgent(object):
         self.study.set_user_attr('capital', capital_avg)
 
         num_trades = 12
+        
+        trade_len_num_trades = (trade_len / num_trades)
 
-        trade_scaled = (trade_len / num_trades) ** (-1/4)
+        if trade_len_num_trades == 0:
+            trade_scaled = 0
+        else:
+            trade_scaled = (trade_len / num_trades) ** (-1/4)
         
         if trade_scaled > 1:
             trade_scaled = 0
