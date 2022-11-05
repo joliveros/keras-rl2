@@ -257,8 +257,8 @@ class SymbolTuner(StudyWrapper):
         params['eps_greedy_policy_steps'] = 79611
         params['lr'] = 0.005343296591236032
         params['batch_size'] = 43
-        params['max_flat_position_length'] = 441
-        params['max_short_position_length'] = 96
+        params['max_flat_position_length'] = 172
+        params['max_short_position_length'] = 15
         params['trading_fee'] = 0.0012
         params['max_position_length'] = 31
         params['random_frame_start'] = False
