@@ -191,7 +191,7 @@ class SymbolTuner(StudyWrapper):
                 # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
                 # padding=self.trial.suggest_int('padding', 1, 8),
                 strides=self.trial.suggest_int('strides', 1, 16),
-                # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000),
+                eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000, log=True),
                 num_lstm=self.trial.suggest_int('num_lstm', 0, 4),
                 lstm_size=self.trial.suggest_int('lstm_size', 16, 112),
             )
@@ -203,7 +203,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['trading_fee'] = self.trial.suggest_float('trading_fee', 0.0004, 0.005)
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
             # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 64)
-            # self._kwargs['lr'] = self.trial.suggest_uniform('lr', 1e-12, 1e-02)
+            self._kwargs['lr'] = self.trial.suggest_uniform('lr', 1e-12, 1e-02)
             # self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 256)
             # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
             # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
@@ -214,7 +214,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
             # self._kwargs['max_short_position_length'] \
                 # = self.trial.suggest_int('max_short_position_length', 1, 200)
-            # self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 5000, 100000, log=True)
+            self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 5000, 100000, log=True)
             # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
             self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 1, 15)
             # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 2, 3)
@@ -256,7 +256,7 @@ class SymbolTuner(StudyWrapper):
         params['action_repetition'] = 1
         params['eps_greedy_policy_steps'] = 79611
         params['lr'] = 0.005343296591236032
-        params['batch_size'] = 16
+        params['batch_size'] = 18
         params['max_flat_position_length'] = 172
         params['max_short_position_length'] = 15
         params['trading_fee'] = 0.0012
