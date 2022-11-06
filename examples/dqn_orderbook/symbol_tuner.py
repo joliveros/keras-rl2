@@ -236,26 +236,26 @@ class SymbolTuner(StudyWrapper):
 
         params = dict()
         params['cache_limit'] = 8978
-        params['delta_clip'] = 77.49890324446035
+        params['delta_clip'] = 69.0444904559119
         params['dueling_type'] = 'avg'
         params['enable_double_dqn'] = False
         params['gamma'] = 0.8155649630155706
-        params['memory_interval'] = 46
+        params['memory_interval'] = 94
         params['beta_1'] = 0.5692086887313117
         params['beta_2'] = 0.4380206740466757
 
-        params['lstm_size'] = 112
-        params['num_lstm'] = 4
+        params['lstm_size'] = 111
+        params['num_lstm'] = 2
         params['kernel_size'] = 4
         params['block_kernel'] = 4
-        params['num_dense'] = 0
-        params['dense_width'] = 256
-        params['num_conv'] = 15
-        params['base_filter_size'] = 72
-        params['strides'] = 8
+        params['num_dense'] = 1
+        params['dense_width'] = 207
+        params['num_conv'] = 14
+        params['base_filter_size'] = 71
+        params['strides'] = 15
         params['action_repetition'] = 1
-        params['eps_greedy_policy_steps'] = 79611
-        params['lr'] = 0.005343296591236032
+        params['eps_greedy_policy_steps'] = 44163
+        params['lr'] = 0.00020054230171598277
         params['batch_size'] = 18
         params['max_flat_position_length'] = 172
         params['max_short_position_length'] = 15
