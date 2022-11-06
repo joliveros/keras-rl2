@@ -217,7 +217,7 @@ class SymbolTuner(StudyWrapper):
             self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 5000, 100000, log=True)
             # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
             self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 1, 15)
-            # self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 2, 3)
+            self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 2, 3)
             # self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 96)
             # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
             # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 2)
