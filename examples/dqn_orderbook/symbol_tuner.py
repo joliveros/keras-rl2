@@ -174,13 +174,13 @@ class SymbolTuner(StudyWrapper):
             self.trial.set_user_attr('tuned', True)
 
             hparams = dict(
-                memory_interval=self.trial.suggest_int('memory_interval', 1, 99),
+                memory_interval=self.trial.suggest_int('memory_interval', 1, 199),
                 delta_clip=self.trial.suggest_uniform('delta_clip', 0, 99),
                 gamma=self.trial.suggest_uniform('gamma', 0, 0.9999),
                 # enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
                 dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
                 base_filter_size=self.trial.suggest_int('base_filter_size', 4, 72),
-                dense_width=self.trial.suggest_int('dense_width', 4, 256),
+                dense_width=self.trial.suggest_int('dense_width', 4, 396),
                 block_kernel=self.trial.suggest_int('block_kernel', 1, 4),
                 num_dense=self.trial.suggest_int('num_dense', 0, 5),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
@@ -193,7 +193,7 @@ class SymbolTuner(StudyWrapper):
                 strides=self.trial.suggest_int('strides', 1, 16),
                 eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000, log=True),
                 num_lstm=self.trial.suggest_int('num_lstm', 0, 4),
-                lstm_size=self.trial.suggest_int('lstm_size', 16, 112),
+                lstm_size=self.trial.suggest_int('lstm_size', 16, 224),
             )
 
             # self._kwargs['trade_ratio'] = self.trial.suggest_float('trade_ratio', 0, 1.0)
