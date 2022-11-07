@@ -193,7 +193,7 @@ class SymbolAgent(object):
         self.study.set_user_attr('trades', len(trades))
         self.study.set_user_attr('capital', capital_avg)
 
-        num_trades = 12
+        num_trades = 6
         
         trade_len_num_trades = (trade_len / num_trades)
 
