@@ -174,7 +174,7 @@ class SymbolTuner(StudyWrapper):
             self.trial.set_user_attr('tuned', True)
 
             hparams = dict(
-                memory_interval=self.trial.suggest_int('memory_interval', 1, 199),
+                memory_interval=self.trial.suggest_int('memory_interval', 1, 399),
                 delta_clip=self.trial.suggest_uniform('delta_clip', 0, 99),
                 gamma=self.trial.suggest_uniform('gamma', 0, 0.9999),
                 # enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
