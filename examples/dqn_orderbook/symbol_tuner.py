@@ -264,7 +264,7 @@ class SymbolTuner(StudyWrapper):
         params['random_frame_start'] = False
         params['strides'] = 11
         params['target_model_update'] = 10
-        params['trading_fee'] = 0.0012
+        params['trading_fee'] = 0.0004 * 4
         params['train_interval'] = 13
 
         kwargs = self._kwargs.copy()
