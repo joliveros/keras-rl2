@@ -229,6 +229,8 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['max_change'] = self.trial.suggest_float('max_change', 0.001, 0.02)
             # self._kwargs['min_flat_change'] = self.trial.suggest_float('min_flat_change', -0.01, 0.0)
             # self._kwargs['action_repetition'] = self.trial.suggest_int('action_repetition', 1, 12)
+            self._kwargs['reward_ratio'] \
+                = self.trial.suggest_float('reward_ratio', 1, 1000, log=True)
 
         else:
             self.trial.set_user_attr('tuned', False)
@@ -236,36 +238,36 @@ class SymbolTuner(StudyWrapper):
 
         params = dict()
         params['action_repetition'] = 1
-        params['base_filter_size'] = 20
+        params['base_filter_size'] = 37
         params['batch_size'] = 18
         params['beta_1'] = 0.5692086887313117
         params['beta_2'] = 0.4380206740466757
-        params['block_kernel'] = 1
+        params['block_kernel'] = 3
         params['cache_limit'] = 8978
-        params['delta_clip'] = 57.4156918425250
-        params['dense_width'] = 381
-        params['dueling_type'] = 'avg'
+        params['delta_clip'] = 79.4306859515956
+        params['dense_width'] = 340
+        params['dueling_type'] = 'max'
         params['enable_double_dqn'] = False
-        params['eps_greedy_policy_steps'] = 58255
-        params['gamma'] = 0.7961871648570741
+        params['eps_greedy_policy_steps'] = 19645
+        params['gamma'] = 0.22732218319541062
         params['kernel_size'] = 1
-        params['lr'] = 6.845125590858856e-06
+        params['lr'] = 0.0006639249738194268
         params['lstm_size'] = 49
         params['max_change'] = 0.01
-        params['max_flat_position_length'] = 101
+        params['max_flat_position_length'] = 93
         params['max_position_length'] = 31
-        params['max_short_position_length'] = 105
-        params['memory_interval'] = 356
+        params['max_short_position_length'] = 99
+        params['memory_interval'] = 296
         params['min_change'] = 0.0
         params['min_flat_change'] = -0.001
-        params['num_conv'] = 3
-        params['num_dense'] = 3
+        params['num_conv'] = 2
+        params['num_dense'] = 2
         params['num_lstm'] = 1
         params['random_frame_start'] = False
         params['strides'] = 3
-        params['target_model_update'] = 9
+        params['target_model_update'] = 28
         params['trading_fee'] = 0.0004 * 4
-        params['train_interval'] = 67
+        params['train_interval'] = 6
 
         kwargs = self._kwargs.copy()
         kwargs = {**kwargs, **hparams}
