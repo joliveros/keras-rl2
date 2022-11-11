@@ -268,6 +268,7 @@ class SymbolTuner(StudyWrapper):
         params['target_model_update'] = 146
         params['trading_fee'] = 0.0004 * 4
         params['train_interval'] = 15
+        params['reward_ratio'] = 30.919582800647163
 
         kwargs = self._kwargs.copy()
         kwargs = {**kwargs, **hparams}
