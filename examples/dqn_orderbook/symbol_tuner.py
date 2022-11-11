@@ -177,7 +177,7 @@ class SymbolTuner(StudyWrapper):
                 memory_interval=self.trial.suggest_int('memory_interval', 1, 399),
                 delta_clip=self.trial.suggest_uniform('delta_clip', 0, 99),
                 gamma=self.trial.suggest_uniform('gamma', 0, 0.9999),
-                # enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
+                enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
                 dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
                 base_filter_size=self.trial.suggest_int('base_filter_size', 4, 72),
                 dense_width=self.trial.suggest_int('dense_width', 4, 396),
@@ -222,7 +222,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
             # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 2)
             # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
-            # self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 100, 10000)
+            self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 100, 10000)
             self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 2, 8000, log=True)
             self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 2, 8000, log=True)
             # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
