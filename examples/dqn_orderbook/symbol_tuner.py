@@ -197,8 +197,8 @@ class SymbolTuner(StudyWrapper):
             )
 
             # self._kwargs['trade_ratio'] = self.trial.suggest_float('trade_ratio', 0, 1.0)
-            # self._kwargs['beta_1'] = self.trial.suggest_uniform('beta_1', 0.0, 0.99999)
-            # self._kwargs['beta_2'] = self.trial.suggest_uniform('beta_2', 0.0, 0.99999)
+            self._kwargs['beta_1'] = self.trial.suggest_uniform('beta_1', 0.0, 0.99999)
+            self._kwargs['beta_2'] = self.trial.suggest_uniform('beta_2', 0.0, 0.99999)
             # self._kwargs['fee_ratio'] = self.trial.suggest_float('fee_ratio', 0.9, 2.0)
             # self._kwargs['trading_fee'] = self.trial.suggest_float('trading_fee', 0.0004, 0.005)
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
