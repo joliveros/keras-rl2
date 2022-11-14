@@ -41,7 +41,7 @@ class SymbolAgent(object):
         policy_value_max,
         train_recent_data,
         study,
-        trade_ratio=1/8,
+        trade_ratio=1/6,
         env2=None,
         optimizer: int = 2,
         cache_limit=6089,
@@ -190,22 +190,13 @@ class SymbolAgent(object):
         capital_avg = sum(capital) / len(capital)
         trade_len = len([t.pnl for t in trades if t.pnl > 0])
 
+        trade_ratio = math.log(trade_len / len(trades)) ** 1/4
+
         self.study.set_user_attr('trades', len(trades))
         self.study.set_user_attr('capital', capital_avg)
 
-        num_trades = 6
-        
-        trade_len_num_trades = (trade_len / num_trades)
-
-        if trade_len_num_trades == 0:
-            trade_scaled = 0
-        else:
-            trade_scaled = (trade_len / num_trades) ** (-1/4)
-        
-        if trade_scaled > 1:
-            trade_scaled = 0
 
         capitol_ratio = (1 - self.trade_ratio)
 
-        return (capital_avg * capitol_ratio) + (trade_scaled * self.trade_ratio) 
+        return (capital_avg * capitol_ratio) + (trade_ratio * self.trade_ratio) 
 
