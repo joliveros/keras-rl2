@@ -188,9 +188,13 @@ class SymbolAgent(object):
         trades = list({hash(t): t for t in trades}.values())
 
         capital_avg = sum(capital) / len(capital)
-        trade_len = len([t.pnl for t in trades if t.pnl > 0])
+        pos_trades = len([t.pnl for t in trades if t.pnl > 0])
 
-        trade_ratio = math.log(trade_len / len(trades)) ** 1/4
+        trade_len = len(trades)
+        if trade_len == 0:
+            trade_ratio = 0
+        else:
+            trade_ratio = math.log(pos_trades / trade_len) ** 1/4
 
         self.study.set_user_attr('trades', len(trades))
         self.study.set_user_attr('capital', capital_avg)
