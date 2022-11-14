@@ -194,7 +194,10 @@ class SymbolAgent(object):
         if trade_len == 0:
             trade_ratio = 0
         else:
-            trade_ratio = math.log(pos_trades / trade_len) ** 1/4
+            alog.info(dict(pos_trades=pos_trades, trade_len=trade_len))
+            trade_ratio = pos_trades / trade_len
+            if trade_ratio != 0:
+                trade_ratio = math.log(pos_trades / trade_len) ** 1/4
 
         self.study.set_user_attr('trades', len(trades))
         self.study.set_user_attr('capital', capital_avg)
