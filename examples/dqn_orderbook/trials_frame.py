@@ -19,9 +19,10 @@ class TrialsFrame(StudyWrapper):
         df = df.drop(['datetime_start', 'datetime_complete', 'state',  'user_attrs_params', 'user_attrs_tuned'], axis=1)
 
         df = df[df['value'] >= self.min_value]
-        df = df[df['params_test_num'].isna()]
 
-        df = df.drop(['params_test_num'], axis=1)
+        if 'params_test_num' in df:
+            df = df[df['params_test_num'].isna()]
+            df = df.drop(['params_test_num'], axis=1)
 
         pd.set_option('display.max_rows', len(df) + 1)
 
