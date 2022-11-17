@@ -262,7 +262,7 @@ class SymbolTuner(StudyWrapper):
         params['random_frame_start'] = False
         params['strides'] = 8
         params['target_model_update'] = 18
-        params['trading_fee'] = 0.0004 * 4
+        params['trading_fee'] = 0.0004
         params['train_interval'] = 1895
         params['reward_ratio'] = 172.93127383017037
 
