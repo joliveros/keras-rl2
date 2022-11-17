@@ -232,44 +232,17 @@ class SymbolTuner(StudyWrapper):
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
 
-        params = dict()
+        params = self.study.best_trial.params
         params['action_repetition'] = 1
-        params['base_filter_size'] = 62
         params['batch_size'] = 18
-        params['beta_1'] = 0.9141696746661715
-        params['beta_2'] = 0.6580500728712794
-        params['block_kernel'] = 2
-        params['cache_limit'] = 7656
-        params['delta_clip'] = 38.79093145129825
-        params['dense_width'] = 96
-        params['dueling_type'] = 'max'
-        params['enable_double_dqn'] = False
-        params['eps_greedy_policy_steps'] = 58675
-        params['gamma'] = 0.47357912788932177
-        params['kernel_size'] = 4
-        params['lr'] = 0.00722468692826149
-        params['lstm_size'] = 63
         params['max_change'] = 0.01
-        params['max_flat_position_length'] = 164
-        params['max_position_length'] = 31
-        params['max_short_position_length'] = 179
-        params['memory_interval'] = 61
         params['min_change'] = 0.0
         params['min_flat_change'] = -0.001
-        params['num_conv'] = 4
-        params['num_dense'] = 1
-        params['num_lstm'] = 2
         params['random_frame_start'] = False
-        params['strides'] = 8
-        params['target_model_update'] = 18
         params['trading_fee'] = 0.0004
-        params['train_interval'] = 1895
-        params['reward_ratio'] = 172.93127383017037
 
         kwargs = self._kwargs.copy()
         kwargs = {**kwargs, **hparams}
-
-        alog.info(alog.pformat(kwargs))
 
         for param in params:
             if param not in kwargs:

@@ -16,7 +16,13 @@ class TrialsFrame(StudyWrapper):
         pd.options.plotting.backend = "plotly"
         df = self.study.trials_dataframe()
 
-        df = df.drop(['datetime_start', 'datetime_complete', 'state',  'user_attrs_params', 'user_attrs_tuned'], axis=1)
+        df = df.drop([
+            'datetime_start',
+            'datetime_complete',
+            'state',
+            'user_attrs_params',
+            'user_attrs_tuned'
+        ], axis=1)
 
         df = df[df['value'] >= self.min_value]
 
