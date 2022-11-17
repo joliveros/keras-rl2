@@ -195,7 +195,7 @@ class SymbolAgent(object):
         trade_ratio = pos_trades / trade_len
 
         if trade_ratio != 0:
-            trade_ratio = math.log((pos_trades / trade_len) ** (1/2))
+            trade_ratio = math.log((trade_ratio) ** (1/2))
 
         self.study.set_user_attr('trades', len(trades))
         self.study.set_user_attr('capital', capital_avg)
@@ -203,5 +203,5 @@ class SymbolAgent(object):
 
         capitol_ratio = (1 - self.trade_ratio)
 
-        return (capital_avg * capitol_ratio) + (trade_ratio * self.trade_ratio) 
+        return (capital_avg * capitol_ratio) + ((trade_ratio + (pos_trades **(1/24))) * self.trade_ratio) 
 
