@@ -232,7 +232,17 @@ class SymbolTuner(StudyWrapper):
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
 
-        params = self.study.best_trial.params
+        df = self.study.trials_dataframe()
+
+        if 'params_test_num' in df:
+            df = df[df['params_test_num'].isna()]
+            df = df.drop(['params_test_num'], axis=1)
+
+        best_trial_number = df.loc[df['value'].idxmax()]['number']
+
+        trial = Trial(self.study, best_trial_number)
+
+        params = trial.params
         params['action_repetition'] = 1
         params['batch_size'] = 18
         params['max_change'] = 0.01
@@ -245,8 +255,7 @@ class SymbolTuner(StudyWrapper):
         kwargs = {**kwargs, **hparams}
 
         for param in params:
-            if param not in kwargs:
-                kwargs[param] = params[param]
+            kwargs[param] = params[param]
 
         env = self.env
         env.reset()
@@ -262,6 +271,8 @@ class SymbolTuner(StudyWrapper):
 
         self.trial.set_user_attr('params', kwargs)
 
+        alog.info(alog.pformat(params['nb_steps']))
+
         params = dict(
             env=env,
             # env2=env2,
@@ -273,8 +284,6 @@ class SymbolTuner(StudyWrapper):
             study=self.study,
             **kwargs
         )
-
-        alog.info(alog.pformat(params))
 
         return SymbolAgent(**params)
 
