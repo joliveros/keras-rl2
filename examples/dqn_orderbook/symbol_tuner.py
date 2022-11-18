@@ -257,8 +257,11 @@ class SymbolTuner(StudyWrapper):
         for param in params:
             kwargs[param] = params[param]
 
+        self._kwargs = kwargs
+
         env = self.env
         env.reset()
+
         kwargs['quantile'] = env.quantile
         kwargs['trade_volume_max'] = env.trade_volume_max
         kwargs['change_max'] = env.change_max
