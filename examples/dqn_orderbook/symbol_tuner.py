@@ -238,11 +238,15 @@ class SymbolTuner(StudyWrapper):
             df = df[df['params_test_num'].isna()]
             df = df.drop(['params_test_num'], axis=1)
 
-        best_trial_number = df.loc[df['value'].idxmax()]['number']
+        if len(df) > 0:
+            best_trial_number = df.loc[df['value'].idxmax()]['number']
 
-        trial = Trial(self.study, best_trial_number)
+            trial = Trial(self.study, best_trial_number)
 
-        params = trial.params
+            params = trial.params
+        else:
+            raise Exception('not enough complete records')
+
         params['action_repetition'] = 1
         params['batch_size'] = 18
         params['max_change'] = 0.01
@@ -273,8 +277,6 @@ class SymbolTuner(StudyWrapper):
         test_env.reset()
 
         self.trial.set_user_attr('params', kwargs)
-
-        alog.info(alog.pformat(params['nb_steps']))
 
         params = dict(
             env=env,
