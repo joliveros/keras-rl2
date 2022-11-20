@@ -237,15 +237,13 @@ class SymbolTuner(StudyWrapper):
         if 'params_test_num' in df:
             df = df[df['params_test_num'].isna()]
             df = df.drop(['params_test_num'], axis=1)
-
-        if len(df) > 0:
+        params = dict()
+        if len(df) > 0 and not tune:
             best_trial_number = df.loc[df['value'].idxmax()]['number']
 
             trial = Trial(self.study, best_trial_number)
 
             params = trial.params
-        else:
-            raise Exception('not enough complete records')
 
         params['action_repetition'] = 1
         params['batch_size'] = 18
