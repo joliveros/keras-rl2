@@ -180,12 +180,12 @@ class SymbolTuner(StudyWrapper):
                 block_kernel=self.trial.suggest_int('block_kernel', 1, 4),
                 num_dense=self.trial.suggest_int('num_dense', 0, 5),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
-                # interval_minutes=self.trial.suggest_int('interval_minutes', 1, 24),
+                interval_minutes=self.trial.suggest_int('interval_minutes', 1, 24),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
                 kernel_size=self.trial.suggest_int('kernel_size', 1, 4),
-                # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
-                # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
-                # padding=self.trial.suggest_int('padding', 1, 8),
+                max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
+                max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
+                padding=self.trial.suggest_int('padding', 1, 8),
                 strides=self.trial.suggest_int('strides', 1, 16),
                 eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000, log=True),
                 num_lstm=self.trial.suggest_int('num_lstm', 0, 4),
@@ -200,9 +200,9 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
             # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 64)
             self._kwargs['lr'] = self.trial.suggest_uniform('lr', 1e-12, 1e-02)
-            # self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 256)
+            self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 256)
             # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
-            # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
+            self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
             # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
             self._kwargs['max_flat_position_length'] \
                  = self.trial.suggest_int('max_flat_position_length', 1, 200)
@@ -214,7 +214,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
             self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 1, 15)
             self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 2, 3)
-            # self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 96)
+            self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 96)
             # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
             # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 2)
             # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
