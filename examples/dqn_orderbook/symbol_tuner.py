@@ -180,7 +180,7 @@ class SymbolTuner(StudyWrapper):
                 block_kernel=self.trial.suggest_int('block_kernel', 1, 4),
                 num_dense=self.trial.suggest_int('num_dense', 0, 5),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
-                interval_minutes=self.trial.suggest_int('interval_minutes', 1, 24),
+                # interval_minutes=self.trial.suggest_int('interval_minutes', 1, 24),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
                 kernel_size=self.trial.suggest_int('kernel_size', 1, 4),
                 max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
@@ -202,7 +202,7 @@ class SymbolTuner(StudyWrapper):
             self._kwargs['lr'] = self.trial.suggest_uniform('lr', 1e-12, 1e-02)
             self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 256)
             # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
-            self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
+            # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
             # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
             self._kwargs['max_flat_position_length'] \
                  = self.trial.suggest_int('max_flat_position_length', 1, 200)
