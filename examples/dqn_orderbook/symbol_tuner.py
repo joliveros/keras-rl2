@@ -231,8 +231,8 @@ class SymbolTuner(StudyWrapper):
             self._kwargs['window_fast'] = self.trial.suggest_int('window_slow', 12, 64)
             self._kwargs['window_sign'] = self.trial.suggest_int('window_slow', 12, 64)
 
-else:
-self.trial.set_user_attr('tuned', False)
+        else:
+            self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
 
         df = self.study.trials_dataframe()
