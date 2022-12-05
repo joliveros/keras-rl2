@@ -227,9 +227,9 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['action_repetition'] = self.trial.suggest_int('action_repetition', 1, 12)
             self._kwargs['reward_ratio'] \
                 = self.trial.suggest_float('reward_ratio', 1, 1000, log=True)
-            self._kwargs['window_slow'] = self.trial.suggest_int('window_slow', 12, 64)
-            self._kwargs['window_fast'] = self.trial.suggest_int('window_fast', 12, 64)
-            self._kwargs['window_sign'] = self.trial.suggest_int('window_sign', 12, 64)
+            # self._kwargs['window_slow'] = self.trial.suggest_int('window_slow', 12, 64)
+            # self._kwargs['window_fast'] = self.trial.suggest_int('window_fast', 12, 64)
+            # self._kwargs['window_sign'] = self.trial.suggest_int('window_sign', 12, 64)
 
         else:
             self.trial.set_user_attr('tuned', False)
