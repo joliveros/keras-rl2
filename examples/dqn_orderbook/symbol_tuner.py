@@ -238,14 +238,13 @@ class SymbolTuner(StudyWrapper):
         df = self.study.trials_dataframe()
 
         if 'params_test_num' in df:
-            df = df[df['params_test_num'].isna()]
-            df = df.drop(['params_test_num'], axis=1)
+            df = df[df['user_attrs_tuned'] == False]
+
         params = dict()
+
         if len(df) > 0 and not tune:
             best_trial_number = df.loc[df['value'].idxmax()]['number']
-
             trial = Trial(self.study, best_trial_number)
-
             params = trial.params
 
         params['action_repetition'] = 1
