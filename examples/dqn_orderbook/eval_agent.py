@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+import sys
 
 from cached_property import cached_property_with_ttl
 from copy import deepcopy
@@ -26,14 +27,18 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
             self,
             symbol,
             env_name,
+            interval,
             eval_interval,
             valid_interval,
             memory,
             window_length,
+            once,
             **kwargs):
         super().__init__(symbol=symbol, **kwargs)
         Messenger.__init__(self)
 
+        self.interval = interval
+        self.once = once
         self._kwargs = kwargs.copy()
         self.window_length = window_length
         self.memory = memory
@@ -41,8 +46,13 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         self.env_name = env_name
         self.symbol = symbol
         self.split_gpu()
-        self.on(eval_interval, self.emit)
-        self.sub([eval_interval])
+
+        if once:
+            self.emit()
+            sys.exit(0)
+        else:
+            self.on(eval_interval, self.emit)
+            self.sub([eval_interval])
 
     @property
     def best_trial_id(self):
@@ -108,8 +118,6 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 
         params['is_test'] = True
 
-        alog.info(alog.pformat(params))
-
         interval = self.interval_for_env(params)
 
         return gym.make(self.env_name,
@@ -123,7 +131,10 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         seconds = timeparse(group_by) * \
                   (sequence_length + self.window_length)
 
-        interval = f'{seconds}s'
+        interval = timeparse(self.interval)
+
+        interval = f'{seconds + interval}s'
+
         return interval
 
     def emit(self, *args):
@@ -138,6 +149,8 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
             prediction = str(self.agent.forward(deepcopy(obs)))
             self.agent.backward(0.0, terminal=False)
             done = _done
+
+        alog.info(env.frame)
 
         alog.info(prediction)
 
@@ -166,6 +179,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 @click.option('--offset-interval', default='0h', type=str)
 @click.option('--summary-interval', default=1, type=int)
 @click.option('--valid-interval', default='30m', type=str)
+@click.option('--once', is_flag=True)
 def main(**kwargs):
     SymbolEvalAgent(**kwargs)
 

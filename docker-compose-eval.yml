@@ -14,7 +14,7 @@ services:
       volumes:
         - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
       command: bash -c "source ~/.bashrc &&
-        ./examples/dqn_orderbook/eval_agent.py UNFIUSDT --valid-interval 80m -m 600 -e 1m"
+        ./examples/dqn_orderbook/eval_agent.py UNFIUSDT --valid-interval 80m -m 600 -e 1m --interval 3h"
       environment:
         - LOG_LEVEL=INFO
         - CUDA_VISIBLE_DEVICES=1
