@@ -238,7 +238,7 @@ class SymbolTuner(StudyWrapper):
         df = self.study.trials_dataframe()
 
         if 'params_test_num' in df:
-            df = df[df['user_attrs_tuned'] == False]
+            df = df[df['user_attrs_tuned'] == True]
 
         params = dict()
 
