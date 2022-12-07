@@ -144,17 +144,23 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         done = False
         _obs = deque(maxlen=self.window_length)
 
+        prediction = 0
+        action = 0
+
         while not done:
-            obs, reward, _done, meta = env.step(0)
-            prediction = str(self.agent.forward(deepcopy(obs)))
+            obs, reward, _done, meta = env.step(prediction)
+            action = meta['action']
+            prediction = int(self.agent.forward(deepcopy(obs)))
             self.agent.backward(0.0, terminal=False)
             done = _done
 
+        pd.set_option('display.max_rows', 12)
+
         alog.info(env.frame)
 
-        alog.info(prediction)
+        alog.info(action)
 
-        self.publish(f'{self.symbol}_prediction', prediction)
+        self.publish(f'{self.symbol}_prediction', str(action))
 
     def split_gpu(self):
         physical_devices = tf.config.list_physical_devices('GPU')
