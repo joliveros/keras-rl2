@@ -9,14 +9,14 @@ services:
 
     train_tune:
         deploy:
-          replicas: 6
+          replicas: 5
         image: 'registry.rubercubic.com:5001/dqn-orderbook'
         volumes:
             - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
         command: bash -c "source ~/.bashrc &&
             ./examples/dqn_orderbook/run.py UNFIUSDT -i 16h -D 2 --summary-interval 400 -g 1m -w 30m \
             --database-name binance_futures -l 88 -d 88 --leverage 2.0 \
-            --offset-interval 0h --test-interval 12h --nb-steps 7739 --max-negative-pnl -0.99 -m 800 --tune -s 1"
+            --offset-interval 12h --test-interval 12h --nb-steps 7739 --max-negative-pnl -0.99 -m 960 --tune -s 1"
         environment:
             - LOG_LEVEL=DEBUG
             - CUDA_VISIBLE_DEVICES=0
