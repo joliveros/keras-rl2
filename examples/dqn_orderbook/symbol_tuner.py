@@ -201,7 +201,7 @@ class SymbolTuner(StudyWrapper):
             # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
             # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 64)
             self._kwargs['lr'] = self.trial.suggest_uniform('lr', 1e-12, 1e-02)
-            self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 256)
+            self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 164)
             # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
             self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
             # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
