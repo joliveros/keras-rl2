@@ -1,0 +1,18 @@
+version: '3.8'
+
+networks:
+  public:
+    name: public
+    external: true
+
+services:
+  postgres:
+      image: postgres/postgres:11-alpine
+      ports:
+        - "5432:5432"
+      environment:
+        - POSTGRES_PASSWORD=postgres
+      volumes:
+        - "$HOME/postgresql/keras_data:/var/lib/postgresql/data"
+      networks:
+        - public
