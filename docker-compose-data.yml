@@ -16,3 +16,9 @@ services:
         - "$HOME/postgresql/keras_data:/var/lib/postgresql/data"
       networks:
         - public
+      secrets:
+        - KERAS_DB
+
+secrets:
+  KERAS_DB:
+      external: true

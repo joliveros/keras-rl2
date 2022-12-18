@@ -24,7 +24,6 @@ class SymbolTuner(StudyWrapper):
     def __init__(self,
                  export_best,
                  session_limit,
-                 clear_runs,
                  env_name,
                  retry,
                  min_capital,
@@ -43,7 +42,6 @@ class SymbolTuner(StudyWrapper):
         self.train_recent_data = train_recent_data
         self.retry = retry
         self.export_best = export_best
-        self.clear_runs = clear_runs
         self.min_capital = min_capital
         self.memory = memory
         self.num_locks = num_locks
@@ -239,20 +237,12 @@ class SymbolTuner(StudyWrapper):
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
 
-        df = self.study.trials_dataframe()
-        
-        if 'params_test_num' in df.columns:
-            df_test = df.dropna(subset=['params_test_num'])
-            df = df.drop(df_test.index)
-
         params = dict()
 
-        if len(df) > 0 and not tune:
-            alog.info(df)
-            best_trial_number = df.loc[df['value'].idxmax()]['number']
-            trial = Trial(self.study, best_trial_number)
-
-            params = trial.params
+        try:
+            params = self.study.best_trial.params
+        except ValueError:
+            pass
 
         params['action_repetition'] = 1
         params['batch_size'] = 18
@@ -302,14 +292,14 @@ class SymbolTuner(StudyWrapper):
     def _run(self, trial: Trial):
         self.trial = trial
 
-        if trial.number > self.clear_runs > 0:
+        try:
             exported_model_path = self.study.best_trial.user_attrs['exported_model_path']
             if self.export_best and self.study.best_trial.value > self.min_capital:
                 self.save_best_params()
                 shutil.rmtree(self.best_model_dir, ignore_errors=True)
                 shutil.copytree(exported_model_path, self.best_model_dir)
-
-            self.clear()
+        except ValueError as err:
+            pass
 
         try:
             result = self.agent.run()
