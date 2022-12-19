@@ -239,10 +239,11 @@ class SymbolTuner(StudyWrapper):
 
         params = dict()
 
-        try:
-            params = self.study.best_trial.params
-        except ValueError:
-            pass
+        if not tune:
+            try:
+                params = self.study.best_trial.params
+            except ValueError:
+                pass
 
         params['action_repetition'] = 1
         params['batch_size'] = 18
