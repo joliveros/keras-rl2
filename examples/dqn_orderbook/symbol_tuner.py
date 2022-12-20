@@ -1,3 +1,6 @@
+import json
+import zlib
+
 from examples.dqn_orderbook.symbol_agent import SymbolAgent
 from exchange_data import settings
 from exchange_data.models.study_wrapper import StudyWrapper
@@ -179,7 +182,7 @@ class SymbolTuner(StudyWrapper):
                 block_kernel=self.trial.suggest_int('block_kernel', 1, 4),
                 num_dense=self.trial.suggest_int('num_dense', 0, 5),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
-                interval_minutes=self.trial.suggest_int('interval_minutes', 1, 48),
+                # interval_minutes=self.trial.suggest_int('interval_minutes', 1, 48),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
                 kernel_size=self.trial.suggest_int('kernel_size', 1, 4),
                 max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
@@ -189,81 +192,86 @@ class SymbolTuner(StudyWrapper):
                 eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000, log=True),
                 num_lstm=self.trial.suggest_int('num_lstm', 0, 4),
                 lstm_size=self.trial.suggest_int('lstm_size', 16, 224),
+                trade_ratio = self.trial.suggest_float('trade_ratio', 0, 1.0),
+                beta_1 = self.trial.suggest_uniform('beta_1', 0.0, 0.99999),
+                beta_2 = self.trial.suggest_uniform('beta_2', 0.0, 0.99999),
+                # fee_ratio = self.trial.suggest_float('fee_ratio', 0.9, 2.0),
+                # trading_fee = self.trial.suggest_float('trading_fee', 0.0004, 0.005),
+                # policy_value_max = self.trial.suggest_float('policy_value_max', 0.001, 0.9),
+                # batch_size = self.trial.suggest_int('batch_size', 8, 64),
+                lr = self.trial.suggest_uniform('lr', 1e-12, 1e-02),
+                # self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 164)
+                # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
+                # self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
+                # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
+                max_flat_position_length \
+                     = self.trial.suggest_int('max_flat_position_length', 1, 200),
+                # max_negative_pnl = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100),
+                # max_position_length = self.trial.suggest_int('max_position_length', 0, 72),
+                max_short_position_length \
+                    = self.trial.suggest_int('max_short_position_length', 1, 200),
+                # nb_steps = self.trial.suggest_int('nb_steps', 5000, 100000, log=True),
+                # nb_steps_2 = self.trial.suggest_int('nb_steps_2', 1000, int(5e4)),
+                # num_conv = self.trial.suggest_int('num_conv', 1, 15),
+                # round_decimals = self.trial.suggest_int('round_decimals', 2, 3),
+                # sequence_length = self.trial.suggest_int('sequence_length', 2, 96),
+                # train_recent_data = self.trial.suggest_categorical('train_recent_data', [True, False]),
+                # window_length = self.trial.suggest_int('window_length', 1, 2),
+                # min_change = self.trial.suggest_float('min_change', 0.0, 0.02),
+                cache_limit = self.trial.suggest_int('cache_limit', 100, 10000),
+                train_interval = self.trial.suggest_int('train_interval', 2, 8000, log=True),
+                target_model_update = self.trial.suggest_int('target_model_update', 2, 8000, log=True),
+                window_factor = \
+                        self.trial.suggest_float('window_factor', 1, 10, log=True),
+
+                # gap_enabled = self.trial.suggest_categorical('gap_enabled', [True, False]),
+                # max_change = self.trial.suggest_float('max_change', 0.001, 0.02),
+                # min_flat_change = self.trial.suggest_float('min_flat_change', -0.01, 0.0),
+                # action_repetition = self.trial.suggest_int('action_repetition', 1, 12),
+                reward_ratio \
+                    = self.trial.suggest_float('reward_ratio', 1, 1000, log=True),
+                # window_slow = self.trial.suggest_int('window_slow', 12, 64),
+                # window_fast = self.trial.suggest_int('window_fast', 12, 64),
+                # window_sign = self.trial.suggest_int('window_sign', 12, 64)
             )
-
-            # self._kwargs['trade_ratio'] = self.trial.suggest_float('trade_ratio', 0, 1.0)
-            self._kwargs['beta_1'] = self.trial.suggest_uniform('beta_1', 0.0, 0.99999)
-            self._kwargs['beta_2'] = self.trial.suggest_uniform('beta_2', 0.0, 0.99999)
-            # self._kwargs['fee_ratio'] = self.trial.suggest_float('fee_ratio', 0.9, 2.0)
-            # self._kwargs['trading_fee'] = self.trial.suggest_float('trading_fee', 0.0004, 0.005)
-            # self._kwargs['policy_value_max'] = self.trial.suggest_float('policy_value_max', 0.001, 0.9)
-            # self._kwargs['batch_size'] = self.trial.suggest_int('batch_size', 8, 64)
-            self._kwargs['lr'] = self.trial.suggest_uniform('lr', 1e-12, 1e-02)
-            self._kwargs['depth'] = self.trial.suggest_int('depth', 12, 164)
-            # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
-            self._kwargs['interval'] = f'{hparams["interval_minutes"] * 60}m'
-            # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
-            self._kwargs['max_flat_position_length'] \
-                 = self.trial.suggest_int('max_flat_position_length', 1, 200)
-            # self._kwargs['max_negative_pnl'] = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100)
-            # self._kwargs['max_position_length'] = self.trial.suggest_int('max_position_length', 0, 72)
-            self._kwargs['max_short_position_length'] \
-                = self.trial.suggest_int('max_short_position_length', 1, 200)
-            self._kwargs['nb_steps'] = self.trial.suggest_int('nb_steps', 5000, 100000, log=True)
-            # self._kwargs['nb_steps_2'] = self.trial.suggest_int('nb_steps_2', 1000, int(5e4))
-            self._kwargs['num_conv'] = self.trial.suggest_int('num_conv', 1, 15)
-            self._kwargs['round_decimals'] = self.trial.suggest_int('round_decimals', 2, 3)
-            self._kwargs['sequence_length'] = self.trial.suggest_int('sequence_length', 2, 96)
-            # self._kwargs['train_recent_data'] = self.trial.suggest_categorical('train_recent_data', [True, False])
-            # self._kwargs['window_length'] = self.trial.suggest_int('window_length', 1, 2)
-            # self._kwargs['min_change'] = self.trial.suggest_float('min_change', 0.0, 0.02)
-            self._kwargs['cache_limit'] = self.trial.suggest_int('cache_limit', 100, 10000)
-            self._kwargs['train_interval'] = self.trial.suggest_int('train_interval', 2, 8000, log=True)
-            self._kwargs['target_model_update'] = self.trial.suggest_int('target_model_update', 2, 8000, log=True)
-            self._kwargs['window_factor'] = \
-                    self.trial.suggest_float('window_factor', 1, 10, log=True)
-
-            # self._kwargs['gap_enabled'] = self.trial.suggest_categorical('gap_enabled', [True, False])
-            # self._kwargs['max_change'] = self.trial.suggest_float('max_change', 0.001, 0.02)
-            # self._kwargs['min_flat_change'] = self.trial.suggest_float('min_flat_change', -0.01, 0.0)
-            # self._kwargs['action_repetition'] = self.trial.suggest_int('action_repetition', 1, 12)
-            self._kwargs['reward_ratio'] \
-                = self.trial.suggest_float('reward_ratio', 1, 1000, log=True)
-            # self._kwargs['window_slow'] = self.trial.suggest_int('window_slow', 12, 64)
-            # self._kwargs['window_fast'] = self.trial.suggest_int('window_fast', 12, 64)
-            # self._kwargs['window_sign'] = self.trial.suggest_int('window_sign', 12, 64)
 
         else:
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
 
-        params = dict()
-
         if not tune:
             try:
-                params = self.study.best_trial.params
+                best_trial = self.study.best_trial
+                params = best_trial.params
+                for param in params:
+                    self._kwargs[param] = params[param]
+
+                params = best_trial.user_attrs
+                for param in params:
+                    self._kwargs[param] = params[param]
+
             except ValueError:
                 pass
 
-        params['action_repetition'] = 1
-        params['batch_size'] = 18
-        params['max_change'] = 0.01
-        params['min_change'] = 0.0
-        params['min_flat_change'] = -0.001
-        params['random_frame_start'] = False
-        params['trading_fee'] = 0.0004
+        hparams['action_repetition'] = 1
+        hparams['batch_size'] = 18
+        hparams['max_change'] = 0.01
+        hparams['min_change'] = 0.0
+        hparams['min_flat_change'] = -0.001
+        hparams['random_frame_start'] = False
+        hparams['trading_fee'] = 0.0004
 
         kwargs = self._kwargs.copy()
-        kwargs = {**kwargs, **hparams}
 
-        for param in params:
-            kwargs[param] = params[param]
+        for param in hparams:
+            kwargs[param] = hparams[param]
 
         self._kwargs = kwargs
 
         env = self.env
         env.reset()
 
+        # post env init params
         kwargs['quantile'] = env.quantile
         kwargs['trade_volume_max'] = env.trade_volume_max
         kwargs['change_max'] = env.change_max
@@ -274,7 +282,9 @@ class SymbolTuner(StudyWrapper):
         test_env = self.test_env
         test_env.reset()
 
-        self.trial.set_user_attr('params', kwargs)
+        for param in kwargs:
+            if param not in hparams:
+                self.trial.set_user_attr(param, kwargs[param])
 
         params = dict(
             env=env,
