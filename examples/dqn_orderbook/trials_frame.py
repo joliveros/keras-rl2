@@ -20,7 +20,6 @@ class TrialsFrame(StudyWrapper):
             'datetime_start',
             'datetime_complete',
             'state',
-            'user_attrs_params',
             'user_attrs_tuned'
         ], axis=1)
 
