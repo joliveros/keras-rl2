@@ -290,7 +290,7 @@ class SymbolTuner(StudyWrapper):
             short_reward_enabled=False,
             test_env=test_env,
             trial_id=str(self.trial.number),
-            study=self.study,
+            trial=self.trial,
             **kwargs
         )
 

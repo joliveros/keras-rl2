@@ -1,5 +1,5 @@
 from bitmex_websocket.constants import NoValue
-from optuna import Study
+from optuna import Study, Trial
 
 from examples.dqn_orderbook.processor import OrderBookFrameProcessor
 # from exchange_data.models.video_cnn import Model
@@ -40,7 +40,7 @@ class SymbolAgent(object):
         symbol,
         policy_value_max,
         train_recent_data,
-        study,
+        trial,
         trade_ratio=1/6,
         env2=None,
         optimizer: int = 2,
@@ -54,7 +54,7 @@ class SymbolAgent(object):
         **kwargs
     ):
         kwargs['symbol'] = symbol
-        self.study: Study = study
+        self.trial: Trial = trial
         self._kwargs = kwargs
         self.beta_1 = beta_1
         self.beta_2 = beta_2
@@ -191,7 +191,7 @@ class SymbolAgent(object):
         alog.info('### capital ###')
         alog.info(capital_avg)
 
-        self.study.set_user_attr('capital', capital_avg)
+        self.trial.set_user_attr('capital', capital_avg)
 
         # trades = []
         # trades += [info['trades'] for info in history.history['info']]
