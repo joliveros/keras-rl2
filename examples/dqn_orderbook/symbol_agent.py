@@ -187,6 +187,10 @@ class SymbolAgent(object):
             return [item for sublist in l for item in sublist]
 
         capital_avg = sum(capital) / len(capital)
+
+        alog.info('### capital ###')
+        alog.info(capital_avg)
+
         self.study.set_user_attr('capital', capital_avg)
 
         # trades = []
