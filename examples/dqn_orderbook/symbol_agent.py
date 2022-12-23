@@ -188,11 +188,6 @@ class SymbolAgent(object):
 
         capital_avg = sum(capital) / len(capital)
 
-        alog.info('### capital ###')
-        alog.info(capital_avg)
-
-        self.trial.set_user_attr('capital', capital_avg)
-
         # trades = []
         # trades += [info['trades'] for info in history.history['info']]
         # trades = flatten(trades)

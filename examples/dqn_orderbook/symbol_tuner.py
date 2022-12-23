@@ -71,12 +71,11 @@ class SymbolTuner(StudyWrapper):
 
     def _clear(self):
         with RedLock('clear_lock', [dict(
-                        host=settings.REDIS_HOST,
-                        db=0
-                    )],
+                host=settings.REDIS_HOST,
+                db=0
+        )],
                      retry_delay=timeparse('15s'),
                      retry_times=12, ttl=timeparse('1h') * 1000):
-
             self.study_db_path.unlink()
             self.clear_dirs()
 
@@ -97,12 +96,12 @@ class SymbolTuner(StudyWrapper):
     @property
     def export_dir(self):
         return Path(f'{Path.home()}/.exchange-data/models/' \
-                 f'{self.symbol}_export')
+                    f'{self.symbol}_export')
 
     @property
     def run_dir(self):
         return f'{Path.home()}/.exchange-data/models/{self.symbol}_params/' \
-        f'{self.trial.number}'
+               f'{self.trial.number}'
 
     @property
     def train_lock(self):
@@ -122,7 +121,7 @@ class SymbolTuner(StudyWrapper):
             host=settings.REDIS_HOST,
             db=0
         )], retry_delay=timeparse('15s'),
-                retry_times=12, ttl=timeparse('1h') * 1000)
+                       retry_times=12, ttl=timeparse('1h') * 1000)
 
     def run(self, *args):
         retry_relay = 10
@@ -192,38 +191,38 @@ class SymbolTuner(StudyWrapper):
                 eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000, log=True),
                 num_lstm=self.trial.suggest_int('num_lstm', 0, 4),
                 lstm_size=self.trial.suggest_int('lstm_size', 16, 224),
-                trade_ratio = self.trial.suggest_float('trade_ratio', 0, 1.0),
-                beta_1 = self.trial.suggest_uniform('beta_1', 0.0, 0.99999),
-                beta_2 = self.trial.suggest_uniform('beta_2', 0.0, 0.99999),
+                trade_ratio=self.trial.suggest_float('trade_ratio', 0, 1.0),
+                beta_1=self.trial.suggest_uniform('beta_1', 0.0, 0.99999),
+                beta_2=self.trial.suggest_uniform('beta_2', 0.0, 0.99999),
                 # fee_ratio = self.trial.suggest_float('fee_ratio', 0.9, 2.0),
                 # trading_fee = self.trial.suggest_float('trading_fee', 0.0004, 0.005),
                 # policy_value_max = self.trial.suggest_float('policy_value_max', 0.001, 0.9),
                 # batch_size = self.trial.suggest_int('batch_size', 8, 64),
-                lr = self.trial.suggest_uniform('lr', 1e-12, 1e-02),
+                lr=self.trial.suggest_uniform('lr', 1e-12, 1e-02),
                 # depth = self.trial.suggest_int('depth', 12, 164),
                 # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
                 # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
-                max_flat_position_length = self.trial.suggest_int('max_flat_position_length', 1, 200),
+                max_flat_position_length=self.trial.suggest_int('max_flat_position_length', 1, 200),
                 # max_negative_pnl = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100),
                 # max_position_length = self.trial.suggest_int('max_position_length', 0, 72),
-                max_short_position_length = self.trial.suggest_int('max_short_position_length', 1, 200),
-                nb_steps = self.trial.suggest_int('nb_steps', 5000, 100000, log=True),
+                max_short_position_length=self.trial.suggest_int('max_short_position_length', 1, 200),
+                # nb_steps = self.trial.suggest_int('nb_steps', 5000, 100000, log=True),
                 # nb_steps_2 = self.trial.suggest_int('nb_steps_2', 1000, int(5e4)),
-                num_conv = self.trial.suggest_int('num_conv', 1, 15),
+                num_conv=self.trial.suggest_int('num_conv', 1, 15),
                 # round_decimals = self.trial.suggest_int('round_decimals', 2, 3),
                 # sequence_length = self.trial.suggest_int('sequence_length', 2, 96),
                 # train_recent_data = self.trial.suggest_categorical('train_recent_data', [True, False]),
                 # window_length = self.trial.suggest_int('window_length', 1, 2),
                 # min_change = self.trial.suggest_float('min_change', 0.0, 0.02),
-                cache_limit = self.trial.suggest_int('cache_limit', 100, 10000),
-                train_interval = self.trial.suggest_int('train_interval', 2, 8000, log=True),
-                target_model_update = self.trial.suggest_int('target_model_update', 2, 8000, log=True),
-                window_factor = self.trial.suggest_float('window_factor', 1, 10, log=True),
+                cache_limit=self.trial.suggest_int('cache_limit', 100, 10000),
+                train_interval=self.trial.suggest_int('train_interval', 2, 8000, log=True),
+                target_model_update=self.trial.suggest_int('target_model_update', 2, 8000, log=True),
+                window_factor=self.trial.suggest_float('window_factor', 1, 10, log=True),
                 # gap_enabled = self.trial.suggest_categorical('gap_enabled', [True, False]),
                 # max_change = self.trial.suggest_float('max_change', 0.001, 0.02),
                 # min_flat_change = self.trial.suggest_float('min_flat_change', -0.01, 0.0),
                 # action_repetition = self.trial.suggest_int('action_repetition', 1, 12),
-                reward_ratio = self.trial.suggest_float('reward_ratio', 1, 1000, log=True),
+                reward_ratio=self.trial.suggest_float('reward_ratio', 1, 1000, log=True),
                 # window_slow = self.trial.suggest_int('window_slow', 12, 64),
                 # window_fast = self.trial.suggest_int('window_fast', 12, 64),
                 # window_sign = self.trial.suggest_int('window_sign', 12, 64)
@@ -333,5 +332,3 @@ class SymbolTuner(StudyWrapper):
                     tf.config.
                     LogicalDeviceConfiguration(memory_limit=self.memory),
                 ])
-
-
