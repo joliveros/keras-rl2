@@ -188,21 +188,21 @@ class SymbolAgent(object):
 
         capital_avg = sum(capital) / len(capital)
 
-        # trades = []
-        # trades += [info['trades'] for info in history.history['info']]
-        # trades = flatten(trades)
-        # trades = list({hash(t): t for t in trades}.values())
-        # pos_trades = len([t.pnl for t in trades if t.pnl > 0])
-        # trade_len = len(trades)
-        # alog.info(dict(pos_trades=pos_trades, trade_len=trade_len))
-        # trade_ratio = pos_trades / trade_len
-        # if trade_ratio != 0:
-        #     trade_ratio = math.log((trade_ratio) ** (1/2))
-        # self.study.set_user_attr('trades', len(trades))
-        # capital_ratio = (1 - self.trade_ratio)
-        # pos_trades = (pos_trades **(1/24)) * 0.1
+        trades = []
+        trades += [info['trades'] for info in history.history['info']]
+        trades = flatten(trades)
+        trades = list({hash(t): t for t in trades}.values())
+        pos_trades = len([t.pnl for t in trades if t.pnl > 0])
+        trade_len = len(trades)
+        alog.info(dict(pos_trades=pos_trades, trade_len=trade_len))
+        trade_ratio = pos_trades / trade_len
+        if trade_ratio != 0:
+            trade_ratio = math.log((trade_ratio) ** (1/2))
+        self.study.set_user_attr('trades', len(trades))
+        capital_ratio = (1 - self.trade_ratio)
+        pos_trades = (pos_trades **(1/24)) * 0.1
 
-        return capital_avg
+        # return capital_avg
 
-        # return (capital_avg * capital_ratio) + ((trade_ratio + pos_trades) * self.trade_ratio) 
+        return (capital_avg * capital_ratio) + ((trade_ratio + pos_trades) * self.trade_ratio) 
 
