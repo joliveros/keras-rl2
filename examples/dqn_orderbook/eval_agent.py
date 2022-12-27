@@ -62,7 +62,9 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         df = df[df['value'] > 0.0]
 
         for index, row in df.iterrows():
-            df.loc[index, 'tuned'] = row['user_attrs_params'].get('tune', True) 
+            df.loc[index, 'tuned'] = row['user_attrs_tuned'] 
+
+        # raise Exception()
 
         if not df.empty:
             df = df[df['tuned'] == False]
