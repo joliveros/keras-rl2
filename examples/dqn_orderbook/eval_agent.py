@@ -4,6 +4,9 @@ import sys
 from cached_property import cached_property_with_ttl
 from copy import deepcopy
 from datetime import timedelta, datetime
+
+from optuna import Trial
+
 from examples.dqn_orderbook.symbol_agent import SymbolAgent
 from exchange_data.emitters import Messenger
 from exchange_data.models.study_wrapper import StudyWrapper
@@ -61,23 +64,15 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         df = df.loc[df['datetime_complete'] > min_datetime_completed]
         df = df[df['value'] > 0.0]
 
-        pd.set_option('display.max_rows', len(df))
-
-        alog.info(df[['user_attrs_tuned', 'user_attrs_tuned', 'value']])
-
         if not df.empty:
             df = df[df['user_attrs_tuned'] == False]
 
-        # alog.info(df[['']])
-
-        raise Exception()
-
-        pd.set_option('display.max_rows', len(df) + 1)
-       
-        if df.shape[0] < 1:
+        if len(df) == 0:
             raise NotEnoughTrialsException()
-        else:
-            return df['number'].iloc[-1]
+
+        row_id = df[['value']].idxmax()['value']
+
+        return df.loc[row_id]['number']
 
     @cached_property_with_ttl(ttl=60 * 15)
     def agent(self):
@@ -105,7 +100,20 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
     def best_trial_params(self):
         best_trial_id = self.best_trial_id
 
+        trial = Trial(trial_id=best_trial_id, study=self.study)
+
+        alog.info(trial.params)
+        alog.info(trial.user_attrs)
+
+        raise Exception()
+
         df = self.study.trials_dataframe()
+
+        df = df[df['user_attrs_tuned'] == False]
+
+        alog.info(df)
+
+        raise Exception()
 
         trial_row = df.loc[df['number'] == best_trial_id].tail(1)
 

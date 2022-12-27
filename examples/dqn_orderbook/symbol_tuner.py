@@ -277,11 +277,15 @@ class SymbolTuner(StudyWrapper):
         test_env = self.test_env
         test_env.reset()
 
+        if not self.trial.user_attrs['tuned']:
+            if 'tuned' in kwargs:
+                del kwargs['tuned']
+            if 'tune' in kwargs:
+                del kwargs['tune']
 
-        if self.trial.user_attrs['tuned']:
-            for param in kwargs:
-                if param not in hparams:
-                    self.trial.set_user_attr(param, kwargs[param])
+        for param in kwargs:
+            if param not in hparams:
+                self.trial.set_user_attr(param, kwargs[param])
 
         params = dict(
             env=env,
