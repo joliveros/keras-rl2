@@ -26,6 +26,7 @@ services:
             - redis
         secrets:
             - DB
+            - KERAS_DB
 
     train_tune:
         deploy:
@@ -47,8 +48,10 @@ services:
             - redis
         secrets:
             - DB
-
+            - KERAS_DB
 
 secrets:
   DB:
+      external: true
+  KERAS_DB:
       external: true
