@@ -61,13 +61,19 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         df = df.loc[df['datetime_complete'] > min_datetime_completed]
         df = df[df['value'] > 0.0]
 
-        for index, row in df.iterrows():
-            df.loc[index, 'tuned'] = row['user_attrs_tuned'] 
+        # for index, row in df.iterrows():
+        #     df.loc[index, 'tuned'] = row['user_attrs_tune']
 
-        # raise Exception()
+        pd.set_option('display.max_rows', len(df))
+
+        alog.info(df.user_attrs_tune)
 
         if not df.empty:
-            df = df[df['tuned'] == False]
+            df = df[df['user_attrs_tune'] == False]
+
+        alog.info(df)
+
+        raise Exception()
 
         pd.set_option('display.max_rows', len(df) + 1)
        

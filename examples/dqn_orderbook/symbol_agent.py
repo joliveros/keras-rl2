@@ -195,7 +195,12 @@ class SymbolAgent(object):
         pos_trades = len([t.pnl for t in trades if t.pnl > 0])
         trade_len = len(trades)
         alog.info(dict(pos_trades=pos_trades, trade_len=trade_len))
-        trade_ratio = pos_trades / trade_len
+
+        if trade_len > 0:
+            trade_ratio = pos_trades / trade_len
+        else:
+            trade_ratio = 0
+
         if trade_ratio != 0:
             trade_ratio = math.log((trade_ratio) ** (1/2))
         self.trial.set_user_attr('trades', len(trades))
