@@ -65,9 +65,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 
         pd.set_option('display.max_rows', len(df) + 1)
 
-        # alog.info(df)
-        #
-        # raise Exception()
+        alog.info(df)
 
         if not df.empty:
             df = df[df['user_attrs_tuned'] == False]
@@ -119,6 +117,9 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         trial = Trial(trial_id=best_trial_id, study=self.study)
 
         params = {**trial.params, **trial.user_attrs}
+
+        alog.info(alog.pformat(params))
+        raise Exception()
 
         return params
 

@@ -261,6 +261,9 @@ class SymbolTuner(StudyWrapper):
         kwargs['random_frame_start'] = False
         kwargs['trading_fee'] = 0.0004
 
+        kwargs['interval'] = '30m'
+        kwargs['nb_steps'] = 100
+
         self._kwargs = kwargs
 
         env = self.env
@@ -270,9 +273,6 @@ class SymbolTuner(StudyWrapper):
         kwargs['quantile'] = env.quantile
         kwargs['trade_volume_max'] = env.trade_volume_max
         kwargs['change_max'] = env.change_max
-
-        kwargs['nb_steps'] = 400
-        kwargs['interval'] = '30m'
 
         # env2 = self.env2
         # env2.reset()
@@ -289,6 +289,10 @@ class SymbolTuner(StudyWrapper):
         for param in kwargs:
             if param not in hparams:
                 self.trial.set_user_attr(param, kwargs[param])
+
+        alog.info(alog.pformat(self.trial.user_attrs))
+
+        alog.info(alog.pformat(self.trial.params))
 
         params = dict(
             env=env,
