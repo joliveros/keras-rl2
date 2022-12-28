@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 import sys
 
+import pytz
 from cached_property import cached_property_with_ttl
 from copy import deepcopy
 from datetime import timedelta, datetime
@@ -32,7 +33,6 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
             env_name,
             interval,
             eval_interval,
-            valid_interval,
             memory,
             window_length,
             once,
@@ -45,7 +45,6 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         self._kwargs = kwargs.copy()
         self.window_length = window_length
         self.memory = memory
-        self.valid_interval = valid_interval
         self.env_name = env_name
         self.symbol = symbol
         self.split_gpu()
@@ -60,9 +59,15 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
     @property
     def best_trial_id(self):
         df = self.study.trials_dataframe()
-        min_datetime_completed = datetime.utcnow() - timedelta(seconds=timeparse(self.valid_interval))
-        df = df.loc[df['datetime_complete'] > min_datetime_completed]
+        pd.set_option('display.max_rows', len(df) + 1)
+
         df = df[df['value'] > 0.0]
+
+        pd.set_option('display.max_rows', len(df) + 1)
+
+        # alog.info(df)
+        #
+        # raise Exception()
 
         if not df.empty:
             df = df[df['user_attrs_tuned'] == False]
@@ -70,9 +75,13 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         if len(df) == 0:
             raise NotEnoughTrialsException()
 
-        row_id = df[['value']].idxmax()['value']
+        # row_id = df[['value']].idxmax()['value']
 
-        return df.loc[row_id]['number']
+        trial_id = int(df.iloc[-1]['number'])
+
+        return trial_id
+
+        # return df.loc[row_id]['number']
 
     @cached_property_with_ttl(ttl=60 * 15)
     def agent(self):
@@ -89,12 +98,19 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
             policy_value_max=0.25,
             random_frame_start=False,
             trial_id=self.best_trial_id,
-            study=self.study,
+            trial=self.best_trial,
             **params)
 
         agent.load_weights()
 
         return agent.agent
+    @property
+    def best_trial(self):
+        best_trial_id = self.best_trial_id
+
+        alog.info(best_trial_id)
+
+        return Trial(trial_id=best_trial_id, study=self.study)
 
     @property
     def best_trial_params(self):
@@ -102,34 +118,20 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 
         trial = Trial(trial_id=best_trial_id, study=self.study)
 
-        alog.info(trial.params)
-        alog.info(trial.user_attrs)
+        params = {**trial.params, **trial.user_attrs}
 
-        raise Exception()
-
-        df = self.study.trials_dataframe()
-
-        df = df[df['user_attrs_tuned'] == False]
-
-        alog.info(df)
-
-        raise Exception()
-
-        trial_row = df.loc[df['number'] == best_trial_id].tail(1)
-
-        return trial_row['user_attrs_params'].to_dict()[best_trial_id]
+        return params
 
     @property
     def env(self):
         params = self.best_trial_params
-        params = {**params, **self._kwargs}
 
         params.pop('cache', None)
         params.pop('interval', None)
         params.pop('offset_interval', None)
         params.pop('random_frame_start', None)
 
-        params['is_test'] = True
+        params = {**params, **self._kwargs, 'is_test': True}
 
         interval = self.interval_for_env(params)
 
@@ -197,7 +199,6 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 @click.option('--window-length', '-w', default=3, type=int)
 @click.option('--offset-interval', default='0h', type=str)
 @click.option('--summary-interval', default=1, type=int)
-@click.option('--valid-interval', default='30m', type=str)
 @click.option('--once', is_flag=True)
 def main(**kwargs):
     SymbolEvalAgent(**kwargs)

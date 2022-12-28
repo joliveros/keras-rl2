@@ -248,18 +248,18 @@ class SymbolTuner(StudyWrapper):
             except ValueError:
                 pass
 
-        hparams['action_repetition'] = 1
-        hparams['batch_size'] = 18
-        hparams['max_change'] = 0.01
-        hparams['min_change'] = 0.0
-        hparams['min_flat_change'] = -0.001
-        hparams['random_frame_start'] = False
-        hparams['trading_fee'] = 0.0004
-
         kwargs = self._kwargs.copy()
 
         for param in hparams:
             kwargs[param] = hparams[param]
+
+        kwargs['action_repetition'] = 1
+        kwargs['batch_size'] = 18
+        kwargs['max_change'] = 0.01
+        kwargs['min_change'] = 0.0
+        kwargs['min_flat_change'] = -0.001
+        kwargs['random_frame_start'] = False
+        kwargs['trading_fee'] = 0.0004
 
         self._kwargs = kwargs
 
@@ -270,6 +270,9 @@ class SymbolTuner(StudyWrapper):
         kwargs['quantile'] = env.quantile
         kwargs['trade_volume_max'] = env.trade_volume_max
         kwargs['change_max'] = env.change_max
+
+        kwargs['nb_steps'] = 400
+        kwargs['interval'] = '30m'
 
         # env2 = self.env2
         # env2.reset()

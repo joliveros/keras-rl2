@@ -14,7 +14,7 @@ services:
       volumes:
         - ${HOME}/.exchange-data/:/home/joliveros/.exchange-data/
       command: bash -c "source ~/.bashrc &&
-        ./examples/dqn_orderbook/eval_agent.py UNFIUSDT --valid-interval 5h -m 600 -e 1m --interval 6h"
+        ./examples/dqn_orderbook/eval_agent.py UNFIUSDT -m 600 -e 1m --interval 6h"
       environment:
         - LOG_LEVEL=INFO
         - CUDA_VISIBLE_DEVICES=1
@@ -25,8 +25,9 @@ services:
         - redis
       secrets:
         - DB
-
-
+        - KERAS_DB
 secrets:
   DB:
+      external: true
+  KERAS_DB:
       external: true
