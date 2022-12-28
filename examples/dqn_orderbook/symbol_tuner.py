@@ -261,8 +261,8 @@ class SymbolTuner(StudyWrapper):
         kwargs['random_frame_start'] = False
         kwargs['trading_fee'] = 0.0004
 
-        kwargs['interval'] = '30m'
-        kwargs['nb_steps'] = 100
+        # kwargs['interval'] = '30m'
+        # kwargs['nb_steps'] = 100
 
         self._kwargs = kwargs
 

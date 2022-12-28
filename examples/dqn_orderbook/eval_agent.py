@@ -119,7 +119,6 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         params = {**trial.params, **trial.user_attrs}
 
         alog.info(alog.pformat(params))
-        raise Exception()
 
         return params
 
