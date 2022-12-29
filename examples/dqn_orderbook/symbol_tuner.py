@@ -261,8 +261,8 @@ class SymbolTuner(StudyWrapper):
         kwargs['random_frame_start'] = False
         kwargs['trading_fee'] = 0.0004
 
-        kwargs['interval'] = '30m'
-        kwargs['nb_steps'] = 100
+        # kwargs['interval'] = '1h'
+        # kwargs['nb_steps'] = 1000
 
         self._kwargs = kwargs
 
@@ -290,9 +290,7 @@ class SymbolTuner(StudyWrapper):
             if param not in hparams:
                 self.trial.set_user_attr(param, kwargs[param])
 
-        alog.info(alog.pformat(self.trial.user_attrs))
-
-        alog.info(alog.pformat(self.trial.params))
+        alog.info(alog.pformat({**self.trial.user_attrs, **self.trial.params}))
 
         params = dict(
             env=env,

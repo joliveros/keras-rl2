@@ -61,7 +61,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         df = self.study.trials_dataframe()
         pd.set_option('display.max_rows', len(df) + 1)
 
-        df = df[df['value'] > 0.0]
+        # df = df[df['value'] > 0.0]
 
         pd.set_option('display.max_rows', len(df) + 1)
 
