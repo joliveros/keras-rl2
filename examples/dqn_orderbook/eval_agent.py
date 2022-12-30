@@ -56,7 +56,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
             self.on(eval_interval, self.emit)
             self.sub([eval_interval])
 
-    @property
+    @cached_property_with_ttl(ttl=60)
     def best_trial_id(self):
         df = self.study.trials_dataframe()
         # df = df[df['value'] > 0.0]
@@ -108,7 +108,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 
         return Trial(trial_id=best_trial_id, study=self.study)
 
-    @property
+    @cached_property_with_ttl(ttl=60)
     def best_trial_params(self):
         best_trial_id = self.best_trial_id
 
