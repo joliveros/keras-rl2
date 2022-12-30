@@ -75,8 +75,11 @@ class SymbolAgent(object):
         self.trade_ratio = trade_ratio
 
         input_shape = (window_length, kwargs['sequence_length'], (kwargs['depth'] * 2) + 2, 1)
+        
         self.env.seed(1)
         nb_actions = self.env.action_space.n
+
+        alog.info(kwargs)
 
         model = Model(
             input_shape=input_shape,

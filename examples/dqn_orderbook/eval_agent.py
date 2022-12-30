@@ -59,13 +59,10 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
     @property
     def best_trial_id(self):
         df = self.study.trials_dataframe()
-        pd.set_option('display.max_rows', len(df) + 1)
-
         # df = df[df['value'] > 0.0]
 
         pd.set_option('display.max_rows', len(df) + 1)
 
-        alog.info(df)
 
         if not df.empty:
             df = df[df['user_attrs_tuned'] == False]
@@ -74,6 +71,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
             raise NotEnoughTrialsException()
 
         # row_id = df[['value']].idxmax()['value']
+
 
         trial_id = int(df.iloc[-1]['number'])
 
@@ -89,7 +87,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         params.pop('nb_steps', None)
         params.pop('offset_interval', None)
         params.pop('random_frame_start', None)
-
+        
         agent = SymbolAgent(
             env=self.env,
             nb_steps=2,
