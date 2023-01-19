@@ -164,10 +164,13 @@ class SymbolTuner(StudyWrapper):
 
     @property
     def agent(self):
-        tune = self._kwargs['tune']
+        tune = self._kwargs.get('tune', False)
+
         hparams = dict()
 
         if tune:
+            raise Exception()
+
             self.trial.set_user_attr('tuned', True)
 
             hparams = dict(
@@ -196,7 +199,7 @@ class SymbolTuner(StudyWrapper):
                 beta_2=self.trial.suggest_uniform('beta_2', 0.0, 0.99999),
                 # fee_ratio = self.trial.suggest_float('fee_ratio', 0.9, 2.0),
                 # trading_fee = self.trial.suggest_float('trading_fee', 0.0004, 0.005),
-                # policy_value_max = self.trial.suggest_float('policy_value_max', 0.001, 0.9),
+                policy_value_max = self.trial.suggest_float('policy_value_max', 0.001, 0.9),
                 # batch_size = self.trial.suggest_int('batch_size', 8, 64),
                 lr=self.trial.suggest_uniform('lr', 1e-12, 1e-02),
                 depth = self.trial.suggest_int('depth', 12, 164),
@@ -237,6 +240,7 @@ class SymbolTuner(StudyWrapper):
         if not tune:
             try:
                 best_trial = self.study.best_trial
+
                 params = best_trial.params
                 for param in params:
                     self._kwargs[param] = params[param]
@@ -261,9 +265,8 @@ class SymbolTuner(StudyWrapper):
         kwargs['random_frame_start'] = False
         kwargs['trading_fee'] = 0.0004
 
-        # kwargs['interval'] = '1h'
-        # kwargs['nb_steps'] = 1000
-
+        kwargs['interval'] = '2h'
+        kwargs['nb_steps'] = 120 * 10 
         self._kwargs = kwargs
 
         env = self.env
@@ -289,6 +292,11 @@ class SymbolTuner(StudyWrapper):
         for param in kwargs:
             if param not in hparams:
                 self.trial.set_user_attr(param, kwargs[param])
+
+        alog.info(alog.pformat(kwargs))
+
+        if kwargs['depth'] != 104:
+            raise Exception()
 
         alog.info(alog.pformat({**self.trial.user_attrs, **self.trial.params}))
 

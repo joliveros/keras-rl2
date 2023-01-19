@@ -21,6 +21,7 @@ import tensorflow as tf
 import pandas as pd
 import tgym.envs
 import numpy as np
+import hashlib
 
 class NotEnoughTrialsException(Exception): pass
 
@@ -59,19 +60,21 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
     @cached_property_with_ttl(ttl=60)
     def best_trial_id(self):
         df = self.study.trials_dataframe()
-        # df = df[df['value'] > 0.0]
+        df = df[df['value'] > 0.0]
 
         pd.set_option('display.max_rows', len(df) + 1)
 
-
         if not df.empty:
             df = df[df['user_attrs_tuned'] == False]
+            df = df[df['state'] == 'COMPLETE']
+
 
         if len(df) == 0:
             raise NotEnoughTrialsException()
 
         # row_id = df[['value']].idxmax()['value']
 
+        alog.info(df)
 
         trial_id = int(df.iloc[-1]['number'])
 
@@ -87,12 +90,12 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         params.pop('nb_steps', None)
         params.pop('offset_interval', None)
         params.pop('random_frame_start', None)
-        
+
         agent = SymbolAgent(
             env=self.env,
             nb_steps=2,
-            policy_value_max=0.25,
             random_frame_start=False,
+            policy_value_max=0.5,
             trial_id=self.best_trial_id,
             trial=self.best_trial,
             **params)
@@ -118,6 +121,10 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
 
         alog.info(alog.pformat(params))
 
+        params_hash = hashlib.md5(bytes(alog.pformat(params), 'utf-8')).hexdigest()
+
+        alog.info(f'### params hash: {params_hash} ###')
+
         return params
 
     @property
@@ -130,6 +137,8 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         params.pop('random_frame_start', None)
 
         params = {**params, **self._kwargs, 'is_test': True}
+
+        alog.info(alog.pformat(params))
 
         interval = self.interval_for_env(params)
 
