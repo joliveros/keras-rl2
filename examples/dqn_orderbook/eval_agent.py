@@ -68,13 +68,10 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
             df = df[df['user_attrs_tuned'] == False]
             df = df[df['state'] == 'COMPLETE']
 
-
         if len(df) == 0:
             raise NotEnoughTrialsException()
 
         # row_id = df[['value']].idxmax()['value']
-
-        alog.info(df)
 
         trial_id = int(df.iloc[-1]['number'])
 
@@ -107,8 +104,6 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
     def best_trial(self):
         best_trial_id = self.best_trial_id
 
-        alog.info(best_trial_id)
-
         return Trial(trial_id=best_trial_id, study=self.study)
 
     @cached_property_with_ttl(ttl=60)
@@ -118,12 +113,6 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         trial = Trial(trial_id=best_trial_id, study=self.study)
 
         params = {**trial.params, **trial.user_attrs}
-
-        alog.info(alog.pformat(params))
-
-        params_hash = hashlib.md5(bytes(alog.pformat(params), 'utf-8')).hexdigest()
-
-        alog.info(f'### params hash: {params_hash} ###')
 
         return params
 

@@ -293,11 +293,6 @@ class SymbolTuner(StudyWrapper):
             if param not in hparams:
                 self.trial.set_user_attr(param, kwargs[param])
 
-        alog.info(alog.pformat(kwargs))
-
-        if kwargs['depth'] != 104:
-            raise Exception()
-
         alog.info(alog.pformat({**self.trial.user_attrs, **self.trial.params}))
 
         params = dict(
