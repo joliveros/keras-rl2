@@ -282,9 +282,6 @@ class SymbolTuner(StudyWrapper):
             if 'tune' in kwargs:
                 del kwargs['tune']
 
-        if 'tuned' in kwargs:
-            raise Exception()
-
         for param in kwargs:
             if param not in hparams:
                 self.trial.set_user_attr(param, kwargs[param])
