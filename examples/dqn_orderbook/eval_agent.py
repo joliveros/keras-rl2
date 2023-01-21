@@ -57,28 +57,6 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
             self.on(eval_interval, self.emit)
             self.sub([eval_interval])
 
-    @cached_property_with_ttl(ttl=60)
-    def best_trial_id(self):
-        df = self.study.trials_dataframe()
-        df = df[df['value'] > 0.0]
-
-        pd.set_option('display.max_rows', len(df) + 1)
-
-        if not df.empty:
-            df = df[df['user_attrs_tuned'] == False]
-            df = df[df['state'] == 'COMPLETE']
-
-        if len(df) == 0:
-            raise NotEnoughTrialsException()
-
-        # row_id = df[['value']].idxmax()['value']
-
-        trial_id = int(df.iloc[-1]['number'])
-
-        return trial_id
-
-        # return df.loc[row_id]['number']
-
     @cached_property_with_ttl(ttl=60 * 15)
     def agent(self):
         params = self.best_trial_params
@@ -88,33 +66,19 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
         params.pop('offset_interval', None)
         params.pop('random_frame_start', None)
 
+        params = {**params, **self._kwargs, 'is_test': True}
+
         agent = SymbolAgent(
             env=self.env,
             nb_steps=2,
             random_frame_start=False,
-            policy_value_max=0.5,
-            trial_id=self.best_trial_id,
+            # policy_value_max=0.5,
             trial=self.best_trial,
             **params)
 
         agent.load_weights()
 
         return agent.agent
-    @property
-    def best_trial(self):
-        best_trial_id = self.best_trial_id
-
-        return Trial(trial_id=best_trial_id, study=self.study)
-
-    @cached_property_with_ttl(ttl=60)
-    def best_trial_params(self):
-        best_trial_id = self.best_trial_id
-
-        trial = Trial(trial_id=best_trial_id, study=self.study)
-
-        params = {**trial.params, **trial.user_attrs}
-
-        return params
 
     @property
     def env(self):

@@ -48,7 +48,6 @@ class SymbolAgent(object):
         eps_greedy_policy_steps=34650,
         lr=1.852169e-07,
         test_env=None,
-        trial_id=0,
         window_length=1,
         action_repetition=3,
         **kwargs
@@ -61,7 +60,6 @@ class SymbolAgent(object):
         self.symbol = symbol
         self.base_model_dir = f'{Path.home()}/.exchange-data/models' \
                              f'/{self.symbol}'
-        self.trial_id = trial_id
         self._optimizer = optimizer
         self.lr = lr
         self.nb_steps = nb_steps
@@ -78,8 +76,6 @@ class SymbolAgent(object):
         
         self.env.seed(1)
         nb_actions = self.env.action_space.n
-
-        alog.info(kwargs)
 
         model = Model(
             input_shape=input_shape,
@@ -134,7 +130,7 @@ class SymbolAgent(object):
 
     @property
     def weights_filename(self):
-        return self.base_model_dir + f'/{self.trial_id}/weights.h5f'
+        return self.base_model_dir + f'/{self.trial.number}/weights.h5f'
 
     def load_weights(self):
         self.agent.load_weights(self.weights_filename)
@@ -147,7 +143,7 @@ class SymbolAgent(object):
             embeddings_freq=0,
             embeddings_metadata=None,
             histogram_freq=0,
-            log_dir=str(Path(self.base_model_dir) / self.trial_id),
+            log_dir=str(Path(self.base_model_dir) / str(self.trial.number)),
             profile_batch=2,
             update_freq='epoch',
             write_graph=True,

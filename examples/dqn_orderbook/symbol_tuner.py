@@ -169,8 +169,6 @@ class SymbolTuner(StudyWrapper):
         hparams = dict()
 
         if tune:
-            raise Exception()
-
             self.trial.set_user_attr('tuned', True)
 
             hparams = dict(
@@ -202,7 +200,7 @@ class SymbolTuner(StudyWrapper):
                 policy_value_max = self.trial.suggest_float('policy_value_max', 0.001, 0.9),
                 # batch_size = self.trial.suggest_int('batch_size', 8, 64),
                 lr=self.trial.suggest_uniform('lr', 1e-12, 1e-02),
-                depth = self.trial.suggest_int('depth', 12, 164),
+                depth = self.trial.suggest_int('depth', 2, 8),
                 # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
                 # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
                 max_flat_position_length=self.trial.suggest_int('max_flat_position_length', 1, 200),
@@ -213,7 +211,7 @@ class SymbolTuner(StudyWrapper):
                 # nb_steps_2 = self.trial.suggest_int('nb_steps_2', 1000, int(5e4)),
                 num_conv=self.trial.suggest_int('num_conv', 1, 15),
                 round_decimals = self.trial.suggest_int('round_decimals', 2, 3),
-                sequence_length = self.trial.suggest_int('sequence_length', 2, 96),
+                sequence_length = self.trial.suggest_int('sequence_length', 2, 6),
                 # train_recent_data = self.trial.suggest_categorical('train_recent_data', [True, False]),
                 # window_length = self.trial.suggest_int('window_length', 1, 2),
                 # min_change = self.trial.suggest_float('min_change', 0.0, 0.02),
@@ -239,13 +237,7 @@ class SymbolTuner(StudyWrapper):
 
         if not tune:
             try:
-                best_trial = self.study.best_trial
-
-                params = best_trial.params
-                for param in params:
-                    self._kwargs[param] = params[param]
-
-                params = best_trial.user_attrs
+                params = self.best_tuned_trial_params
                 for param in params:
                     self._kwargs[param] = params[param]
 
@@ -265,8 +257,9 @@ class SymbolTuner(StudyWrapper):
         kwargs['random_frame_start'] = False
         kwargs['trading_fee'] = 0.0004
 
-        kwargs['interval'] = '2h'
-        kwargs['nb_steps'] = 120 * 10 
+        # kwargs['interval'] = '2h'
+        # kwargs['nb_steps'] = 120 * 2
+
         self._kwargs = kwargs
 
         env = self.env
@@ -289,6 +282,9 @@ class SymbolTuner(StudyWrapper):
             if 'tune' in kwargs:
                 del kwargs['tune']
 
+        if 'tuned' in kwargs:
+            raise Exception()
+
         for param in kwargs:
             if param not in hparams:
                 self.trial.set_user_attr(param, kwargs[param])
@@ -299,13 +295,14 @@ class SymbolTuner(StudyWrapper):
             env=env,
             # env2=env2,
             env_name=self.env_name,
-            policy_value_max=0.5,
+            # policy_value_max=0.5,
             short_reward_enabled=False,
             test_env=test_env,
-            trial_id=str(self.trial.number),
             trial=self.trial,
             **kwargs
         )
+
+        alog.info(alog.pformat(params))
 
         return SymbolAgent(**params)
 
