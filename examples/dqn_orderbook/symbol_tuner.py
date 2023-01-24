@@ -192,7 +192,7 @@ class SymbolTuner(StudyWrapper):
                 eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000, log=True),
                 num_lstm=self.trial.suggest_int('num_lstm', 0, 4),
                 lstm_size=self.trial.suggest_int('lstm_size', 16, 224),
-                trade_ratio=self.trial.suggest_float('trade_ratio', 0, 1.0),
+                # trade_ratio=self.trial.suggest_float('trade_ratio', 0, 1.0),
                 beta_1=self.trial.suggest_uniform('beta_1', 0.0, 0.99999),
                 beta_2=self.trial.suggest_uniform('beta_2', 0.0, 0.99999),
                 # fee_ratio = self.trial.suggest_float('fee_ratio', 0.9, 2.0),
@@ -207,7 +207,7 @@ class SymbolTuner(StudyWrapper):
                 # max_negative_pnl = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100),
                 # max_position_length = self.trial.suggest_int('max_position_length', 0, 72),
                 max_short_position_length=self.trial.suggest_int('max_short_position_length', 1, 200),
-                nb_steps = self.trial.suggest_int('nb_steps', 5000, 1000000, log=True),
+                nb_steps = self.trial.suggest_int('nb_steps', 5000, 200000, log=True),
                 # nb_steps_2 = self.trial.suggest_int('nb_steps_2', 1000, int(5e4)),
                 num_conv=self.trial.suggest_int('num_conv', 1, 15),
                 # round_decimals = self.trial.suggest_int('round_decimals', 2, 3),
@@ -258,6 +258,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['min_flat_change'] = -0.001
         kwargs['random_frame_start'] = False
         kwargs['trading_fee'] = 0.0004
+        kwargs['trade_ratio'] = 1/8
 
         # kwargs['interval'] = '2h'
         # kwargs['nb_steps'] = 120 * 2
