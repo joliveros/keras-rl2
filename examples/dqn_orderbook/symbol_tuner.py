@@ -246,6 +246,8 @@ class SymbolTuner(StudyWrapper):
 
         kwargs = self._kwargs.copy()
 
+        alog.info(alog.pformat(kwargs))
+
         for param in hparams:
             kwargs[param] = hparams[param]
 
