@@ -182,7 +182,7 @@ class SymbolTuner(StudyWrapper):
                 block_kernel=self.trial.suggest_int('block_kernel', 1, 4),
                 num_dense=self.trial.suggest_int('num_dense', 0, 5),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
-                interval_minutes=self.trial.suggest_int('interval_minutes', 1, 24 * 7),
+                # interval_minutes=self.trial.suggest_int('interval_minutes', 1, 24 * 7),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
                 kernel_size=self.trial.suggest_int('kernel_size', 1, 4),
                 max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 12),
@@ -200,7 +200,7 @@ class SymbolTuner(StudyWrapper):
                 policy_value_max = self.trial.suggest_float('policy_value_max', 0.001, 0.9),
                 # batch_size = self.trial.suggest_int('batch_size', 8, 64),
                 lr=self.trial.suggest_uniform('lr', 1e-12, 1e-02),
-                depth = self.trial.suggest_int('depth', 2, 81),
+                # depth = self.trial.suggest_int('depth', 2, 81),
                 # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
                 # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
                 max_flat_position_length=self.trial.suggest_int('max_flat_position_length', 1, 200),
@@ -210,8 +210,8 @@ class SymbolTuner(StudyWrapper):
                 nb_steps = self.trial.suggest_int('nb_steps', 5000, 1000000, log=True),
                 # nb_steps_2 = self.trial.suggest_int('nb_steps_2', 1000, int(5e4)),
                 num_conv=self.trial.suggest_int('num_conv', 1, 15),
-                round_decimals = self.trial.suggest_int('round_decimals', 2, 3),
-                sequence_length = self.trial.suggest_int('sequence_length', 2, 96),
+                # round_decimals = self.trial.suggest_int('round_decimals', 2, 3),
+                # sequence_length = self.trial.suggest_int('sequence_length', 2, 96),
                 # train_recent_data = self.trial.suggest_categorical('train_recent_data', [True, False]),
                 # window_length = self.trial.suggest_int('window_length', 1, 2),
                 # min_change = self.trial.suggest_float('min_change', 0.0, 0.02),
@@ -229,7 +229,7 @@ class SymbolTuner(StudyWrapper):
                 # window_sign = self.trial.suggest_int('window_sign', 12, 64)
             )
 
-            hparams['interval'] = f'{hparams["interval_minutes"] * 60}m'
+            # hparams['interval'] = f'{hparams["interval_minutes"] * 60}m'
 
         else:
             self.trial.set_user_attr('tuned', False)
