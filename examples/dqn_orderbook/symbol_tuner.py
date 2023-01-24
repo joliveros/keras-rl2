@@ -234,12 +234,15 @@ class SymbolTuner(StudyWrapper):
         else:
             self.trial.set_user_attr('tuned', False)
             self.trial.suggest_int('test_num', 1, 2)
+            
 
         if not tune:
             try:
                 params = self.best_tuned_trial_params
                 for param in params:
                     self._kwargs[param] = params[param]
+
+            self._kwargs['cache'] = False
 
             except ValueError:
                 pass
