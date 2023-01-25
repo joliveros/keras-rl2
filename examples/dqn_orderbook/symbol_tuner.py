@@ -242,7 +242,7 @@ class SymbolTuner(StudyWrapper):
                 for param in params:
                     self._kwargs[param] = params[param]
 
-            self._kwargs['cache'] = False
+                self._kwargs['cache'] = False
 
             except ValueError:
                 pass
