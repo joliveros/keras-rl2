@@ -57,7 +57,7 @@ class SymbolEvalAgent(StudyWrapper, Messenger):
             self.on(eval_interval, self.emit)
             self.sub([eval_interval])
 
-    @cached_property_with_ttl(ttl=60 * 15)
+    @cached_property_with_ttl(ttl=60 * 45)
     def agent(self):
         params = self.best_trial_params
         params.pop('cache', None)
