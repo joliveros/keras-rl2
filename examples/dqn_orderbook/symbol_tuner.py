@@ -255,7 +255,7 @@ class SymbolTuner(StudyWrapper):
             kwargs[param] = hparams[param]
 
         kwargs['action_repetition'] = 1
-        kwargs['batch_size'] = 18
+        kwargs['batch_size'] = 32
         kwargs['max_change'] = 0.01
         kwargs['min_change'] = 0.0
         kwargs['min_flat_change'] = -0.001
@@ -281,8 +281,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['max_pooling_strides'] = 16
         kwargs['max_short_position_length'] = 27
         kwargs['memory_interval'] = 34
-        kwargs['nb_steps'] = 34
-        kwargs['num_conv'] = 13
+        kwargs['num_conv'] = 31
         kwargs['num_dense'] = 3
         kwargs['num_lstm'] = 2
         kwargs['padding'] = 3
