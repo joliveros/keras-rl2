@@ -198,7 +198,7 @@ class SymbolTuner(StudyWrapper):
                 # fee_ratio = self.trial.suggest_float('fee_ratio', 0.9, 2.0),
                 # trading_fee = self.trial.suggest_float('trading_fee', 0.0004, 0.005),
                 # policy_value_max = self.trial.suggest_float('policy_value_max', 0.001, 0.9),
-                # batch_size = self.trial.suggest_int('batch_size', 8, 64),
+                batch_size = self.trial.suggest_int('batch_size', 8, 32),
                 # lr=self.trial.suggest_uniform('lr', 1e-12, 1e-02),
                 # depth = self.trial.suggest_int('depth', 2, 81),
                 # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
@@ -209,7 +209,7 @@ class SymbolTuner(StudyWrapper):
                 # max_short_position_length=self.trial.suggest_int('max_short_position_length', 1, 200),
                 # nb_steps = self.trial.suggest_int('nb_steps', 5000, 200000, log=True),
                 # nb_steps_2 = self.trial.suggest_int('nb_steps_2', 1000, int(5e4)),
-                # num_conv=self.trial.suggest_int('num_conv', 1, 15),
+                num_conv=self.trial.suggest_int('num_conv', 15, 31),
                 # round_decimals = self.trial.suggest_int('round_decimals', 2, 3),
                 # sequence_length = self.trial.suggest_int('sequence_length', 2, 96),
                 # train_recent_data = self.trial.suggest_categorical('train_recent_data', [True, False]),
@@ -218,7 +218,7 @@ class SymbolTuner(StudyWrapper):
                 # cache_limit=self.trial.suggest_int('cache_limit', 100, 10000),
                 # train_interval=self.trial.suggest_int('train_interval', 2, 8000, log=True),
                 # target_model_update=self.trial.suggest_int('target_model_update', 2, 8000, log=True),
-                # window_factor=self.trial.suggest_float('window_factor', 1, 10, log=True),
+                window_factor=self.trial.suggest_float('window_factor', 0, 10, log=True),
                 # gap_enabled = self.trial.suggest_categorical('gap_enabled', [True, False]),
                 # max_change = self.trial.suggest_float('max_change', 0.001, 0.02),
                 # min_flat_change = self.trial.suggest_float('min_flat_change', -0.01, 0.0),
@@ -255,7 +255,7 @@ class SymbolTuner(StudyWrapper):
             kwargs[param] = hparams[param]
 
         kwargs['action_repetition'] = 1
-        kwargs['batch_size'] = 32
+        # kwargs['batch_size'] = 32
         kwargs['max_change'] = 0.01
         kwargs['min_change'] = 0.0
         kwargs['min_flat_change'] = -0.001
@@ -281,7 +281,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['max_pooling_strides'] = 16
         kwargs['max_short_position_length'] = 27
         kwargs['memory_interval'] = 34
-        kwargs['num_conv'] = 31
+        # kwargs['num_conv'] = 31
         kwargs['num_dense'] = 3
         kwargs['num_lstm'] = 2
         kwargs['padding'] = 3
@@ -290,7 +290,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['strides'] = 8
         kwargs['target_model_update'] = 135
         kwargs['train_interval'] = 107
-        kwargs['window_factor'] = 2.494463725032405
+        # kwargs['window_factor'] = 2.494463725032405
 
 
         # kwargs['interval'] = '2h'
