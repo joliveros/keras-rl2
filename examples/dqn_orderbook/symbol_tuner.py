@@ -199,7 +199,7 @@ class SymbolTuner(StudyWrapper):
                 # fee_ratio = self.trial.suggest_float('fee_ratio', 0.9, 2.0),
                 # trading_fee = self.trial.suggest_float('trading_fee', 0.0004, 0.005),
                 policy_value_max = self.trial.suggest_float('policy_value_max', 0.001, 0.9),
-                batch_size = self.trial.suggest_int('batch_size', 8, 32),
+                # batch_size = self.trial.suggest_int('batch_size', 8, 32),
                 # lr=self.trial.suggest_uniform('lr', 1e-12, 1e-02),
                 # depth = self.trial.suggest_int('depth', 2, 81),
                 # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
@@ -256,7 +256,7 @@ class SymbolTuner(StudyWrapper):
             kwargs[param] = hparams[param]
 
         kwargs['action_repetition'] = 1
-        # kwargs['batch_size'] = 32
+        kwargs['batch_size'] = 32
         kwargs['max_change'] = 0.01
         # kwargs['min_change'] = 0.0
         kwargs['min_flat_change'] = -0.001
