@@ -188,6 +188,7 @@ class SymbolTuner(StudyWrapper):
                 # kernel_size=self.trial.suggest_int('kernel_size', 1, 17),
                 max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 16),
                 max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
+                max_pooling_enabled=self.trial.suggest_categorical('max_pooling_enabled', [True, False]),
                 # padding=self.trial.suggest_int('padding', 1, 8),
                 # strides=self.trial.suggest_int('strides', 1, 36),
                 # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000, log=True),
@@ -224,7 +225,7 @@ class SymbolTuner(StudyWrapper):
                 # max_change = self.trial.suggest_float('max_change', 0.001, 0.02),
                 # min_flat_change = self.trial.suggest_float('min_flat_change', -0.01, 0.0),
                 # action_repetition = self.trial.suggest_int('action_repetition', 1, 12),
-                # reward_ratio=self.trial.suggest_float('reward_ratio', 1, 1000, log=True),
+                reward_ratio=self.trial.suggest_float('reward_ratio', 1, 100, log=True)
                 # window_slow = self.trial.suggest_int('window_slow', 12, 64),
                 # window_fast = self.trial.suggest_int('window_fast', 12, 64),
                 # window_sign = self.trial.suggest_int('window_sign', 12, 64)
@@ -277,7 +278,8 @@ class SymbolTuner(StudyWrapper):
         kwargs['gamma'] = 0.43466306489957174
         kwargs['kernel_size'] = 2
 
-        kwargs['lr'] = 0.00832458853140225
+        # kwargs['lr'] = 0.00832458853140225
+        kwargs['lr'] = 0.00832458853140225 * 2
         kwargs['lstm_size'] = 223
         # kwargs['max_flat_position_length'] = 38
         kwargs['max_pooling_kernel'] = 2
@@ -289,7 +291,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['num_lstm'] = 4
         kwargs['padding'] = 8
         kwargs['policy_value_max'] = 0.27031018014323643
-        kwargs['reward_ratio'] = 1.4468144607153746
+        # kwargs['reward_ratio'] = 1.4468144607153746
         kwargs['strides'] = 15
 
         kwargs['target_model_update'] = 1500
