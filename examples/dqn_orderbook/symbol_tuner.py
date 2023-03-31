@@ -172,7 +172,7 @@ class SymbolTuner(StudyWrapper):
             self.trial.set_user_attr('tuned', True)
 
             hparams = dict(
-                # memory_interval=self.trial.suggest_int('memory_interval', 1, 399),
+                memory_interval=self.trial.suggest_int('memory_interval', 1, 399),
                 # delta_clip=self.trial.suggest_uniform('delta_clip', 0, 99),
                 # gamma=self.trial.suggest_uniform('gamma', 0, 0.9999),
                 # enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
@@ -211,7 +211,7 @@ class SymbolTuner(StudyWrapper):
                 # max_short_position_length=self.trial.suggest_int('max_short_position_length', 1, 200),
                 # nb_steps = self.trial.suggest_int('nb_steps', 5000, 60000, log=True),
                 # nb_steps_2 = self.trial.suggest_int('nb_steps_2', 1000, int(5e4)),
-                num_conv=self.trial.suggest_int('num_conv', 4, 31),
+                # num_conv=self.trial.suggest_int('num_conv', 4, 31),
                 # round_decimals = self.trial.suggest_int('round_decimals', 2, 3),
                 # sequence_length = self.trial.suggest_int('sequence_length', 2, 96),
                 # train_recent_data = self.trial.suggest_categorical('train_recent_data', [True, False]),
@@ -286,8 +286,8 @@ class SymbolTuner(StudyWrapper):
         kwargs['max_pooling_enabled'] = False
         # kwargs['max_pooling_strides'] = 14
         # kwargs['max_short_position_length'] = 27
-        kwargs['memory_interval'] = 184
-        # kwargs['num_conv'] = 27
+        # kwargs['memory_interval'] = 184
+        kwargs['num_conv'] = 24
         kwargs['num_dense'] = 3
         kwargs['num_lstm'] = 4
         kwargs['padding'] = 8
