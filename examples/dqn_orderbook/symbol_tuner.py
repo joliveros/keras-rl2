@@ -172,7 +172,7 @@ class SymbolTuner(StudyWrapper):
             self.trial.set_user_attr('tuned', True)
 
             hparams = dict(
-                memory_interval=self.trial.suggest_int('memory_interval', 1, 399),
+                # memory_interval=self.trial.suggest_int('memory_interval', 1, 399),
                 # delta_clip=self.trial.suggest_uniform('delta_clip', 0, 99),
                 # gamma=self.trial.suggest_uniform('gamma', 0, 0.9999),
                 # enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
@@ -181,7 +181,7 @@ class SymbolTuner(StudyWrapper):
                 # base_filter_size=self.trial.suggest_int('base_filter_size', 4, 16),
                 # dense_width=self.trial.suggest_int('dense_width', 4, 396),
                 # block_kernel=self.trial.suggest_int('block_kernel', 1, 18),
-                # num_dense=self.trial.suggest_int('num_dense', 0, 5),
+                num_dense=self.trial.suggest_int('num_dense', 0, 5),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
                 # interval_minutes=self.trial.suggest_int('interval_minutes', 1, 24 * 7),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
@@ -192,7 +192,7 @@ class SymbolTuner(StudyWrapper):
                 # padding=self.trial.suggest_int('padding', 1, 8),
                 # strides=self.trial.suggest_int('strides', 1, 36),
                 # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000, log=True),
-                # num_lstm=self.trial.suggest_int('num_lstm', 0, 4),
+                num_lstm=self.trial.suggest_int('num_lstm', 0, 5),
                 # lstm_size=self.trial.suggest_int('lstm_size', 16, 396),
                 # trade_ratio=self.trial.suggest_float('trade_ratio', 0, 1.0),
                 # beta_1=self.trial.suggest_uniform('beta_1', 0.0, 0.99999),
@@ -286,10 +286,10 @@ class SymbolTuner(StudyWrapper):
         kwargs['max_pooling_enabled'] = False
         # kwargs['max_pooling_strides'] = 14
         # kwargs['max_short_position_length'] = 27
-        # kwargs['memory_interval'] = 184
+        kwargs['memory_interval'] = 38
         kwargs['num_conv'] = 24
-        kwargs['num_dense'] = 3
-        kwargs['num_lstm'] = 4
+        # kwargs['num_dense'] = 3
+        # kwargs['num_lstm'] = 4
         kwargs['padding'] = 8
         kwargs['policy_value_max'] = 0.27031018014323643
         kwargs['reward_ratio'] = 10.808834522396873
