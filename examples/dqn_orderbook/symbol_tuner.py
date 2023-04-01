@@ -180,7 +180,7 @@ class SymbolTuner(StudyWrapper):
                 # dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
                 # base_filter_size=self.trial.suggest_int('base_filter_size', 4, 16),
                 # dense_width=self.trial.suggest_int('dense_width', 4, 396),
-                block_kernel=self.trial.suggest_int('block_kernel', 1, 18),
+                block_kernel=self.trial.suggest_int('block_kernel', 1, 32),
                 # num_dense=self.trial.suggest_int('num_dense', 0, 20),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
                 # interval_minutes=self.trial.suggest_int('interval_minutes', 1, 24 * 7),
