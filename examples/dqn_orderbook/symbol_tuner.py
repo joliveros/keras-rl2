@@ -180,19 +180,19 @@ class SymbolTuner(StudyWrapper):
                 # dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
                 # base_filter_size=self.trial.suggest_int('base_filter_size', 4, 16),
                 # dense_width=self.trial.suggest_int('dense_width', 4, 396),
-                # block_kernel=self.trial.suggest_int('block_kernel', 1, 18),
-                num_dense=self.trial.suggest_int('num_dense', 0, 5),
+                block_kernel=self.trial.suggest_int('block_kernel', 1, 18),
+                # num_dense=self.trial.suggest_int('num_dense', 0, 20),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
                 # interval_minutes=self.trial.suggest_int('interval_minutes', 1, 24 * 7),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
-                # kernel_size=self.trial.suggest_int('kernel_size', 1, 17),
+                kernel_size=self.trial.suggest_int('kernel_size', 1, 17),
                 # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 16),
                 # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
                 # max_pooling_enabled=self.trial.suggest_categorical('max_pooling_enabled', [True, False]),
                 # padding=self.trial.suggest_int('padding', 1, 8),
                 # strides=self.trial.suggest_int('strides', 1, 36),
                 # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000, log=True),
-                num_lstm=self.trial.suggest_int('num_lstm', 0, 5),
+                # num_lstm=self.trial.suggest_int('num_lstm', 0, 10),
                 # lstm_size=self.trial.suggest_int('lstm_size', 16, 396),
                 # trade_ratio=self.trial.suggest_float('trade_ratio', 0, 1.0),
                 # beta_1=self.trial.suggest_uniform('beta_1', 0.0, 0.99999),
@@ -268,7 +268,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['base_filter_size'] = 4
         kwargs['beta_1'] = 0.41287475872400603
         kwargs['beta_2'] = 0.3418264033640808
-        kwargs['block_kernel'] = 2
+        # kwargs['block_kernel'] = 2
         kwargs['cache_limit'] = 4182
         kwargs['delta_clip'] = 27.09244094060328
         kwargs['dense_width'] = 344
@@ -276,7 +276,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['enable_double_dqn'] = False
         kwargs['eps_greedy_policy_steps'] = 806720
         kwargs['gamma'] = 0.43466306489957174
-        kwargs['kernel_size'] = 2
+        # kwargs['kernel_size'] = 2
 
         # kwargs['lr'] = 0.00832458853140225
         kwargs['lr'] = 0.00832458853140225 * 2
@@ -288,8 +288,8 @@ class SymbolTuner(StudyWrapper):
         # kwargs['max_short_position_length'] = 27
         kwargs['memory_interval'] = 38
         kwargs['num_conv'] = 24
-        # kwargs['num_dense'] = 3
-        # kwargs['num_lstm'] = 4
+        kwargs['num_dense'] = 4
+        kwargs['num_lstm'] = 5
         kwargs['padding'] = 8
         kwargs['policy_value_max'] = 0.27031018014323643
         kwargs['reward_ratio'] = 10.808834522396873
