@@ -173,19 +173,19 @@ class SymbolTuner(StudyWrapper):
 
             hparams = dict(
                 # memory_interval=self.trial.suggest_int('memory_interval', 1, 399),
-                # delta_clip=self.trial.suggest_uniform('delta_clip', 0, 99),
-                # gamma=self.trial.suggest_uniform('gamma', 0, 0.9999),
+                delta_clip=self.trial.suggest_float('delta_clip', 0.00001, 99, log=True),
+                gamma=self.trial.suggest_float('gamma', 0.00001, 0.9999, log=True),
                 # enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
                 # macd_diff_enabled=self.trial.suggest_categorical('macd_diff_enabled', [True, False]),
                 # dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
-                # base_filter_size=self.trial.suggest_int('base_filter_size', 4, 16),
+                base_filter_size=self.trial.suggest_int('base_filter_size', 4, 16),
                 # dense_width=self.trial.suggest_int('dense_width', 4, 396),
-                block_kernel=self.trial.suggest_int('block_kernel', 1, 32),
+                # block_kernel=self.trial.suggest_int('block_kernel', 1, 32),
                 # num_dense=self.trial.suggest_int('num_dense', 0, 20),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
                 # interval_minutes=self.trial.suggest_int('interval_minutes', 1, 24 * 7),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
-                kernel_size=self.trial.suggest_int('kernel_size', 1, 17),
+                # kernel_size=self.trial.suggest_int('kernel_size', 1, 17),
                 # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 16),
                 # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
                 # max_pooling_enabled=self.trial.suggest_categorical('max_pooling_enabled', [True, False]),
@@ -265,10 +265,10 @@ class SymbolTuner(StudyWrapper):
         kwargs['trading_fee'] = 0.0004
         kwargs['trade_ratio'] = 1/8
 
-        kwargs['base_filter_size'] = 4
+        # kwargs['base_filter_size'] = 4
         kwargs['beta_1'] = 0.41287475872400603
         kwargs['beta_2'] = 0.3418264033640808
-        # kwargs['block_kernel'] = 2
+        kwargs['block_kernel'] = 12
         kwargs['cache_limit'] = 4182
         kwargs['delta_clip'] = 27.09244094060328
         kwargs['dense_width'] = 344
@@ -276,7 +276,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['enable_double_dqn'] = False
         kwargs['eps_greedy_policy_steps'] = 806720
         kwargs['gamma'] = 0.43466306489957174
-        # kwargs['kernel_size'] = 2
+        kwargs['kernel_size'] = 12
 
         # kwargs['lr'] = 0.00832458853140225
         kwargs['lr'] = 0.00832458853140225 * 2
