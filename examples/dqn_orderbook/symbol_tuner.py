@@ -173,13 +173,13 @@ class SymbolTuner(StudyWrapper):
 
             hparams = dict(
                 # memory_interval=self.trial.suggest_int('memory_interval', 1, 399),
-                delta_clip=self.trial.suggest_float('delta_clip', 0.00001, 99, log=True),
-                gamma=self.trial.suggest_float('gamma', 0.00001, 0.9999, log=True),
+                # delta_clip=self.trial.suggest_float('delta_clip', 0.00001, 99, log=True),
+                # gamma=self.trial.suggest_float('gamma', 0.00001, 0.9999, log=True),
                 # enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
                 # macd_diff_enabled=self.trial.suggest_categorical('macd_diff_enabled', [True, False]),
                 # dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
-                base_filter_size=self.trial.suggest_int('base_filter_size', 4, 16),
-                # dense_width=self.trial.suggest_int('dense_width', 4, 396),
+                # base_filter_size=self.trial.suggest_int('base_filter_size', 4, 16),
+                dense_width=self.trial.suggest_int('dense_width', 4, 396),
                 # block_kernel=self.trial.suggest_int('block_kernel', 1, 32),
                 # num_dense=self.trial.suggest_int('num_dense', 0, 20),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
@@ -193,7 +193,7 @@ class SymbolTuner(StudyWrapper):
                 # strides=self.trial.suggest_int('strides', 1, 36),
                 # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000, log=True),
                 # num_lstm=self.trial.suggest_int('num_lstm', 0, 10),
-                # lstm_size=self.trial.suggest_int('lstm_size', 16, 396),
+                lstm_size=self.trial.suggest_int('lstm_size', 16, 396),
                 # trade_ratio=self.trial.suggest_float('trade_ratio', 0, 1.0),
                 # beta_1=self.trial.suggest_uniform('beta_1', 0.0, 0.99999),
                 # beta_2=self.trial.suggest_uniform('beta_2', 0.0, 0.99999),
@@ -265,17 +265,17 @@ class SymbolTuner(StudyWrapper):
         kwargs['trading_fee'] = 0.0004
         kwargs['trade_ratio'] = 1/8
 
-        # kwargs['base_filter_size'] = 4
+        kwargs['base_filter_size'] = 8
         kwargs['beta_1'] = 0.41287475872400603
         kwargs['beta_2'] = 0.3418264033640808
         kwargs['block_kernel'] = 12
         kwargs['cache_limit'] = 4182
-        kwargs['delta_clip'] = 27.09244094060328
+        kwargs['delta_clip'] = 2.19101649541324
         kwargs['dense_width'] = 344
         kwargs['dueling_type'] = 'max'
         kwargs['enable_double_dqn'] = False
         kwargs['eps_greedy_policy_steps'] = 806720
-        kwargs['gamma'] = 0.43466306489957174
+        kwargs['gamma'] = 1.6253409635843094e-05
         kwargs['kernel_size'] = 12
 
         # kwargs['lr'] = 0.00832458853140225
