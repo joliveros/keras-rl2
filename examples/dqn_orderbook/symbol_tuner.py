@@ -178,7 +178,7 @@ class SymbolTuner(StudyWrapper):
                 # enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
                 # macd_diff_enabled=self.trial.suggest_categorical('macd_diff_enabled', [True, False]),
                 # dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
-                # base_filter_size=self.trial.suggest_int('base_filter_size', 4, 16),
+                base_filter_size=self.trial.suggest_int('base_filter_size', 4, 21),
                 dense_width=self.trial.suggest_int('dense_width', 4, 1024),
                 # block_kernel=self.trial.suggest_int('block_kernel', 1, 32),
                 # num_dense=self.trial.suggest_int('num_dense', 0, 20),
@@ -274,7 +274,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['trading_fee'] = 0.0004
         kwargs['trade_ratio'] = 1/8
 
-        kwargs['base_filter_size'] = 8
+        # kwargs['base_filter_size'] = 8
         kwargs['beta_1'] = 0.41287475872400603
         kwargs['beta_2'] = 0.3418264033640808
         kwargs['block_kernel'] = 12
