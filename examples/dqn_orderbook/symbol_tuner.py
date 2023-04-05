@@ -180,7 +180,7 @@ class SymbolTuner(StudyWrapper):
                 # dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
                 base_filter_size=self.trial.suggest_int('base_filter_size', 4, 21),
                 dense_width=self.trial.suggest_int('dense_width', 4, 1024),
-                # block_kernel=self.trial.suggest_int('block_kernel', 1, 32),
+                block_kernel=self.trial.suggest_int('block_kernel', 1, 32),
                 # num_dense=self.trial.suggest_int('num_dense', 0, 20),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
                 # interval_minutes=self.trial.suggest_int('interval_minutes', 1, 24 * 7),
@@ -190,7 +190,7 @@ class SymbolTuner(StudyWrapper):
                 # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
                 # max_pooling_enabled=self.trial.suggest_categorical('max_pooling_enabled', [True, False]),
                 # padding=self.trial.suggest_int('padding', 1, 8),
-                # strides=self.trial.suggest_int('strides', 1, 36),
+                strides=self.trial.suggest_int('strides', 1, 36),
                 # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000, log=True),
                 # num_lstm=self.trial.suggest_int('num_lstm', 0, 10),
                 lstm_size=self.trial.suggest_int('lstm_size', 16, 1024),
@@ -277,7 +277,7 @@ class SymbolTuner(StudyWrapper):
         # kwargs['base_filter_size'] = 8
         kwargs['beta_1'] = 0.41287475872400603
         kwargs['beta_2'] = 0.3418264033640808
-        kwargs['block_kernel'] = 12
+        # kwargs['block_kernel'] = 12
         kwargs['cache_limit'] = 4182
         kwargs['delta_clip'] = 2.19101649541324
         # kwargs['dense_width'] = 344
@@ -302,7 +302,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['padding'] = 8
         kwargs['policy_value_max'] = 0.27031018014323643
         kwargs['reward_ratio'] = 10.808834522396873
-        kwargs['strides'] = 15
+        # kwargs['strides'] = 15
 
         kwargs['target_model_update'] = 1500
         kwargs['train_interval'] = 4
