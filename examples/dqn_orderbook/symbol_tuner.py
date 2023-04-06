@@ -237,9 +237,9 @@ class SymbolTuner(StudyWrapper):
 
             num_layers = 24
 
-            for layer_index in range(num_layers):
-                name = f'conv_layer_{layer_index}'
-                hparams[name] = conv_layer(name)
+            # for layer_index in range(num_layers):
+            #     name = f'conv_layer_{layer_index}'
+            #     hparams[name] = conv_layer(name)
 
             # hparams['interval'] = f'{hparams["interval_minutes"] * 60}m'
 
