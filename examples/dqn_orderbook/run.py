@@ -14,6 +14,7 @@ class SymbolAgentTuner(SymbolTuner):
 @click.command()
 @click.argument('symbol', type=str)
 @click.option('--cache', is_flag=True)
+@click.option('--clear-dir', is_flag=True)
 @click.option('--database-name', default='binance_futures', type=str)
 @click.option('--depth', '-d', default=48, type=int)
 @click.option('--env-name', default='orderbook-frame-env-v0', type=str)

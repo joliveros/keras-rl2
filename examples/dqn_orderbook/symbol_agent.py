@@ -1,3 +1,5 @@
+import shutil
+
 from bitmex_websocket.constants import NoValue
 from optuna import Study, Trial
 
@@ -41,6 +43,7 @@ class SymbolAgent(object):
         policy_value_max,
         train_recent_data,
         trial,
+        clear_dir=False,
         trade_ratio=1/6,
         env2=None,
         optimizer: int = 2,
@@ -53,6 +56,7 @@ class SymbolAgent(object):
         **kwargs
     ):
         kwargs['symbol'] = symbol
+        self.clear_dir = clear_dir
         self.trial: Trial = trial
         self._kwargs = kwargs
         self.beta_1 = beta_1
@@ -135,6 +139,10 @@ class SymbolAgent(object):
     def load_weights(self):
         self.agent.load_weights(self.weights_filename)
 
+    @property
+    def trial_dir(self):
+        return str(Path(self.base_model_dir) / str(self.trial.number))
+
     def run(self):
         # Okay, now it's time to learn something! We capture the interrupt exception so that training
         # can be prematurely aborted. Notice that now you can use the built-in tensorflow.keras callbacks!
@@ -164,8 +172,11 @@ class SymbolAgent(object):
             self.agent.fit(self.env2, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps_2, log_interval=1,
                            action_repetition=action_repetition)
 
-        # After training is done, we save the final weights one more time.
-        self.agent.save_weights(self.weights_filename, overwrite=True)
+        if self.clear_dir:
+            shutil.rmtree(self.trial_dir)
+        else:
+            # After training is done, we save the final weights one more time.
+            self.agent.save_weights(self.weights_filename, overwrite=True)
 
         # Finally, evaluate our algorithm for 1 episodes.
         history: History = self.agent.test(self.test_env,
