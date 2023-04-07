@@ -173,9 +173,9 @@ class SymbolTuner(StudyWrapper):
 
             hparams = dict(
                 # memory_interval=self.trial.suggest_int('memory_interval', 1, 399),
-                # delta_clip=self.trial.suggest_float('delta_clip', 0.00001, 99, log=True),
-                # gamma=self.trial.suggest_float('gamma', 0.00001, 0.9999, log=True),
-                enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
+                delta_clip=self.trial.suggest_float('delta_clip', 0.00001, 99, log=True),
+                gamma=self.trial.suggest_float('gamma', 0.00001, 0.9999, log=True),
+                # enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
                 # macd_diff_enabled=self.trial.suggest_categorical('macd_diff_enabled', [True, False]),
                 # dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
                 # base_filter_size=self.trial.suggest_int('base_filter_size', 4, 21),
@@ -189,17 +189,17 @@ class SymbolTuner(StudyWrapper):
                 # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 16),
                 # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
                 # max_pooling_enabled=self.trial.suggest_categorical('max_pooling_enabled', [True, False]),
-                # padding=self.trial.suggest_int('padding', 1, 8),
+                padding=self.trial.suggest_int('padding', 1, 8),
                 # strides=self.trial.suggest_int('strides', 1, 36),
-                # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000, log=True),
+                eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000, log=True),
                 # num_lstm=self.trial.suggest_int('num_lstm', 0, 10),
                 # lstm_size=self.trial.suggest_int('lstm_size', 16, 1024),
                 # trade_ratio=self.trial.suggest_float('trade_ratio', 0, 1.0),
-                # beta_1=self.trial.suggest_uniform('beta_1', 0.0, 0.99999),
-                # beta_2=self.trial.suggest_uniform('beta_2', 0.0, 0.99999),
+                beta_1=self.trial.suggest_uniform('beta_1', 0.0, 0.99999),
+                beta_2=self.trial.suggest_uniform('beta_2', 0.0, 0.99999),
                 # fee_ratio = self.trial.suggest_float('fee_ratio', 0.9, 2.0),
                 # trading_fee = self.trial.suggest_float('trading_fee', 0.0004, 0.005),
-                # policy_value_max = self.trial.suggest_float('policy_value_max', 0.001, 0.9),
+                policy_value_max = self.trial.suggest_float('policy_value_max', 0.001, 0.9),
                 # batch_size = self.trial.suggest_int('batch_size', 8, 32),
                 # lr=self.trial.suggest_uniform('lr', 1e-12, 1e-02),
                 # depth = self.trial.suggest_int('depth', 2, 81),
@@ -218,15 +218,15 @@ class SymbolTuner(StudyWrapper):
                 # train_recent_data = self.trial.suggest_categorical('train_recent_data', [True, False]),
                 # window_length = self.trial.suggest_int('window_length', 1, 2),
                 # min_change = self.trial.suggest_float('min_change', 0.0, 0.02),
-                # cache_limit=self.trial.suggest_int('cache_limit', 100, 10000),
-                # train_interval=self.trial.suggest_int('train_interval', 2, 8000, log=True),
-                # target_model_update=self.trial.suggest_int('target_model_update', 2, 8000, log=True),
+                cache_limit=self.trial.suggest_int('cache_limit', 100, 10000),
+                train_interval=self.trial.suggest_int('train_interval', 2, 8000, log=True),
+                target_model_update=self.trial.suggest_int('target_model_update', 2, 8000, log=True),
                 # window_factor=self.trial.suggest_float('window_factor', 0.001, 10, log=True),
                 # gap_enabled = self.trial.suggest_categorical('gap_enabled', [True, False]),
                 # max_change = self.trial.suggest_float('max_change', 0.001, 0.02),
                 # min_flat_change = self.trial.suggest_float('min_flat_change', -0.01, 0.0),
                 # action_repetition = self.trial.suggest_int('action_repetition', 1, 12),
-                # reward_ratio=self.trial.suggest_float('reward_ratio', 1, 100, log=True)
+                reward_ratio=self.trial.suggest_float('reward_ratio', 1, 100, log=True)
                 # window_slow = self.trial.suggest_int('window_slow', 12, 64),
                 # window_fast = self.trial.suggest_int('window_fast', 12, 64),
                 # window_sign = self.trial.suggest_int('window_sign', 12, 64)
@@ -275,16 +275,16 @@ class SymbolTuner(StudyWrapper):
         kwargs['trade_ratio'] = 1/8
 
         kwargs['base_filter_size'] = 18
-        kwargs['beta_1'] = 0.41287475872400603
-        kwargs['beta_2'] = 0.3418264033640808
+        # kwargs['beta_1'] = 0.41287475872400603
+        # kwargs['beta_2'] = 0.3418264033640808
         kwargs['block_kernel'] = 12
-        kwargs['cache_limit'] = 4182
-        kwargs['delta_clip'] = 2.19101649541324
+        # kwargs['cache_limit'] = 4182
+        # kwargs['delta_clip'] = 2.19101649541324
         kwargs['dense_width'] = 291
         kwargs['dueling_type'] = 'max'
         kwargs['enable_double_dqn'] = False
-        kwargs['eps_greedy_policy_steps'] = 806720
-        kwargs['gamma'] = 1.6253409635843094e-05
+        # kwargs['eps_greedy_policy_steps'] = 806720
+        # kwargs['gamma'] = 1.6253409635843094e-05
         kwargs['kernel_size'] = 12
         kwargs['conv_block_strides'] = 3
 
@@ -300,13 +300,13 @@ class SymbolTuner(StudyWrapper):
         kwargs['num_conv'] = 24
         kwargs['num_dense'] = 4
         kwargs['num_lstm'] = 5
-        kwargs['padding'] = 8
-        kwargs['policy_value_max'] = 0.27031018014323643
-        kwargs['reward_ratio'] = 10.808834522396873
+        # kwargs['padding'] = 8
+        # kwargs['policy_value_max'] = 0.27031018014323643
+        # kwargs['reward_ratio'] = 10.808834522396873
         kwargs['strides'] = 28
 
-        kwargs['target_model_update'] = 1500
-        kwargs['train_interval'] = 4
+        # kwargs['target_model_update'] = 1500
+        # kwargs['train_interval'] = 4
         kwargs['window_factor'] = 2.494463725032405
         kwargs['gap_enabled'] = True
         kwargs['macd_diff_enabled'] = False
