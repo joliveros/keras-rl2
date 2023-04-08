@@ -235,7 +235,7 @@ class SymbolTuner(StudyWrapper):
             def conv_layer(layer_name):
                 return self.trial.suggest_categorical(layer_name, [None, 'conv', 'identity'])
 
-            num_layers = 32
+            num_layers = 40
 
             for layer_index in range(num_layers):
                 name = f'conv_layer_{layer_index}'
@@ -311,29 +311,29 @@ class SymbolTuner(StudyWrapper):
         kwargs['gap_enabled'] = True
         kwargs['macd_diff_enabled'] = False
 
-        kwargs['conv_layer_0'] = 'identity'
-        kwargs['conv_layer_1'] = 'identity'
-        kwargs['conv_layer_3'] = 'conv'
-        kwargs['conv_layer_4'] = 'identity'
-        kwargs['conv_layer_5'] = 'identity'
-        kwargs['conv_layer_6'] = 'conv'
-        kwargs['conv_layer_7'] = 'identity'
-        kwargs['conv_layer_8'] = 'conv'
-        kwargs['conv_layer_9'] = None
-        kwargs['conv_layer_10'] = 'identity'
-        kwargs['conv_layer_11'] = None
-        kwargs['conv_layer_12'] = None
-        kwargs['conv_layer_13'] = 'conv'
-        kwargs['conv_layer_14'] = 'identity'
-        kwargs['conv_layer_15'] = 'conv'
-        kwargs['conv_layer_16'] = None
-        kwargs['conv_layer_17'] = 'conv'
-        kwargs['conv_layer_18'] = 'identity'
-        kwargs['conv_layer_19'] = 'identity'
-        kwargs['conv_layer_20'] = None
-        kwargs['conv_layer_21'] = 'identity'
-        kwargs['conv_layer_22'] = None
-        kwargs['conv_layer_23'] = 'identity'
+        # kwargs['conv_layer_0'] = 'identity'
+        # kwargs['conv_layer_1'] = 'identity'
+        # kwargs['conv_layer_3'] = 'conv'
+        # kwargs['conv_layer_4'] = 'identity'
+        # kwargs['conv_layer_5'] = 'identity'
+        # kwargs['conv_layer_6'] = 'conv'
+        # kwargs['conv_layer_7'] = 'identity'
+        # kwargs['conv_layer_8'] = 'conv'
+        # kwargs['conv_layer_9'] = None
+        # kwargs['conv_layer_10'] = 'identity'
+        # kwargs['conv_layer_11'] = None
+        # kwargs['conv_layer_12'] = None
+        # kwargs['conv_layer_13'] = 'conv'
+        # kwargs['conv_layer_14'] = 'identity'
+        # kwargs['conv_layer_15'] = 'conv'
+        # kwargs['conv_layer_16'] = None
+        # kwargs['conv_layer_17'] = 'conv'
+        # kwargs['conv_layer_18'] = 'identity'
+        # kwargs['conv_layer_19'] = 'identity'
+        # kwargs['conv_layer_20'] = None
+        # kwargs['conv_layer_21'] = 'identity'
+        # kwargs['conv_layer_22'] = None
+        # kwargs['conv_layer_23'] = 'identity'
 
         # kwargs['interval'] = '2h'
         # kwargs['nb_steps'] = 120 * 2
