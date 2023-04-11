@@ -235,7 +235,7 @@ class SymbolTuner(StudyWrapper):
             def conv_layer(layer_name):
                 return self.trial.suggest_categorical(layer_name, [None, 'conv', 'identity'])
 
-            num_layers = 16
+            num_layers = 11
 
             for layer_index in range(num_layers):
                 name = f'conv_layer_{layer_index}'
