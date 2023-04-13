@@ -180,12 +180,12 @@ class SymbolTuner(StudyWrapper):
                 # dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
                 # base_filter_size=self.trial.suggest_int('base_filter_size', 4, 21),
                 # dense_width=self.trial.suggest_int('dense_width', 4, 1024),
-                # block_kernel=self.trial.suggest_int('block_kernel', 1, 12),
+                block_kernel=self.trial.suggest_int('block_kernel', 1, 12),
                 # num_dense=self.trial.suggest_int('num_dense', 0, 20),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
                 # interval_minutes=self.trial.suggest_int('interval_minutes', 1, 24 * 7),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
-                # kernel_size=self.trial.suggest_int('kernel_size', 1, 12),
+                kernel_size=self.trial.suggest_int('kernel_size', 1, 12),
                 # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 16),
                 # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
                 # max_pooling_enabled=self.trial.suggest_categorical('max_pooling_enabled', [True, False]),
@@ -277,7 +277,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['base_filter_size'] = 18
         kwargs['beta_1'] = 0.4059858659661076
         kwargs['beta_2'] = 0.6183737483717233
-        kwargs['block_kernel'] = 5
+        # kwargs['block_kernel'] = 5
         kwargs['cache_limit'] = 2059
         kwargs['delta_clip'] = 0.006435989430391222
         kwargs['dense_width'] = 291
@@ -285,7 +285,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['enable_double_dqn'] = False
         kwargs['eps_greedy_policy_steps'] = 8363
         kwargs['gamma'] = 0.0004532963948050519
-        kwargs['kernel_size'] = 12
+        # kwargs['kernel_size'] = 12
         kwargs['conv_block_strides'] = 3
 
 
