@@ -213,11 +213,8 @@ class SymbolAgent(object):
 
         self.trial.set_user_attr('trades', len(trades))
         capital_ratio = (1 - self.trade_ratio)
-        pos_trades = (pos_trades **(1/24)) * 0.1
+        pos_trades = (pos_trades **(1/50)) - 1
 
-        # return capital_avg
-
-        return (capital_avg * capital_ratio) + (trade_ratio * self.trade_ratio) 
-
-        # return (capital_avg * capital_ratio) + ((trade_ratio + pos_trades) * self.trade_ratio) 
+        return (capital_avg * capital_ratio) + (trade_ratio * self.trade_ratio) \
+                + pos_trades
 

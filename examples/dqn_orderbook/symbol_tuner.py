@@ -181,7 +181,7 @@ class SymbolTuner(StudyWrapper):
                 base_filter_size=self.trial.suggest_int('base_filter_size', 4, 21),
                 # dense_width=self.trial.suggest_int('dense_width', 4, 1024),
                 block_kernel=self.trial.suggest_int('block_kernel', 1, 12),
-                num_dense=self.trial.suggest_int('num_dense', 0, 20),
+                num_dense=self.trial.suggest_int('num_dense', 0, 5),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
                 # interval_minutes=self.trial.suggest_int('interval_minutes', 1, 24 * 7),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
@@ -192,7 +192,7 @@ class SymbolTuner(StudyWrapper):
                 # padding=self.trial.suggest_int('padding', 1, 8),
                 # strides=self.trial.suggest_int('strides', 1, 36),
                 # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000, log=True),
-                num_lstm=self.trial.suggest_int('num_lstm', 0, 10),
+                num_lstm=self.trial.suggest_int('num_lstm', 0, 5),
                 # lstm_size=self.trial.suggest_int('lstm_size', 16, 1024),
                 # trade_ratio=self.trial.suggest_float('trade_ratio', 0, 1.0),
                 # beta_1=self.trial.suggest_uniform('beta_1', 0.0, 0.99999),
@@ -235,7 +235,7 @@ class SymbolTuner(StudyWrapper):
             def conv_layer(layer_name):
                 return self.trial.suggest_categorical(layer_name, [None, 'conv', 'identity'])
 
-            num_layers = 21
+            num_layers = 17
 
             for layer_index in range(num_layers):
                 name = f'conv_layer_{layer_index}'
@@ -266,7 +266,7 @@ class SymbolTuner(StudyWrapper):
             kwargs[param] = hparams[param]
 
         kwargs['action_repetition'] = 3
-        kwargs['batch_size'] = 16
+        kwargs['batch_size'] = 12
         kwargs['max_change'] = 0.01
         # kwargs['min_change'] = 0.0
         kwargs['min_flat_change'] = -0.001
