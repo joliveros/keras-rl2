@@ -172,7 +172,7 @@ class SymbolTuner(StudyWrapper):
             self.trial.set_user_attr('tuned', True)
 
             hparams = dict(
-                # memory_interval=self.trial.suggest_int('memory_interval', 1, 399),
+                memory_interval=self.trial.suggest_int('memory_interval', 1, 399),
                 # delta_clip=self.trial.suggest_float('delta_clip', 0.00001, 99, log=True),
                 # gamma=self.trial.suggest_float('gamma', 0.00001, 0.9999, log=True),
                 # enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
@@ -266,7 +266,7 @@ class SymbolTuner(StudyWrapper):
             kwargs[param] = hparams[param]
 
         kwargs['action_repetition'] = 3
-        kwargs['batch_size'] = 12
+        kwargs['batch_size'] = 9
         kwargs['max_change'] = 0.01
         # kwargs['min_change'] = 0.0
         kwargs['min_flat_change'] = -0.001
@@ -296,7 +296,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['max_pooling_enabled'] = False
         # kwargs['max_pooling_strides'] = 14
         # kwargs['max_short_position_length'] = 27
-        kwargs['memory_interval'] = 38
+        # kwargs['memory_interval'] = 38
         kwargs['num_conv'] = 24
         # kwargs['num_dense'] = 4
         # kwargs['num_lstm'] = 5
