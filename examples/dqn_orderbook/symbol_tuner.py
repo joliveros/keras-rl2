@@ -265,7 +265,7 @@ class SymbolTuner(StudyWrapper):
         for param in hparams:
             kwargs[param] = hparams[param]
 
-        kwargs['action_repetition'] = 3
+        kwargs['action_repetition'] = 15
         # kwargs['batch_size'] = 9
         kwargs['max_change'] = 0.01
         # kwargs['min_change'] = 0.0
