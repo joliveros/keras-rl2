@@ -209,7 +209,7 @@ class SymbolTuner(StudyWrapper):
                 # max_negative_pnl = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100),
                 # max_position_length = self.trial.suggest_int('max_position_length', 0, 72),
                 # max_short_position_length=self.trial.suggest_int('max_short_position_length', 1, 200),
-                nb_steps = self.trial.suggest_int('nb_steps', 5000, 100000, log=True),
+                # nb_steps = self.trial.suggest_int('nb_steps', 5000, 100000, log=True),
                 # nb_steps_2 = self.trial.suggest_int('nb_steps_2', 1000, int(5e4)),
                 # num_conv=self.trial.suggest_int('num_conv', 4, 31),
                 # conv_block_strides=self.trial.suggest_int('conv_block_strides', 1, 5),
