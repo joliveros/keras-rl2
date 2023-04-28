@@ -157,7 +157,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['offset_interval'] = '0h'
         kwargs['is_test'] = True
         kwargs['random_frame_start'] = False
-        kwargs['max_short_position_length'] = -1
+        # kwargs['max_short_position_length'] = -1
         kwargs['trading_fee'] = 0.0004
 
         return gym.make(self.env_name, **kwargs)
@@ -199,8 +199,8 @@ class SymbolTuner(StudyWrapper):
                 beta_2=self.trial.suggest_uniform('beta_2', 0.0, 0.99999),
                 # fee_ratio = self.trial.suggest_float('fee_ratio', 0.9, 2.0),
                 # trading_fee = self.trial.suggest_float('trading_fee', 0.0004, 0.005),
-                policy_value_max = self.trial.suggest_float('policy_value_max', 0.001, 0.9),
-                batch_size = self.trial.suggest_int('batch_size', 2, 32),
+                policy_value_max=self.trial.suggest_float('policy_value_max', 0.001, 0.9),
+                batch_size=self.trial.suggest_int('batch_size', 2, 32),
                 lr=self.trial.suggest_uniform('lr', 1e-12, 1e-02),
                 # depth = self.trial.suggest_int('depth', 2, 81),
                 # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
@@ -222,7 +222,7 @@ class SymbolTuner(StudyWrapper):
                 train_interval=self.trial.suggest_int('train_interval', 2, 8000, log=True),
                 target_model_update=self.trial.suggest_int('target_model_update', 2, 8000, log=True),
                 # window_factor=self.trial.suggest_float('window_factor', 0.001, 10, log=True),
-                gap_enabled = self.trial.suggest_categorical('gap_enabled', [True, False]),
+                gap_enabled=self.trial.suggest_categorical('gap_enabled', [True, False]),
                 # max_change = self.trial.suggest_float('max_change', 0.001, 0.02),
                 # min_flat_change = self.trial.suggest_float('min_flat_change', -0.01, 0.0),
                 # action_repetition = self.trial.suggest_int('action_repetition', 1, 12),
@@ -278,7 +278,7 @@ class SymbolTuner(StudyWrapper):
         # kwargs['beta_1'] = 0.2706897538736255
         # kwargs['beta_2'] = 0.9672477072253045
         # kwargs['block_kernel'] = 2
-        # kwargs['cache_limit'] = 50000
+        # kwargs['cache_limit'] = 1000
         kwargs['delta_clip'] = 1.0
         # kwargs['dense_width'] = 733
         # kwargs['dueling_type'] = 'naive'
@@ -290,12 +290,13 @@ class SymbolTuner(StudyWrapper):
 
         # kwargs['lr'] = 0.008500170662405377
         # kwargs['lstm_size'] = 407
-        # kwargs['max_flat_position_length'] = (2 * 15 * 2) * 30
+
         kwargs['max_pooling_kernel'] = 2
         kwargs['max_pooling_enabled'] = False
         # kwargs['max_pooling_strides'] = 14
-        # kwargs['max_short_position_length'] = (2 * 15 * 2) * 30
-        # kwargs['memory_interval'] = 15
+        # kwargs['max_flat_position_length'] = (2 * 15 * 2) * 10
+        # kwargs['max_short_position_length'] = (2 * 15 * 2) * 10
+        # kwargs['memory_interval'] = 1
         kwargs['num_conv'] = 24
         # kwargs['num_dense'] = 0
         # kwargs['num_lstm'] = 2
