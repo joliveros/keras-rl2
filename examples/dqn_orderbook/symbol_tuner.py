@@ -174,7 +174,7 @@ class SymbolTuner(StudyWrapper):
             hparams = dict(
                 # memory_interval=self.trial.suggest_int('memory_interval', 1, 399),
                 # delta_clip=self.trial.suggest_float('delta_clip', 0.00001, 99, log=True),
-                # gamma=self.trial.suggest_float('gamma', 0.00001, 0.9999, log=True),
+                gamma=self.trial.suggest_float('gamma', 0.00001, 0.9999),
                 # enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
                 # macd_diff_enabled=self.trial.suggest_categorical('macd_diff_enabled', [True, False]),
                 # dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
@@ -209,7 +209,7 @@ class SymbolTuner(StudyWrapper):
                 # max_negative_pnl = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100),
                 # max_position_length = self.trial.suggest_int('max_position_length', 0, 72),
                 # max_short_position_length=self.trial.suggest_int('max_short_position_length', 1, 10000),
-                nb_steps = self.trial.suggest_int('nb_steps', 5000, 100000, log=True),
+                nb_steps = self.trial.suggest_int('nb_steps', 5000, 100000),
                 # nb_steps_2 = self.trial.suggest_int('nb_steps_2', 1000, int(5e4)),
                 # num_conv=self.trial.suggest_int('num_conv', 4, 31),
                 # conv_block_strides=self.trial.suggest_int('conv_block_strides', 1, 5),
@@ -284,7 +284,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['dueling_type'] = 'max'
         kwargs['enable_double_dqn'] = True
         kwargs['eps_greedy_policy_steps'] = 26470
-        kwargs['gamma'] = 0.99
+        # kwargs['gamma'] = 0.99
         kwargs['kernel_size'] = 8
         kwargs['conv_block_strides'] = 4
 
