@@ -174,7 +174,7 @@ class SymbolTuner(StudyWrapper):
             hparams = dict(
                 # memory_interval=self.trial.suggest_int('memory_interval', 1, 399),
                 # delta_clip=self.trial.suggest_float('delta_clip', 0.00001, 99, log=True),
-                gamma=self.trial.suggest_float('gamma', 0.00001, 0.9999),
+                # gamma=self.trial.suggest_float('gamma', 0.00001, 0.9999),
                 # enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
                 # macd_diff_enabled=self.trial.suggest_categorical('macd_diff_enabled', [True, False]),
                 # dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
@@ -209,7 +209,7 @@ class SymbolTuner(StudyWrapper):
                 # max_negative_pnl = self.trial.suggest_float('max_negative_pnl', -20/100, -0.5/100),
                 # max_position_length = self.trial.suggest_int('max_position_length', 0, 72),
                 # max_short_position_length=self.trial.suggest_int('max_short_position_length', 1, 10000),
-                nb_steps = self.trial.suggest_int('nb_steps', 5000, 100000),
+                # nb_steps = self.trial.suggest_int('nb_steps', 5000, 100000),
                 # nb_steps_2 = self.trial.suggest_int('nb_steps_2', 1000, int(5e4)),
                 # num_conv=self.trial.suggest_int('num_conv', 4, 31),
                 # conv_block_strides=self.trial.suggest_int('conv_block_strides', 1, 5),
@@ -233,13 +233,13 @@ class SymbolTuner(StudyWrapper):
             )
 
             def conv_layer(layer_name):
-                return self.trial.suggest_categorical(layer_name, [None, 'conv', 'identity'])
+                return self.trial.suggest_categorical(layer_name, ['conv', 'identity'])
 
             num_layers = 17
             
-            # for layer_index in range(num_layers):
-            #      name = f'conv_layer_{layer_index}'
-            #      hparams[name] = conv_layer(name)
+            for layer_index in range(num_layers):
+                 name = f'conv_layer_{layer_index}'
+                 hparams[name] = conv_layer(name)
 
             # hparams['interval'] = f'{hparams["interval_minutes"] * 60}m'
 
@@ -266,7 +266,7 @@ class SymbolTuner(StudyWrapper):
             kwargs[param] = hparams[param]
 
         kwargs['action_repetition'] = 15
-        kwargs['batch_size'] = 16
+        kwargs['batch_size'] = int(256 * 3 * 0.6)
         kwargs['max_change'] = 0.01
         kwargs['min_change'] = 0
         kwargs['min_flat_change'] = -0.001
@@ -274,19 +274,23 @@ class SymbolTuner(StudyWrapper):
         kwargs['trading_fee'] = 0.0004
         kwargs['trade_ratio'] = 1/8
 
-        kwargs['base_filter_size'] = 5
+        kwargs['base_filter_size'] = 10
+        ks = 2
+        kwargs['strides'] = ks
+        kwargs['block_kernel'] = ks
+        kwargs['kernel_size'] = ks
+        kwargs['conv_block_strides'] = ks
+
         kwargs['beta_1'] = 0.4583110181896507
         kwargs['beta_2'] = 0.8710177944684562
-        kwargs['block_kernel'] = 5
-        kwargs['cache_limit'] = 47741
+
+        kwargs['cache_limit'] = 6000 * 2
         kwargs['delta_clip'] = 1.0
         kwargs['dense_width'] = 95
         kwargs['dueling_type'] = 'max'
         kwargs['enable_double_dqn'] = True
         kwargs['eps_greedy_policy_steps'] = 26470
-        # kwargs['gamma'] = 0.99
-        kwargs['kernel_size'] = 8
-        kwargs['conv_block_strides'] = 4
+        kwargs['gamma'] = 0.99
 
         kwargs['lr'] = 0.004520744397275714
         kwargs['lstm_size'] = 416
@@ -303,31 +307,31 @@ class SymbolTuner(StudyWrapper):
         kwargs['padding'] = 3
         kwargs['policy_value_max'] = 0.6159156960990673
         kwargs['reward_ratio'] = 4.2197100878028815
-        kwargs['strides'] = 21
 
-        kwargs['target_model_update'] = 3786
-        kwargs['train_interval'] = 1646
+
+        kwargs['target_model_update'] = 15 * 10 * 2
+        kwargs['train_interval'] = 15 * 10
         kwargs['window_factor'] = 2.494463725032405
         kwargs['gap_enabled'] = True
         kwargs['macd_diff_enabled'] = False
 
-        kwargs['conv_layer_0'] = None
-        kwargs['conv_layer_1'] = 'identity'
-        kwargs['conv_layer_2'] = None
-        kwargs['conv_layer_3'] = None
-        kwargs['conv_layer_4'] = None
-        kwargs['conv_layer_5'] = None
-        kwargs['conv_layer_6'] = 'conv'
-        kwargs['conv_layer_7'] = 'conv'
-        kwargs['conv_layer_8'] = None
-        kwargs['conv_layer_9'] = None
-        kwargs['conv_layer_10'] = 'conv'
-        kwargs['conv_layer_11'] = 'conv'
-        kwargs['conv_layer_12'] = 'conv'
-        kwargs['conv_layer_13'] = 'identity'
-        kwargs['conv_layer_14'] = 'conv'
-        kwargs['conv_layer_15'] = 'identity'
-        kwargs['conv_layer_16'] = 'conv'
+        # kwargs['conv_layer_0'] = None
+        # kwargs['conv_layer_1'] = 'identity'
+        # kwargs['conv_layer_2'] = None
+        # kwargs['conv_layer_3'] = None
+        # kwargs['conv_layer_4'] = None
+        # kwargs['conv_layer_5'] = None
+        # kwargs['conv_layer_6'] = 'conv'
+        # kwargs['conv_layer_7'] = 'conv'
+        # kwargs['conv_layer_8'] = None
+        # kwargs['conv_layer_9'] = None
+        # kwargs['conv_layer_10'] = 'conv'
+        # kwargs['conv_layer_11'] = 'conv'
+        # kwargs['conv_layer_12'] = 'conv'
+        # kwargs['conv_layer_13'] = 'identity'
+        # kwargs['conv_layer_14'] = 'conv'
+        # kwargs['conv_layer_15'] = 'identity'
+        # kwargs['conv_layer_16'] = 'conv'
         # kwargs['conv_layer_17'] = 'identity'
         # kwargs['conv_layer_18'] = 'conv'
         # kwargs['conv_layer_19'] = None

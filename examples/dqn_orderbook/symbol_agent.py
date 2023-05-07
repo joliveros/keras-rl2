@@ -8,6 +8,7 @@ from examples.dqn_orderbook.processor import OrderBookFrameProcessor
 from exchange_data.models.resnet.model import Model
 from pathlib import Path
 from rl.agents import DQNAgent
+from rl.callbacks import FileLogger
 from rl.memory import SequentialMemory
 from rl.policy import GreedyQPolicy, EpsGreedyQPolicy, LinearAnnealedPolicy
 from tensorflow.python.keras.callbacks import TensorBoard, History
@@ -15,6 +16,7 @@ from tensorflow.keras.optimizers import Adadelta
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.optimizers import Adamax
 from tensorflow.keras.optimizers import SGD
+
 import tensorflow as tf
 
 
@@ -144,9 +146,6 @@ class SymbolAgent(object):
         return str(Path(self.base_model_dir) / str(self.trial.number))
 
     def run(self):
-        # Okay, now it's time to learn something! We capture the interrupt exception so that training
-        # can be prematurely aborted. Notice that now you can use the built-in tensorflow.keras callbacks!
-
         tb_callback = TensorBoard(
             embeddings_freq=0,
             embeddings_metadata=None,
@@ -163,6 +162,7 @@ class SymbolAgent(object):
         callbacks = [tb_callback]
 
         # callbacks += [FileLogger(log_filename, interval=100)]
+
         action_repetition = self.action_repetition
 
         self.agent.fit(self.env, verbose=2, callbacks=callbacks, nb_steps=self.nb_steps,
