@@ -192,7 +192,7 @@ class SymbolTuner(StudyWrapper):
                 # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
                 # max_pooling_enabled=self.trial.suggest_categorical('max_pooling_enabled', [True, False]),
                 # padding=self.trial.suggest_int('padding', 0, 8),
-                eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000, log=True),
+                # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000, log=True),
                 num_lstm=self.trial.suggest_int('num_lstm', 0, 1),
                 lstm_size=self.trial.suggest_int('lstm_size', 4, 64),
                 # trade_ratio=self.trial.suggest_float('trade_ratio', 0, 1.0),
@@ -226,7 +226,7 @@ class SymbolTuner(StudyWrapper):
                 # max_change = self.trial.suggest_float('max_change', 0.001, 0.02),
                 # min_flat_change = self.trial.suggest_float('min_flat_change', -0.01, 0.0),
                 # action_repetition = self.trial.suggest_int('action_repetition', 1, 12),
-                reward_ratio=self.trial.suggest_float('reward_ratio', 1, 100, log=True)
+                # reward_ratio=self.trial.suggest_float('reward_ratio', 1, 100, log=True)
                 # window_slow = self.trial.suggest_int('window_slow', 12, 64),
                 # window_fast = self.trial.suggest_int('window_fast', 12, 64),
                 # window_sign = self.trial.suggest_int('window_sign', 12, 64)
@@ -235,7 +235,7 @@ class SymbolTuner(StudyWrapper):
             def conv_layer(layer_name):
                 return self.trial.suggest_categorical(layer_name, [None, 'conv', 'identity'])
 
-            num_layers = 5
+            num_layers = 6
             
             for layer_index in range(num_layers):
                  name = f'conv_layer_{layer_index}'
@@ -266,7 +266,7 @@ class SymbolTuner(StudyWrapper):
             kwargs[param] = hparams[param]
 
         kwargs['action_repetition'] = 15
-        kwargs['batch_size'] = 256
+        kwargs['batch_size'] = 64
         kwargs['max_change'] = 0.01
         kwargs['min_change'] = 0
         kwargs['min_flat_change'] = -0.001
@@ -289,7 +289,7 @@ class SymbolTuner(StudyWrapper):
         # kwargs['dense_width'] = 200
         # kwargs['dueling_type'] = 'avg'
         # kwargs['enable_double_dqn'] = True
-        # kwargs['eps_greedy_policy_steps'] = 20000
+        kwargs['eps_greedy_policy_steps'] = 10000
         kwargs['gamma'] = 0.99
 
         # kwargs['lr'] = 0.0008917388909165686
@@ -308,7 +308,7 @@ class SymbolTuner(StudyWrapper):
         # kwargs['num_lstm'] = 0
         kwargs['padding'] = 3
         # kwargs['policy_value_max'] = 0.8735599563784926
-        # kwargs['reward_ratio'] = 24.60449190047916
+        kwargs['reward_ratio'] = 2
 
 
         # kwargs['target_model_update'] = 21
@@ -316,8 +316,8 @@ class SymbolTuner(StudyWrapper):
         kwargs['window_factor'] = 2.494463725032405
         # kwargs['gap_enabled'] = True
         kwargs['macd_diff_enabled'] = False
-        kwargs['short_class_str'] = 'ShortTrade'
-        kwargs['flat_class_str'] = 'FlatTrade'
+        kwargs['short_class_str'] = 'ShortRewardPnlDiffTrade'
+        kwargs['flat_class_str'] = 'FlatRewardPnlDiffTrade'
 
 
         # kwargs['conv_layer_0'] = 'identity'
