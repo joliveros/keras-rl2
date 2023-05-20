@@ -202,7 +202,7 @@ class SymbolTuner(StudyWrapper):
                 # trading_fee = self.trial.suggest_float('trading_fee', 0.0004, 0.005),
                 policy_value_max=self.trial.suggest_float('policy_value_max', 0.001, 0.9),
                 # batch_size=self.trial.suggest_int('batch_size', 64, 256),
-                lr=self.trial.suggest_uniform('lr', 1e-12, 1e-02),
+                # lr=self.trial.suggest_uniform('lr', 1e-12, 1e-02),
                 # depth = self.trial.suggest_int('depth', 2, 81),
                 # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
                 # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
@@ -219,8 +219,8 @@ class SymbolTuner(StudyWrapper):
                 # window_length = self.trial.suggest_int('window_length', 1, 2),
                 # min_change=self.trial.suggest_float('min_change', 0.0, 0.02),
                 cache_limit=self.trial.suggest_int('cache_limit', 100, 15000),
-                train_interval=self.trial.suggest_int('train_interval', 2, 8000, log=True),
-                target_model_update=self.trial.suggest_int('target_model_update', 2, 8000, log=True),
+                # train_interval=self.trial.suggest_int('train_interval', 2, 8000, log=True),
+                # target_model_update=self.trial.suggest_int('target_model_update', 2, 8000, log=True),
                 # window_factor=self.trial.suggest_float('window_factor', 0.001, 10, log=True),
                 gap_enabled=self.trial.suggest_categorical('gap_enabled', [True, False]),
                 # max_change = self.trial.suggest_float('max_change', 0.001, 0.02),
@@ -292,7 +292,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['eps_greedy_policy_steps'] = 10000
         kwargs['gamma'] = 0.99
 
-        # kwargs['lr'] = 0.0008917388909165686
+        kwargs['lr'] = 0.0008917388909165686
         # kwargs['lstm_size'] = 49
 
         kwargs['max_pooling_kernel'] = 2
@@ -300,7 +300,7 @@ class SymbolTuner(StudyWrapper):
         # kwargs['max_pooling_strides'] = 14
         # kwargs['max_flat_position_length'] = 6365
 
-        kwargs['max_short_position_length'] = 450
+        kwargs['max_short_position_length'] = 1000
         kwargs['max_flat_position_length'] = 0
         # kwargs['memory_interval'] = 158
         kwargs['num_conv'] = 24
@@ -311,13 +311,13 @@ class SymbolTuner(StudyWrapper):
         kwargs['reward_ratio'] = 2
 
 
-        # kwargs['target_model_update'] = 21
-        # kwargs['train_interval'] = 74
+        kwargs['target_model_update'] = 75 * 4
+        kwargs['train_interval'] = 75
         kwargs['window_factor'] = 2.494463725032405
         # kwargs['gap_enabled'] = True
         kwargs['macd_diff_enabled'] = False
-        kwargs['short_class_str'] = 'ShortRewardPnlDiffTrade'
-        kwargs['flat_class_str'] = 'FlatRewardPnlDiffTrade'
+        kwargs['short_class_str'] = 'ShortTrade'
+        kwargs['flat_class_str'] = 'FlatTrade'
 
 
         # kwargs['conv_layer_0'] = 'identity'
