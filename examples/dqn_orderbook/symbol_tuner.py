@@ -172,7 +172,7 @@ class SymbolTuner(StudyWrapper):
             self.trial.set_user_attr('tuned', True)
 
             hparams = dict(
-                memory_interval=self.trial.suggest_int('memory_interval', 1, 400),
+                # memory_interval=self.trial.suggest_int('memory_interval', 1, 400),
                 # delta_clip=self.trial.suggest_float('delta_clip', 0.00001, 99, log=True),
                 # gamma=self.trial.suggest_float('gamma', 0.00001, 0.9999),
                 enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
@@ -292,7 +292,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['eps_greedy_policy_steps'] = 10000
         kwargs['gamma'] = 0.99
 
-        kwargs['lr'] = 0.0008917388909165686
+        kwargs['lr'] = 0.001
         # kwargs['lstm_size'] = 49
 
         kwargs['max_pooling_kernel'] = 2
@@ -300,9 +300,8 @@ class SymbolTuner(StudyWrapper):
         # kwargs['max_pooling_strides'] = 14
         # kwargs['max_flat_position_length'] = 6365
 
-        kwargs['max_short_position_length'] = 1000
+        kwargs['max_short_position_length'] = 0
         kwargs['max_flat_position_length'] = 0
-        # kwargs['memory_interval'] = 158
         kwargs['num_conv'] = 24
         # kwargs['num_dense'] = 0
         # kwargs['num_lstm'] = 0
@@ -310,7 +309,7 @@ class SymbolTuner(StudyWrapper):
         # kwargs['policy_value_max'] = 0.8735599563784926
         kwargs['reward_ratio'] = 2
 
-
+        kwargs['memory_interval'] = 15
         kwargs['target_model_update'] = 75 * 4
         kwargs['train_interval'] = 75
         kwargs['window_factor'] = 2.494463725032405
