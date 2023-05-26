@@ -175,32 +175,32 @@ class SymbolTuner(StudyWrapper):
                 # memory_interval=self.trial.suggest_int('memory_interval', 1, 400),
                 # delta_clip=self.trial.suggest_float('delta_clip', 0.00001, 99, log=True),
                 # gamma=self.trial.suggest_float('gamma', 0.00001, 0.9999),
-                enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
+                # enable_double_dqn=self.trial.suggest_categorical('enable_double_dqn', [True, False]),
                 # macd_diff_enabled=self.trial.suggest_categorical('macd_diff_enabled', [True, False]),
-                dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
-                dense_width=self.trial.suggest_int('dense_width', 4, 1024),
-                num_dense=self.trial.suggest_int('num_dense', 0, 5),
+                # dueling_type=self.trial.suggest_categorical('dueling_type', ['avg', 'max', 'naive']),
+                # dense_width=self.trial.suggest_int('dense_width', 4, 1024),
+                # num_dense=self.trial.suggest_int('num_dense', 0, 5),
                 # _offset_interval=self.trial.suggest_int('offset_interval', 1, 12),
                 # interval_minutes=self.trial.suggest_int('interval_minutes', 1, 24 * 7),
                 # interval_minutes2=self.trial.suggest_int('interval_minutes2', 4, 4 * 6),
-                base_filter_size=self.trial.suggest_int('base_filter_size', 2, 21),
-                kernel_size=self.trial.suggest_int('kernel_size', 2, 15),
-                strides=self.trial.suggest_int('strides', 2, 8),
-                block_kernel=self.trial.suggest_int('block_kernel', 2, 11),
-                conv_block_strides=self.trial.suggest_int('conv_block_strides', 1, 5),
+                # base_filter_size=self.trial.suggest_int('base_filter_size', 2, 21),
+                # kernel_size=self.trial.suggest_int('kernel_size', 2, 15),
+                # strides=self.trial.suggest_int('strides', 2, 8),
+                # block_kernel=self.trial.suggest_int('block_kernel', 2, 11),
+                # conv_block_strides=self.trial.suggest_int('conv_block_strides', 1, 5),
                 # max_pooling_kernel=self.trial.suggest_int('max_pooling_kernel', 1, 16),
                 # max_pooling_strides=self.trial.suggest_int('max_pooling_strides', 1, 16),
                 # max_pooling_enabled=self.trial.suggest_categorical('max_pooling_enabled', [True, False]),
                 # padding=self.trial.suggest_int('padding', 0, 8),
                 # eps_greedy_policy_steps=self.trial.suggest_int('eps_greedy_policy_steps', 1000, 1000000, log=True),
-                num_lstm=self.trial.suggest_int('num_lstm', 0, 1),
-                lstm_size=self.trial.suggest_int('lstm_size', 4, 64),
+                # num_lstm=self.trial.suggest_int('num_lstm', 0, 1),
+                # lstm_size=self.trial.suggest_int('lstm_size', 4, 64),
                 # trade_ratio=self.trial.suggest_float('trade_ratio', 0, 1.0),
-                beta_1=self.trial.suggest_uniform('beta_1', 0.0, 0.99999),
-                beta_2=self.trial.suggest_uniform('beta_2', 0.0, 0.99999),
+                # beta_1=self.trial.suggest_uniform('beta_1', 0.0, 0.99999),
+                # beta_2=self.trial.suggest_uniform('beta_2', 0.0, 0.99999),
                 # fee_ratio = self.trial.suggest_float('fee_ratio', 0.9, 2.0),
                 # trading_fee = self.trial.suggest_float('trading_fee', 0.0004, 0.005),
-                policy_value_max=self.trial.suggest_float('policy_value_max', 0.001, 0.9),
+                # policy_value_max=self.trial.suggest_float('policy_value_max', 0.001, 0.9),
                 # batch_size=self.trial.suggest_int('batch_size', 64, 256),
                 # lr=self.trial.suggest_uniform('lr', 1e-12, 1e-02),
                 # depth = self.trial.suggest_int('depth', 2, 81),
@@ -218,11 +218,11 @@ class SymbolTuner(StudyWrapper):
                 # train_recent_data = self.trial.suggest_categorical('train_recent_data', [True, False]),
                 # window_length = self.trial.suggest_int('window_length', 1, 2),
                 # min_change=self.trial.suggest_float('min_change', 0.0, 0.02),
-                cache_limit=self.trial.suggest_int('cache_limit', 100, 15000),
+                # cache_limit=self.trial.suggest_int('cache_limit', 100, 15000),
                 # train_interval=self.trial.suggest_int('train_interval', 2, 8000, log=True),
                 # target_model_update=self.trial.suggest_int('target_model_update', 2, 8000, log=True),
                 # window_factor=self.trial.suggest_float('window_factor', 0.001, 10, log=True),
-                gap_enabled=self.trial.suggest_categorical('gap_enabled', [True, False]),
+                # gap_enabled=self.trial.suggest_categorical('gap_enabled', [True, False]),
                 # max_change = self.trial.suggest_float('max_change', 0.001, 0.02),
                 # min_flat_change = self.trial.suggest_float('min_flat_change', -0.01, 0.0),
                 # action_repetition = self.trial.suggest_int('action_repetition', 1, 12),
@@ -237,9 +237,9 @@ class SymbolTuner(StudyWrapper):
 
             num_layers = 9
             
-            for layer_index in range(num_layers):
-                 name = f'conv_layer_{layer_index}'
-                 hparams[name] = conv_layer(name)
+            # for layer_index in range(num_layers):
+            #      name = f'conv_layer_{layer_index}'
+            #     hparams[name] = conv_layer(name)
 
             # hparams['interval'] = f'{hparams["interval_minutes"] * 60}m'
 
@@ -268,33 +268,32 @@ class SymbolTuner(StudyWrapper):
         kwargs['action_repetition'] = 15
         kwargs['batch_size'] = 96
         kwargs['max_change'] = 0.01
-        kwargs['min_change'] = 0
+        kwargs['min_change'] = 0.005
         kwargs['min_flat_change'] = -0.001
         kwargs['random_frame_start'] = False
         kwargs['trading_fee'] = 0.0004
         kwargs['trade_ratio'] = 1/8
 
-        # kwargs['base_filter_size'] = 3
-        # # ks = 2
-        # kwargs['strides'] = 3
-        # kwargs['block_kernel'] = 7
-        # kwargs['kernel_size'] = 8
-        # kwargs['conv_block_strides'] = 2
+        kwargs['base_filter_size'] = 84
+        # ks = 2
+        kwargs['strides'] = 7
+        kwargs['block_kernel'] = 14
+        kwargs['kernel_size'] = 14
+        kwargs['conv_block_strides'] = 2
 
-        # kwargs['beta_1'] = 0.3769990777389574
-        # kwargs['beta_2'] = 0.971041766946207
+        kwargs['beta_1'] = 0.6614945491392258
+        kwargs['beta_2'] = 0.7003712730902591
 
-        # kwargs['cache_limit'] = 4767
+        kwargs['cache_limit'] = 5026 * 2
         kwargs['delta_clip'] = 1.0
-        # kwargs['dense_width'] = 200
-        # kwargs['dueling_type'] = 'avg'
-        # kwargs['enable_double_dqn'] = True
-        kwargs['eps_greedy_policy_steps'] = 10000
+        kwargs['dense_width'] = 32
+        kwargs['dueling_type'] = 'avg'
+        kwargs['enable_double_dqn'] = False
+        kwargs['eps_greedy_policy_steps'] = kwargs['nb_steps']
         kwargs['gamma'] = 0.99
 
-        kwargs['lr'] = 0.001
-        # kwargs['lstm_size'] = 49
-
+        kwargs['lr'] = 0.00005
+        kwargs['lstm_size'] = 128
         kwargs['max_pooling_kernel'] = 2
         kwargs['max_pooling_enabled'] = False
         # kwargs['max_pooling_strides'] = 14
@@ -303,39 +302,39 @@ class SymbolTuner(StudyWrapper):
         kwargs['max_short_position_length'] = 0
         kwargs['max_flat_position_length'] = 0
         kwargs['num_conv'] = 24
-        # kwargs['num_dense'] = 0
-        # kwargs['num_lstm'] = 0
+        kwargs['num_dense'] = 0
+        kwargs['num_lstm'] = 0
         kwargs['padding'] = 3
-        # kwargs['policy_value_max'] = 0.8735599563784926
+        kwargs['policy_value_max'] = 0.7265550340939453
         kwargs['reward_ratio'] = 2
 
         kwargs['memory_interval'] = 15
-        kwargs['target_model_update'] = 75 * 4
-        kwargs['train_interval'] = 75
+        kwargs['target_model_update'] = 15 * 45 * 2
+        kwargs['train_interval'] = 15 * 45 * 2
         kwargs['window_factor'] = 2.494463725032405
-        # kwargs['gap_enabled'] = True
+        kwargs['gap_enabled'] = True
         kwargs['macd_diff_enabled'] = False
         kwargs['short_class_str'] = 'ShortTrade'
         kwargs['flat_class_str'] = 'FlatTrade'
 
 
-        # kwargs['conv_layer_0'] = 'identity'
-        # kwargs['conv_layer_1'] = 'conv'
-        # kwargs['conv_layer_2'] = 'identity'
-        # kwargs['conv_layer_3'] = 'conv'
-        # kwargs['conv_layer_4'] = None
-        # kwargs['conv_layer_5'] = None
-        # kwargs['conv_layer_6'] = 'conv'
-        # kwargs['conv_layer_7'] = 'identity'
-        # kwargs['conv_layer_8'] = 'conv'
-        # kwargs['conv_layer_9'] = 'conv'
-        # kwargs['conv_layer_10'] = 'identity'
-        # kwargs['conv_layer_11'] = None
-        # kwargs['conv_layer_12'] = 'identity'
-        # kwargs['conv_layer_13'] = 'identity'
-        # kwargs['conv_layer_14'] = 'conv'
-        # kwargs['conv_layer_15'] = 'identity'
-        # kwargs['conv_layer_16'] = 'conv'
+        kwargs['conv_layer_0'] = 'conv'
+        kwargs['conv_layer_1'] = 'conv'
+        kwargs['conv_layer_2'] = 'identity'
+        kwargs['conv_layer_3'] = 'identity'
+        kwargs['conv_layer_4'] = 'conv'
+        kwargs['conv_layer_5'] = 'conv'
+        kwargs['conv_layer_6'] = 'identity'
+        kwargs['conv_layer_7'] = None
+        kwargs['conv_layer_8'] = 'identity'
+        kwargs['conv_layer_9'] = 'conv'
+        kwargs['conv_layer_10'] = 'conv'
+        kwargs['conv_layer_11'] = 'identity'
+        kwargs['conv_layer_12'] = 'identity'
+        kwargs['conv_layer_13'] = 'conv'
+        kwargs['conv_layer_14'] = 'conv'
+        kwargs['conv_layer_15'] = 'identity'
+        kwargs['conv_layer_16'] = 'identity'
         # kwargs['conv_layer_17'] = 'identity'
         # kwargs['conv_layer_18'] = 'conv'
         # kwargs['conv_layer_19'] = None
