@@ -289,7 +289,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['dense_width'] = 32
         kwargs['dueling_type'] = 'avg'
         kwargs['enable_double_dqn'] = False
-        kwargs['eps_greedy_policy_steps'] = kwargs['nb_steps']
+        kwargs['eps_greedy_policy_steps'] = kwargs['nb_steps'] * 0.5
         kwargs['gamma'] = 0.99
 
         kwargs['lr'] = 0.00005
