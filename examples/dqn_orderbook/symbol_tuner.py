@@ -266,7 +266,7 @@ class SymbolTuner(StudyWrapper):
             kwargs[param] = hparams[param]
 
         kwargs['action_repetition'] = 2
-        kwargs['batch_size'] = 64
+        kwargs['batch_size'] = 96
         kwargs['max_change'] = 0.01
         kwargs['min_change'] = 0.005
         kwargs['min_flat_change'] = -0.001
@@ -284,11 +284,11 @@ class SymbolTuner(StudyWrapper):
         kwargs['beta_1'] = 0.6614945491392258
         kwargs['beta_2'] = 0.7003712730902591
 
-        kwargs['cache_limit'] = 5026
+        kwargs['cache_limit'] = 5026 * 4
         kwargs['delta_clip'] = 1.0
         kwargs['dense_width'] = 32
-        kwargs['dueling_type'] = 'avg'
-        kwargs['enable_double_dqn'] = False
+        kwargs['dueling_type'] = 'max'
+        kwargs['enable_double_dqn'] = True
         kwargs['eps_greedy_policy_steps'] = kwargs['nb_steps'] * 0.1
         kwargs['gamma'] = 0.99
 
@@ -303,23 +303,23 @@ class SymbolTuner(StudyWrapper):
         kwargs['max_flat_position_length'] = 0
         kwargs['num_conv'] = 24
         kwargs['num_dense'] = 0
-        kwargs['num_lstm'] = 1
+        kwargs['num_lstm'] = 0
         kwargs['padding'] = 3
-        kwargs['policy_value_max'] = 0.05
+        kwargs['policy_value_max'] = 0.01
         kwargs['reward_ratio'] = 2
 
         kwargs['memory_interval'] = 1
-        kwargs['target_model_update'] = 128
-        kwargs['train_interval'] = 128
+        kwargs['target_model_update'] = 144
+        kwargs['train_interval'] = 144
         kwargs['window_factor'] = 2.494463725032405
         kwargs['gap_enabled'] = True
         kwargs['macd_diff_enabled'] = False
 
-        # kwargs['short_class_str'] = 'ShortRewardPnlDiffTrade'
-        # kwargs['flat_class_str'] = 'FlatRewardPnlDiffTrade'
+        kwargs['short_class_str'] = 'ShortRewardPnlDiffTrade'
+        kwargs['flat_class_str'] = 'FlatRewardPnlDiffTrade'
 
-        kwargs['short_class_str'] = 'ShortTrade'
-        kwargs['flat_class_str'] = 'FlatTrade'
+        # kwargs['short_class_str'] = 'ShortTrade'
+        # kwargs['flat_class_str'] = 'FlatTrade'
 
 
         # kwargs['conv_layer_0'] = 'conv'
