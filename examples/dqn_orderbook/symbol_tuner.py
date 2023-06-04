@@ -235,7 +235,7 @@ class SymbolTuner(StudyWrapper):
             def conv_layer(layer_name):
                 return self.trial.suggest_categorical(layer_name, [None, 'conv', 'identity'])
 
-            num_layers = 17
+            num_layers = 11
             
             for layer_index in range(num_layers):
                 name = f'conv_layer_{layer_index}'
@@ -266,20 +266,20 @@ class SymbolTuner(StudyWrapper):
             kwargs[param] = hparams[param]
 
         kwargs['action_repetition'] = 2
-        kwargs['batch_size'] = 96
+        kwargs['batch_size'] = 48
         kwargs['max_change'] = 0.01
-        kwargs['min_change'] = 0.005
+        kwargs['min_change'] = 0.0
         kwargs['min_flat_change'] = -0.001
         kwargs['random_frame_start'] = False
         kwargs['trading_fee'] = 0.0004
         kwargs['trade_ratio'] = 1/8
 
-        kwargs['base_filter_size'] = 11
+        kwargs['base_filter_size'] = 4
         # ks = 2
-        kwargs['strides'] = 2
-        kwargs['block_kernel'] = 5
-        kwargs['kernel_size'] = 5
-        kwargs['conv_block_strides'] = 1
+        kwargs['strides'] = 3
+        kwargs['block_kernel'] = 9
+        kwargs['kernel_size'] = 9
+        kwargs['conv_block_strides'] = 2
 
         kwargs['beta_1'] = 0.6614945491392258
         kwargs['beta_2'] = 0.7003712730902591
@@ -292,20 +292,20 @@ class SymbolTuner(StudyWrapper):
         kwargs['eps_greedy_policy_steps'] = kwargs['nb_steps'] * 0.1
         kwargs['gamma'] = 0.99
 
-        kwargs['lr'] = 0.0005
+        kwargs['lr'] = 0.0001
         kwargs['lstm_size'] = 128
         kwargs['max_pooling_kernel'] = 2
         kwargs['max_pooling_enabled'] = False
         # kwargs['max_pooling_strides'] = 14
         # kwargs['max_flat_position_length'] = 6365
 
-        kwargs['max_short_position_length'] = 0
+        kwargs['max_short_position_length'] = 600
         kwargs['max_flat_position_length'] = 0
         kwargs['num_conv'] = 24
         kwargs['num_dense'] = 0
         kwargs['num_lstm'] = 0
         kwargs['padding'] = 3
-        kwargs['policy_value_max'] = 0.01
+        kwargs['policy_value_max'] = 0.015
         kwargs['reward_ratio'] = 2
 
         kwargs['memory_interval'] = 1
