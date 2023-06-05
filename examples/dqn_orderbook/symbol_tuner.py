@@ -235,7 +235,7 @@ class SymbolTuner(StudyWrapper):
             def conv_layer(layer_name):
                 return self.trial.suggest_categorical(layer_name, [None, 'conv', 'identity'])
 
-            num_layers = 11
+            num_layers = 13
             
             for layer_index in range(num_layers):
                 name = f'conv_layer_{layer_index}'
@@ -266,7 +266,7 @@ class SymbolTuner(StudyWrapper):
             kwargs[param] = hparams[param]
 
         kwargs['action_repetition'] = 2
-        kwargs['batch_size'] = 48
+        kwargs['batch_size'] = 1872
         kwargs['max_change'] = 0.01
         kwargs['min_change'] = 0.0
         kwargs['min_flat_change'] = -0.001
@@ -274,12 +274,12 @@ class SymbolTuner(StudyWrapper):
         kwargs['trading_fee'] = 0.0004
         kwargs['trade_ratio'] = 1/8
 
-        kwargs['base_filter_size'] = 4
+        kwargs['base_filter_size'] = 2
         # ks = 2
-        kwargs['strides'] = 3
+        kwargs['strides'] = 2
         kwargs['block_kernel'] = 9
         kwargs['kernel_size'] = 9
-        kwargs['conv_block_strides'] = 2
+        kwargs['conv_block_strides'] = 5
 
         kwargs['beta_1'] = 0.6614945491392258
         kwargs['beta_2'] = 0.7003712730902591
@@ -292,7 +292,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['eps_greedy_policy_steps'] = kwargs['nb_steps'] * 0.1
         kwargs['gamma'] = 0.99
 
-        kwargs['lr'] = 0.0001
+        kwargs['lr'] = 0.000001
         kwargs['lstm_size'] = 128
         kwargs['max_pooling_kernel'] = 2
         kwargs['max_pooling_enabled'] = False
@@ -309,8 +309,8 @@ class SymbolTuner(StudyWrapper):
         kwargs['reward_ratio'] = 2
 
         kwargs['memory_interval'] = 1
-        kwargs['target_model_update'] = 144
-        kwargs['train_interval'] = 144
+        kwargs['target_model_update'] = 1872
+        kwargs['train_interval'] = 1872
         kwargs['window_factor'] = 2.494463725032405
         kwargs['gap_enabled'] = True
         kwargs['macd_diff_enabled'] = False
