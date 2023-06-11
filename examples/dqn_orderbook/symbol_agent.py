@@ -43,6 +43,7 @@ class SymbolAgent(object):
         nb_steps_2,
         symbol,
         policy_value_max,
+        policy_value_min,
         train_recent_data,
         trial,
         clear_dir=False,
@@ -99,7 +100,7 @@ class SymbolAgent(object):
             attr='eps',
             nb_steps=int(self.eps_greedy_policy_steps),
             value_max=policy_value_max,
-            value_min=0.0,
+            value_min=policy_value_min,
             value_test=0.0
         )
 

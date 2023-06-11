@@ -235,7 +235,7 @@ class SymbolTuner(StudyWrapper):
             def conv_layer(layer_name):
                 return self.trial.suggest_categorical(layer_name, [None, 'conv', 'identity'])
 
-            num_layers = 13
+            num_layers = 15
             
             for layer_index in range(num_layers):
                 name = f'conv_layer_{layer_index}'
@@ -266,7 +266,7 @@ class SymbolTuner(StudyWrapper):
             kwargs[param] = hparams[param]
 
         kwargs['action_repetition'] = 2
-        kwargs['batch_size'] = 1872
+        kwargs['batch_size'] = 32
         kwargs['max_change'] = 0.01
         kwargs['min_change'] = 0.0
         kwargs['min_flat_change'] = -0.001
@@ -274,20 +274,20 @@ class SymbolTuner(StudyWrapper):
         kwargs['trading_fee'] = 0.0004
         kwargs['trade_ratio'] = 1/8
 
-        kwargs['base_filter_size'] = 2
+        kwargs['base_filter_size'] = 4
         # ks = 2
-        kwargs['strides'] = 2
-        kwargs['block_kernel'] = 9
-        kwargs['kernel_size'] = 9
-        kwargs['conv_block_strides'] = 5
+        kwargs['strides'] = 1
+        kwargs['block_kernel'] = 4
+        kwargs['kernel_size'] = 4
+        kwargs['conv_block_strides'] = 1
 
         kwargs['beta_1'] = 0.6614945491392258
         kwargs['beta_2'] = 0.7003712730902591
 
-        kwargs['cache_limit'] = 5026 * 4
+        kwargs['cache_limit'] = 5026
         kwargs['delta_clip'] = 1.0
         kwargs['dense_width'] = 32
-        kwargs['dueling_type'] = 'max'
+        kwargs['dueling_type'] = 'avg'
         kwargs['enable_double_dqn'] = True
         kwargs['eps_greedy_policy_steps'] = kwargs['nb_steps'] * 0.1
         kwargs['gamma'] = 0.99
@@ -305,12 +305,13 @@ class SymbolTuner(StudyWrapper):
         kwargs['num_dense'] = 0
         kwargs['num_lstm'] = 0
         kwargs['padding'] = 3
-        kwargs['policy_value_max'] = 0.015
+        kwargs['policy_value_max'] = 0.03
+        kwargs['policy_value_min'] = 0.01
         kwargs['reward_ratio'] = 2
 
         kwargs['memory_interval'] = 1
-        kwargs['target_model_update'] = 1872
-        kwargs['train_interval'] = 1872
+        kwargs['target_model_update'] = 64 * 8
+        kwargs['train_interval'] = 64
         kwargs['window_factor'] = 2.494463725032405
         kwargs['gap_enabled'] = True
         kwargs['macd_diff_enabled'] = False
