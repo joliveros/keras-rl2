@@ -284,7 +284,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['beta_1'] = 0.6614945491392258
         kwargs['beta_2'] = 0.7003712730902591
 
-        kwargs['cache_limit'] = 5026
+        kwargs['cache_limit'] = 5026 * 4
         kwargs['delta_clip'] = 1.0
         kwargs['dense_width'] = 32
         kwargs['dueling_type'] = 'avg'
@@ -309,8 +309,8 @@ class SymbolTuner(StudyWrapper):
         kwargs['policy_value_min'] = 0.01
         kwargs['reward_ratio'] = 2
 
-        kwargs['memory_interval'] = 1
-        kwargs['target_model_update'] = 64 * 8
+        kwargs['memory_interval'] = 2
+        kwargs['target_model_update'] = 64
         kwargs['train_interval'] = 64
         kwargs['window_factor'] = 2.494463725032405
         kwargs['gap_enabled'] = True
