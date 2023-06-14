@@ -288,7 +288,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['delta_clip'] = 1.0
         kwargs['dense_width'] = 32
         kwargs['dueling_type'] = 'max'
-        kwargs['enable_double_dqn'] = True
+        kwargs['enable_double_dqn'] = False
         kwargs['eps_greedy_policy_steps'] = kwargs['nb_steps'] * 0.1
         kwargs['gamma'] = 0.99
 
@@ -310,8 +310,8 @@ class SymbolTuner(StudyWrapper):
         kwargs['reward_ratio'] = 2
 
         kwargs['memory_interval'] = 16
-        kwargs['target_model_update'] = 64
-        kwargs['train_interval'] = 64
+        kwargs['target_model_update'] = 64 * 4
+        kwargs['train_interval'] = 64 * 4
         kwargs['window_factor'] = 2.494463725032405
         kwargs['gap_enabled'] = True
         kwargs['macd_diff_enabled'] = False
