@@ -202,7 +202,7 @@ class SymbolTuner(StudyWrapper):
                 # trading_fee = self.trial.suggest_float('trading_fee', 0.0004, 0.005),
                 # policy_value_max=self.trial.suggest_float('policy_value_max', 0.001, 0.9),
                 # batch_size=self.trial.suggest_int('batch_size', 64, 256),
-                lr=self.trial.suggest_uniform('lr', 1e-12, 1e-02),
+                # lr=self.trial.suggest_uniform('lr', 1e-12, 1e-02),
                 # depth = self.trial.suggest_int('depth', 2, 81),
                 # self._kwargs['offset_interval'] = f'{hparams["_offset_interval"] * 60}m'
                 # self._kwargs['interval2'] = f'{hparams["interval_minutes2"] * 15}m'
@@ -233,13 +233,13 @@ class SymbolTuner(StudyWrapper):
             )
 
             def conv_layer(layer_name):
-                return self.trial.suggest_categorical(layer_name, [None, 'conv', 'identity'])
+                return self.trial.suggest_categorical(layer_name, ['conv', 'identity'])
 
             num_layers = 15
             
-            # for layer_index in range(num_layers):
-            #    name = f'conv_layer_{layer_index}'
-            #    hparams[name] = conv_layer(name)
+            for layer_index in range(num_layers):
+               name = f'conv_layer_{layer_index}'
+               hparams[name] = conv_layer(name)
 
             # hparams['interval'] = f'{hparams["interval_minutes"] * 60}m'
 
@@ -292,7 +292,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['eps_greedy_policy_steps'] = kwargs['nb_steps'] * 0.1
         kwargs['gamma'] = 0.99
 
-        #kwargs['lr'] = 0.000001
+        kwargs['lr'] = 0.000001
         kwargs['lstm_size'] = 128
         kwargs['max_pooling_kernel'] = 2
         kwargs['max_pooling_enabled'] = False
@@ -317,7 +317,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['macd_diff_enabled'] = False
 
         kwargs['short_class_str'] = 'ShortRewardPnlDiffTrade'
-        kwargs['flat_class_str'] = 'FlatRewardPnlDiffTrade'
+        kwargs['flat_class_str'] = 'NoRewardFlatTrade'
 
         # kwargs['short_class_str'] = 'ShortTrade'
         # kwargs['flat_class_str'] = 'FlatTrade'
