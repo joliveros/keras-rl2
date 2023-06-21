@@ -235,7 +235,7 @@ class SymbolTuner(StudyWrapper):
             def conv_layer(layer_name):
                 return self.trial.suggest_categorical(layer_name, ['conv', 'identity'])
 
-            num_layers = 15
+            num_layers = 11
             
             for layer_index in range(num_layers):
                name = f'conv_layer_{layer_index}'
@@ -278,7 +278,7 @@ class SymbolTuner(StudyWrapper):
         # ks = 2
         kwargs['strides'] = 1
         kwargs['block_kernel'] = 7
-        kwargs['kernel_size'] = 10
+        kwargs['kernel_size'] = 7
         kwargs['conv_block_strides'] = 1
 
         kwargs['beta_1'] = 0.6614945491392258
@@ -287,8 +287,8 @@ class SymbolTuner(StudyWrapper):
         kwargs['cache_limit'] = 5294
         kwargs['delta_clip'] = 1.0
         kwargs['dense_width'] = 32
-        kwargs['dueling_type'] = 'max'
-        kwargs['enable_double_dqn'] = False
+        kwargs['dueling_type'] = 'avg'
+        kwargs['enable_double_dqn'] = True
         kwargs['eps_greedy_policy_steps'] = kwargs['nb_steps'] * 0.1
         kwargs['gamma'] = 0.99
 
@@ -299,6 +299,7 @@ class SymbolTuner(StudyWrapper):
         # kwargs['max_pooling_strides'] = 14
         # kwargs['max_flat_position_length'] = 6365
 
+        kwargs['min_position_length'] = 40
         kwargs['max_short_position_length'] = 600
         kwargs['max_flat_position_length'] = 0
         kwargs['num_conv'] = 24
@@ -309,35 +310,35 @@ class SymbolTuner(StudyWrapper):
         kwargs['policy_value_min'] = 0.01
         kwargs['reward_ratio'] = 2
 
-        kwargs['memory_interval'] = 16
-        kwargs['target_model_update'] = 64 * 4
-        kwargs['train_interval'] = 64 * 4
+        kwargs['memory_interval'] = 2
+        kwargs['target_model_update'] = 64
+        kwargs['train_interval'] = 64
         kwargs['window_factor'] = 2.494463725032405
         kwargs['gap_enabled'] = True
         kwargs['macd_diff_enabled'] = False
 
-        kwargs['short_class_str'] = 'ShortRewardPnlDiffTrade'
+        kwargs['short_class_str'] = 'ShortRewardMinLength'
         kwargs['flat_class_str'] = 'NoRewardFlatTrade'
 
         # kwargs['short_class_str'] = 'ShortTrade'
         # kwargs['flat_class_str'] = 'FlatTrade'
 
 
-        kwargs['conv_layer_0'] = 'identity'
-        kwargs['conv_layer_1'] = None 
-        kwargs['conv_layer_2'] = 'identity'
-        kwargs['conv_layer_3'] = None 
-        kwargs['conv_layer_4'] = None 
-        kwargs['conv_layer_5'] = 'identity'
-        kwargs['conv_layer_6'] = None 
-        kwargs['conv_layer_7'] = 'identity'
-        kwargs['conv_layer_8'] = None 
-        kwargs['conv_layer_9'] = 'conv'
-        kwargs['conv_layer_10'] = 'conv'
-        kwargs['conv_layer_11'] = 'identity'
-        kwargs['conv_layer_12'] = 'conv'
-        kwargs['conv_layer_13'] = 'conv'
-        kwargs['conv_layer_14'] = None 
+        # kwargs['conv_layer_0'] = 'identity'
+        # kwargs['conv_layer_1'] = None 
+        # kwargs['conv_layer_2'] = 'identity'
+        # kwargs['conv_layer_3'] = None 
+        # kwargs['conv_layer_4'] = None 
+        # kwargs['conv_layer_5'] = 'identity'
+        # kwargs['conv_layer_6'] = None 
+        # kwargs['conv_layer_7'] = 'identity'
+        # kwargs['conv_layer_8'] = None 
+        # kwargs['conv_layer_9'] = 'conv'
+        # kwargs['conv_layer_10'] = 'conv'
+        # kwargs['conv_layer_11'] = 'identity'
+        # kwargs['conv_layer_12'] = 'conv'
+        # kwargs['conv_layer_13'] = 'conv'
+        # kwargs['conv_layer_14'] = None 
         # kwargs['conv_layer_15'] = 'identity'
         # kwargs['conv_layer_16'] = 'identity'
         # kwargs['conv_layer_17'] = 'identity'
