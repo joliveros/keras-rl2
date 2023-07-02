@@ -235,7 +235,7 @@ class SymbolTuner(StudyWrapper):
             def conv_layer(layer_name):
                 return self.trial.suggest_categorical(layer_name, ['conv', 'identity'])
 
-            num_layers = 11
+            num_layers = 7
             
             for layer_index in range(num_layers):
                name = f'conv_layer_{layer_index}'
@@ -266,7 +266,7 @@ class SymbolTuner(StudyWrapper):
             kwargs[param] = hparams[param]
 
         kwargs['action_repetition'] = 2
-        kwargs['batch_size'] = 32
+        kwargs['batch_size'] = 36
         kwargs['max_change'] = 0.01
         kwargs['min_change'] = 0.0
         kwargs['min_flat_change'] = -0.001
@@ -277,22 +277,22 @@ class SymbolTuner(StudyWrapper):
         kwargs['base_filter_size'] = 4
         # ks = 2
         kwargs['strides'] = 1
-        kwargs['block_kernel'] = 7
-        kwargs['kernel_size'] = 7
+        kwargs['block_kernel'] = 16
+        kwargs['kernel_size'] = 16
         kwargs['conv_block_strides'] = 1
 
         kwargs['beta_1'] = 0.6614945491392258
         kwargs['beta_2'] = 0.7003712730902591
 
-        kwargs['cache_limit'] = 5294
+        kwargs['cache_limit'] = 64 * 8 * 10
         kwargs['delta_clip'] = 1.0
         kwargs['dense_width'] = 32
         kwargs['dueling_type'] = 'avg'
         kwargs['enable_double_dqn'] = True
-        kwargs['eps_greedy_policy_steps'] = kwargs['nb_steps'] * 0.1
+        kwargs['eps_greedy_policy_steps'] = kwargs['nb_steps'] * 0.02
         kwargs['gamma'] = 0.99
 
-        kwargs['lr'] = 0.000001
+        kwargs['lr'] = 0.00001
         kwargs['lstm_size'] = 128
         kwargs['max_pooling_kernel'] = 2
         kwargs['max_pooling_enabled'] = False
@@ -300,6 +300,8 @@ class SymbolTuner(StudyWrapper):
         # kwargs['max_flat_position_length'] = 6365
 
         kwargs['min_position_length'] = 40
+        kwargs['min_flat_position_length'] = 40
+
         kwargs['max_short_position_length'] = 600
         kwargs['max_flat_position_length'] = 0
         kwargs['num_conv'] = 24
@@ -307,18 +309,19 @@ class SymbolTuner(StudyWrapper):
         kwargs['num_lstm'] = 0
         kwargs['padding'] = 3
         kwargs['policy_value_max'] = 0.03
-        kwargs['policy_value_min'] = 0.01
+        kwargs['policy_value_min'] = 0.03
         kwargs['reward_ratio'] = 2
 
-        kwargs['memory_interval'] = 2
-        kwargs['target_model_update'] = 64
+        kwargs['window_length'] = 5
+        kwargs['memory_interval'] = 5
+        kwargs['target_model_update'] = 64 * 8
         kwargs['train_interval'] = 64
         kwargs['window_factor'] = 2.494463725032405
         kwargs['gap_enabled'] = True
         kwargs['macd_diff_enabled'] = False
 
         kwargs['short_class_str'] = 'ShortRewardMinLength'
-        kwargs['flat_class_str'] = 'NoRewardFlatTrade'
+        kwargs['flat_class_str'] = 'FlatRewardMinLength'
 
         # kwargs['short_class_str'] = 'ShortTrade'
         # kwargs['flat_class_str'] = 'FlatTrade'
