@@ -312,7 +312,7 @@ class SymbolTuner(StudyWrapper):
         kwargs['policy_value_min'] = 0.03
         kwargs['reward_ratio'] = 2
 
-        kwargs['window_length'] = 5
+        kwargs['window_length'] = 1
         kwargs['memory_interval'] = 5
         kwargs['target_model_update'] = 64 * 8
         kwargs['train_interval'] = 64

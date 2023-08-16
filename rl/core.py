@@ -107,6 +107,7 @@ class Agent:
         else:
             callbacks._set_model(self)
         callbacks._set_env(env)
+
         params = {
             'nb_steps': nb_steps,
         }
@@ -176,6 +177,7 @@ class Agent:
                 callbacks.on_step_begin(episode_step)
                 # This is were all of the work happens. We first perceive and compute the action
                 # (forward step) and then use the reward to improve (backward step).
+
                 action = self.forward(observation)
                 if self.processor is not None:
                     action = self.processor.process_action(action)
@@ -186,7 +188,6 @@ class Agent:
                     callbacks.on_action_begin(action)
                     observation, r, done, info = env.step(action)
                     observation = deepcopy(observation)
-
                     if self.processor is not None:
                         observation, r, done, info = self.processor.process_step(observation, r, done, info)
                     for key, value in info.items():
@@ -198,7 +199,6 @@ class Agent:
                             else:
                                 accumulated_info[key] = []
 
-                        # alog.info((key, value))
                         # if isinstance(value, int) or isinstance(value, float):
 
                         accumulated_info[key] += value

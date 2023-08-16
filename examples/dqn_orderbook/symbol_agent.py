@@ -79,7 +79,7 @@ class SymbolAgent(object):
         self.action_repetition = action_repetition
         self.trade_ratio = trade_ratio
 
-        input_shape = (window_length, kwargs['sequence_length'], (kwargs['depth'] * 2), 1)
+        input_shape = (window_length, 96, 96, 1)
         
         self.env.seed(1)
         nb_actions = self.env.action_space.n
